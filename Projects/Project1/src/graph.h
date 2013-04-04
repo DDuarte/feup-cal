@@ -48,8 +48,18 @@ public:
 	bool AddEdge(uint sourceId, uint destId, const E& weight);
 	bool RemoveEdge(uint sourceId, uint destId);
 
+	/**
+	 * GetElement
+	 * @param id
+	 * @param elem variable where the value will be returned
+	 * @return true if the id is in use false otherwise
+	 */
 	bool GetElement(uint id, V& elem);
 
+	/**
+	 * Performs a depth-first-search on the graph and returns a std::vector<uint> containing the ids by the order that were visited
+	 * @return ordered vector of ids
+	 */
 	std::vector<uint> dfs() const
 private:
 	uint _nextId;

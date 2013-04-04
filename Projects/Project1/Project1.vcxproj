@@ -64,6 +64,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Person.cpp" />
+    <ClCompile Include="src\ship.cpp" />
     <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +91,12 @@
     <ClInclude Include="cute\vstudio_listener.h" />
     <ClInclude Include="src\defs.h" />
     <ClInclude Include="src\graph.h" />
+    <ClInclude Include="src\hydographic_network.h" />
+    <ClInclude Include="src\order.h" />
     <ClInclude Include="src\Person.h" />
+    <ClInclude Include="src\river.h" />
+    <ClInclude Include="src\ship.h" />
+    <ClInclude Include="src\village.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="cute\gpl.txt" />
