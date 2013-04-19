@@ -119,7 +119,7 @@
     <ClInclude Include="src\hydographic_network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tree.h">
+    <ClInclude Include="src\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

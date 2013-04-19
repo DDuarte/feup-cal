@@ -18,7 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -97,7 +97,7 @@
     <ClInclude Include="src\Person.h" />
     <ClInclude Include="src\river.h" />
     <ClInclude Include="src\ship.h" />
-    <ClInclude Include="src\tree.h" />
+    <ClInclude Include="src\utilities.h" />
     <ClInclude Include="src\village.h" />
   </ItemGroup>
   <ItemGroup>
