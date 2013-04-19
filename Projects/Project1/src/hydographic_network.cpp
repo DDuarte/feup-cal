@@ -2,7 +2,7 @@
 
 HydographicNetwork HydographicNetwork::Load(std::istream& source)
 {
-
+	return HydographicNetwork();
 }
 
 // Implementation of min cost max flow algorithm using adjacency

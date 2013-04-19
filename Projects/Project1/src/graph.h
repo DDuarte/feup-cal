@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <exception>
 
 template <class V, class E>
 class Graph
@@ -60,7 +61,7 @@ public:
 	 * Performs a depth-first-search on the graph and returns a std::vector<uint> containing the ids by the order that were visited
 	 * @return ordered vector of ids
 	 */
-	std::vector<uint> dfs() const
+	std::vector<uint> dfs() const;
 private:
 	uint _nextId;
 	std::map<uint, Vertex*> _vertices;
@@ -177,7 +178,8 @@ bool Graph<V, E>::GetElement( uint id, V& elem )
 template <class V, class E>
 std::vector<uint> Graph<V, E>::dfs() const
 {
-	throw std::exception("The method or operation is not implemented.");
+	//throw std::exception("The method or operation is not implemented.");
+	return std::vector<uint>();
 }
 
 #endif // GRAPH_H_
