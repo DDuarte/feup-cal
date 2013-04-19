@@ -112,7 +112,6 @@ void test_dfs()
 	ASSERT_EQUAL(6, v1[6]);
 }
 
-
 void runSuite(){
     cute::suite s;
     //TODO add your test here
