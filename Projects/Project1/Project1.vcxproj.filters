@@ -16,6 +16,9 @@
     <Filter Include="cute">
       <UniqueIdentifier>{714a08a4-c424-496e-aca0-40f1c5ce73be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="graphviewer">
+      <UniqueIdentifier>{31c0338a-9e8a-41c1-8a70-d461ed1c6dab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Test.cpp">
@@ -26,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="src\hydographic_network.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphviewer\connection.cpp">
+      <Filter>graphviewer</Filter>
+    </ClCompile>
+    <ClCompile Include="graphviewer\graphviewer.cpp">
+      <Filter>graphviewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +125,15 @@
     <ClInclude Include="src\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graphviewer\connection.h">
+      <Filter>graphviewer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphviewer\edgetype.h">
+      <Filter>graphviewer</Filter>
+    </ClInclude>
+    <ClInclude Include="graphviewer\graphviewer.h">
+      <Filter>graphviewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="cute\gpl.txt">
@@ -124,5 +142,10 @@
     <Text Include="cute\lgpl.txt">
       <Filter>cute</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="graphviewer\GraphViewerController.jar">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

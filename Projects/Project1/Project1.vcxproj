@@ -47,7 +47,14 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)graphviewer\GraphViewerController.jar $(TargetDir)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying GraphViewerController.jar to target directory</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -63,6 +70,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="graphviewer\connection.cpp" />
+    <ClCompile Include="graphviewer\graphviewer.cpp" />
     <ClCompile Include="src\hydographic_network.cpp" />
     <ClCompile Include="src\ship.cpp" />
     <ClCompile Include="src\Test.cpp" />
@@ -89,6 +98,9 @@
     <ClInclude Include="cute\ide_listener.h" />
     <ClInclude Include="cute\ostream_listener.h" />
     <ClInclude Include="cute\vstudio_listener.h" />
+    <ClInclude Include="graphviewer\connection.h" />
+    <ClInclude Include="graphviewer\edgetype.h" />
+    <ClInclude Include="graphviewer\graphviewer.h" />
     <ClInclude Include="src\defs.h" />
     <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\hydographic_network.h" />
@@ -101,6 +113,12 @@
   <ItemGroup>
     <Text Include="cute\gpl.txt" />
     <Text Include="cute\lgpl.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="graphviewer\GraphViewerController.jar">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
