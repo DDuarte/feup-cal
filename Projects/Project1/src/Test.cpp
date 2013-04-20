@@ -2,6 +2,8 @@
 #include "cute_runner.h"
 #include "ide_listener.h"
 
+#undef max
+
 #include <iostream>
 
 #include "defs.h"
@@ -29,6 +31,30 @@ void createNetwork(Graph<Person, double> & net1)
 	net1.AddEdge(p3,p6,0);
 	net1.AddEdge(p3,p7,0);
 	net1.AddEdge(p6,p2,0);
+}
+
+Graph<int, double> CreateTestGraph()
+{
+	Graph<int, double> myGraph;
+
+	for(int i = 1; i < 8; i++)
+		myGraph.AddVertex(i);
+
+	myGraph.AddEdge(1 - 1, 2 - 1, 2);
+	myGraph.AddEdge(1 - 1, 4 - 1, 7);
+	myGraph.AddEdge(2 - 1, 4 - 1, 3);
+	myGraph.AddEdge(2 - 1, 5 - 1, 5);
+	myGraph.AddEdge(3 - 1, 1 - 1, 2);
+	myGraph.AddEdge(3 - 1, 6 - 1, 5);
+	myGraph.AddEdge(4 - 1, 3 - 1, 1);
+	myGraph.AddEdge(4 - 1, 5 - 1, 1);
+	myGraph.AddEdge(4 - 1, 6 - 1, 6);
+	myGraph.AddEdge(4 - 1, 7 - 1, 4);
+	myGraph.AddEdge(5 - 1, 7 - 1, 2);
+	myGraph.AddEdge(6 - 1, 4 - 1, 3);
+	myGraph.AddEdge(7 - 1, 6 - 1, 4);
+
+	return myGraph;
 }
 
 void test_AddVertex()
@@ -170,6 +196,73 @@ void test_d_topologicaOrder() {
 	ASSERT_EQUAL("", ss.str());
 }
 
+void test_dijkstra() {
+	Graph<int, double> myGraph = CreateTestGraph();
+
+	std::map<uint, uint> shrtsPath = myGraph.dijkstraShortestPath(2);
+
+	vector<uint> vs = myGraph.GetVerticesIds();
+
+	stringstream ss;
+	for(unsigned int i = 0; i < vs.size(); i++) {
+		int info;
+		myGraph.GetElement(i, info);
+		ss << info << "<-";
+		if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
+		{
+			int pathInfo;
+			myGraph.GetElement(shrtsPath[i], pathInfo);
+			ss << pathInfo;
+		}
+		ss << "|";
+	}
+
+	ASSERT_EQUAL("1<-3|2<-1|3<-|4<-2|5<-4|6<-3|7<-5|", ss.str());
+
+	shrtsPath = myGraph.dijkstraShortestPath(0);
+
+	ss.str("");
+	for(unsigned int i = 0; i < vs.size(); i++) {
+		int info;
+		myGraph.GetElement(i, info);
+		ss << info << "<-";
+		if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
+		{
+			int pathInfo;
+			myGraph.GetElement(shrtsPath[i], pathInfo);
+			ss << pathInfo;
+		}
+		ss << "|";
+	}
+
+
+	ASSERT_EQUAL("1<-|2<-1|3<-4|4<-2|5<-4|6<-4|7<-5|", ss.str());
+
+	//vector<int> path = myGraph.getPath(1, 7);
+	//ss.str("");
+	//for(unsigned int i = 0; i < path.size(); i++) {
+	//	ss << path[i] << " ";
+	//}
+	//ASSERT_EQUAL("1 2 4 5 7 ", ss.str());
+
+	//myGraph.dijkstraShortestPath(5);
+	//path = myGraph.getPath(5, 6);
+	//ss.str("");
+	//for(unsigned int i = 0; i < path.size(); i++) {
+	//	ss << path[i] << " ";
+	//}
+	//ASSERT_EQUAL("5 7 6 ", ss.str());
+
+
+	//myGraph.dijkstraShortestPath(7);
+	//path = myGraph.getPath(7, 1);
+	//ss.str("");
+	//for(unsigned int i = 0; i < path.size(); i++) {
+	//	ss << path[i] << " ";
+	//}
+	//ASSERT_EQUAL("7 6 4 3 1 ", ss.str());
+}
+
 void runSuite(){
     cute::suite s;
     //TODO add your test here
@@ -179,12 +272,106 @@ void runSuite(){
 	s.push_back(CUTE(test_RemoveEdge));
 	s.push_back(CUTE(test_dfs));
 	s.push_back(CUTE(test_d_topologicaOrder));
+	s.push_back(CUTE(test_dijkstra));
     ide_listener lis;
     makeRunner(lis)(s, "The Suite");
 }
 
 int main(){
-    runSuite();
+    //runSuite();
+
+	Graph<int, int> grp;
+
+	uint elem1 = grp.AddVertex(1);
+	uint elem2 = grp.AddVertex(2);
+	uint elem3 = grp.AddVertex(3);
+	uint elem4 = grp.AddVertex(4);
+	uint elem5 = grp.AddVertex(5);
+	uint elem6 = grp.AddVertex(6);
+	uint elem7 = grp.AddVertex(7);
+	uint elem8 = grp.AddVertex(8);
+	uint elem9 = grp.AddVertex(9);
+	uint elem10 = grp.AddVertex(10);
+	uint elem11 = grp.AddVertex(11);
+	uint elem12 = grp.AddVertex(12);
+	uint elem13 = grp.AddVertex(13);
+	uint elem14 = grp.AddVertex(14);
+
+	grp.AddEdge(elem1,  elem2,  1);
+	grp.AddEdge(elem1,  elem6,  1);
+	grp.AddEdge(elem6,  elem2,  1);
+	grp.AddEdge(elem6,  elem7,  1);
+	grp.AddEdge(elem5,  elem1,  1);
+	grp.AddEdge(elem5,  elem6,  1);
+	grp.AddEdge(elem5,  elem11, 1);
+	grp.AddEdge(elem6,  elem7,  1);
+	grp.AddEdge(elem11, elem12, 1);
+	grp.AddEdge(elem7,  elem3,  1);
+	grp.AddEdge(elem7,  elem12, 1);
+	grp.AddEdge(elem3,  elem4,  1);
+	grp.AddEdge(elem3,  elem8,  1);
+	grp.AddEdge(elem13, elem12, 1);
+	grp.AddEdge(elem13, elem8,  1);
+	grp.AddEdge(elem8,  elem14, 1);
+	grp.AddEdge(elem4,  elem10, 1);
+	grp.AddEdge(elem10, elem9,  1);
+
+	std::vector<uint> topo = grp.topologicalOrder();
+	for(const auto& val : topo)
+		std::cout << val + 1 << ", ";
+	std::cout << std::endl;
+
+
+	grp.AddEdge(elem2, elem1,   2);
+	grp.AddEdge(elem6, elem1,   2);
+	grp.AddEdge(elem2, elem6,   2);
+	grp.AddEdge(elem7, elem6,   2);
+	grp.AddEdge(elem1, elem5,   2);
+	grp.AddEdge(elem6, elem5,   2);
+	grp.AddEdge(elem11,elem5,   2);
+	grp.AddEdge(elem7, elem6,   2);
+	grp.AddEdge(elem12,elem11,  2);
+	grp.AddEdge(elem3, elem7,   2);
+	grp.AddEdge(elem12,elem7,   2);
+	grp.AddEdge(elem4, elem3,   2);
+	grp.AddEdge(elem8, elem3,   2);
+	grp.AddEdge(elem12,elem13,  2);
+	grp.AddEdge(elem8, elem13,  2);
+	grp.AddEdge(elem14,elem8,   2);
+	grp.AddEdge(elem10,elem4,   2);
+	grp.AddEdge(elem9, elem10,  2);
+
+	std::map<uint, uint> order = grp.dijkstraShortestPath(4);
+
+	for(const auto& val : order)
+		std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	std::cout << std::endl;
+
+	order = grp.dijkstraShortestPath(5);
+
+	for(const auto& val : order)
+		std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	std::cout << std::endl;
+
+	order = grp.dijkstraShortestPath(2);
+
+	for(const auto& val : order)
+		std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	std::cout << std::endl;
+
+	order = grp.dijkstraShortestPath(7);
+
+	for(const auto& val : order)
+		std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	std::cout << std::endl;
+
+	order = grp.dijkstraShortestPath(8);
+
+	for(const auto& val : order)
+		std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	std::cout << std::endl;
+
+
     cin.get();
     return 0;
 }

@@ -72,6 +72,7 @@ public:
 	std::vector<uint> topologicalOrder() const;
 	void resetIndegrees() const;
 	std::vector<uint> getSources() const;
+	std::map<uint, uint> dijkstraShortestPath(uint srcId) const;
 private:
 	uint _nextId;
 	std::map<uint, Vertex*> _vertices;
@@ -379,3 +380,65 @@ std::vector<uint> Graph<V,E>::getSources() const
 	return result;
 }
 
+template <class V, class E>
+std::map<uint, uint> Graph<V,E>::dijkstraShortestPath(uint srcId) const
+{
+	struct VertexAux
+	{
+		VertexAux(uint p = std::numeric_limits<uint>::max(), double d = std::numeric_limits<double>::infinity(), bool pr = false) : pathID(p), dist(d), processing(pr) { }
+		uint pathID;
+		double dist;
+		bool processing;
+	};
+
+	std::map<uint, VertexAux> vertexAux;
+
+	for (const auto& ver : _vertices)
+		vertexAux[ver.first] = VertexAux();
+
+	uint v = srcId;
+	vertexAux[v].dist = 0;
+
+	std::vector<uint> pq;
+	pq.push_back(v);
+
+	std::make_heap(pq.begin(), pq.end());
+
+	while (! pq.empty())
+	{
+		v = pq.front();
+		pop_heap(pq.begin(), pq.end());
+		pq.pop_back();
+
+		VertexAux& vAux = vertexAux[v];
+		vAux.processing = false;
+
+		for (const Edge& edge : _vertices.at(v)->adj)
+		{
+			uint w = edge.idDest;
+			VertexAux& wAux = vertexAux[w];
+
+			if (vAux.dist + edge.weight < wAux.dist)
+			{
+				 wAux.dist = vAux.dist + edge.weight;
+				 wAux.pathID = v;
+
+				 if (! wAux.processing)
+				 {
+					 wAux.processing = true;
+					 pq.push_back(w);
+				 }
+
+				std::make_heap (pq.begin(),pq.end());//,[&vertexAux](uint arg0, uint arg1) { return vertexAux[arg0].dist > vertexAux[arg1].dist; });
+			}
+		}
+	}
+
+	std::map<uint, uint> result;
+
+	for (const auto& verAux : vertexAux)
+		result[verAux.first] = verAux.second.pathID;
+
+	return result;
+
+}
