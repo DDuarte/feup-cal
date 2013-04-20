@@ -1,16 +1,10 @@
 *.class
-
-# Package Files #
 *.jar
 *.war
 *.ear
-
 .metadata/*
 */bin/*
-
-# ignore thumbnails created by windows
 Thumbs.db
-# Ignore files build by Visual Studio
 *.obj
 *.exe
 *.pdb
@@ -39,3 +33,4 @@ _ReSharper*/
 *.sublime-*
 *.opensdf
 *.sdf
+*.suo
