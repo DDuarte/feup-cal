@@ -9,33 +9,33 @@
 #include <cmath>
 
 Ponto::Ponto() {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
 }
 
 Ponto::~Ponto() {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 Ponto::Ponto(double x, double y) {
-	this->x = x;
-	this->y = y;
+    this->x = x;
+    this->y = y;
 }
 
 Ponto::Ponto(int x, int y) {
-	this->x = x;
-	this->y = y;
+    this->x = x;
+    this->y = y;
 }
 
 double Ponto::distancia(Ponto &p) {
-	return (sqrt(pow(x-p.x, 2) + pow(y-p.y, 2)));
+    return (sqrt(pow(x-p.x, 2) + pow(y-p.y, 2)));
 }
 
 bool Ponto::operator==(const Ponto &p) const {
-	return (x == p.x && y == p.y);
+    return (x == p.x && y == p.y);
 }
 
 ostream& operator<<(ostream& os, const Ponto &p) {
-	os << "(" << p.x << "," << p.y << ")";
-	return os;
+    os << "(" << p.x << "," << p.y << ")";
+    return os;
 }
 

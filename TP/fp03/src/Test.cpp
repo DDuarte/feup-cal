@@ -50,8 +50,8 @@ double nearestPoints_DC(vector<Ponto> &vp, vector<Ponto> &vMP)
         vyr.push_back(*vyit);
         vyit++;
     }
-    
- 
+
+
 
 }
 
@@ -72,7 +72,7 @@ double nearestPoints_BF(vector<Ponto> &vp, vector<const Ponto*> &vMP)
 
             double dist1 = p1.distanciaSqr(p2);
 
-            if (dist1 < dist) 
+            if (dist1 < dist)
             {
                 dist = dist1;
                 vMP[0] = &p1;
@@ -122,7 +122,7 @@ void testNP_BruteForce() {
     auto test5 = std::async(test, "Pontos32k", 1);
     auto test6 = std::async(test, "Pontos64k", 1);
     auto test7 = std::async(test, "Pontos128k", 0);
-    
+
     auto t = test1.get();
     cout << "t1" << endl;
     cout << std::get<0>(t) << endl;

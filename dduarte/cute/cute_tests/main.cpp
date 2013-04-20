@@ -40,83 +40,83 @@ using namespace cute;
 // names without & as function pointers
 static int simpleTestfunctionCalled=0;
 void simpleTestFunction(){
-	++simpleTestfunctionCalled;
-	std::cerr << "simpleTestFunction run no:"<< simpleTestfunctionCalled << std::endl;
-	ASSERT(true);
-	throw std::exception();
+    ++simpleTestfunctionCalled;
+    std::cerr << "simpleTestFunction run no:"<< simpleTestfunctionCalled << std::endl;
+    ASSERT(true);
+    throw std::exception();
 }
 struct SimpleTestFunctionCalledTest {
-	void operator()(){
-		ASSERT_EQUALM("look at cute::test ctor overload",2,simpleTestfunctionCalled);
-	}
+    void operator()(){
+        ASSERT_EQUALM("look at cute::test ctor overload",2,simpleTestfunctionCalled);
+    }
 };
 void shouldFailButNotThrowStdException(){
-	ASSERT(false);
-	throw std::exception();
+    ASSERT(false);
+    throw std::exception();
 }
 // demonstrates how to write equality tests
 void test2(){
-	ASSERT_EQUAL(1,1);
-	ASSERT_EQUAL(1,2);
+    ASSERT_EQUAL(1,1);
+    ASSERT_EQUAL(1,2);
 }
 // demonstrates how to write test functors
 struct test3{
-	void operator()(){
-		throw std::exception();
-	}
+    void operator()(){
+        throw std::exception();
+    }
 };
 // demonstrates how test objects are incarnated
 struct to_incarnate{
-	std::ostream &out;
-	to_incarnate(std::ostream &os):out(os){
-		out << "born" << std::endl;
-	}
-	~to_incarnate() {
-		out << "killed" << std::endl;
-	}
-	void operator()(){
-		out << "tested" << std::endl;
-	}
+    std::ostream &out;
+    to_incarnate(std::ostream &os):out(os){
+        out << "born" << std::endl;
+    }
+    ~to_incarnate() {
+        out << "killed" << std::endl;
+    }
+    void operator()(){
+        out << "tested" << std::endl;
+    }
 };
 struct to_incarnate_without : to_incarnate {
-	to_incarnate_without():to_incarnate(std::cout){}
+    to_incarnate_without():to_incarnate(std::cout){}
 };
 void test_SimpleTestFunctionThrows(){
-	ASSERT_THROWS(simpleTestFunction(),std::exception);
+    ASSERT_THROWS(simpleTestFunction(),std::exception);
 }
 void test_shouldFailThrowsFailure(){
-	ASSERT_THROWS(shouldFailButNotThrowStdException(),cute::test_failure);
+    ASSERT_THROWS(shouldFailButNotThrowStdException(),cute::test_failure);
 }
 int main(){
-	using namespace std;
-	suite s;
-	s += test_cute_equals();
-	// the following test produces one of the 2 expected errors, since it throws
-	s += CUTE(simpleTestFunction);
-	s += CUTE(test_SimpleTestFunctionThrows);
-	s += SimpleTestFunctionCalledTest();
-	s += CUTE(test_shouldFailThrowsFailure);
-	suite throwing=test_cute_expect();
-	s.insert(s.end(),throwing.begin(),throwing.end());
-	s += CUTE_SUITE_TEST(test_repeated_test());
-	s += CUTE(test_cute_runner);
-	s += CUTE_SUITE_TEST(test_cute_suite_test());
-	s += CUTE(test_cute_suite);
-	s += CUTE_SUITE_TEST(test_cute_test_incarnate());
-	s += CUTE_SUITE_TEST(test_cute_test());
-	s += CUTE_SUITE_TEST(test_cute_testmember());
-	s += CUTE_SUITE_TEST(test_cute());
-	//---
-	s += CUTE_INCARNATE(to_incarnate_without);
-	s += CUTE_INCARNATE_WITH_CONTEXT(to_incarnate,boost_or_tr1::ref(std::cout));
-	s += CUTE_CONTEXT_MEMFUN(boost_or_tr1::ref(std::cerr),to_incarnate,operator());
+    using namespace std;
+    suite s;
+    s += test_cute_equals();
+    // the following test produces one of the 2 expected errors, since it throws
+    s += CUTE(simpleTestFunction);
+    s += CUTE(test_SimpleTestFunctionThrows);
+    s += SimpleTestFunctionCalledTest();
+    s += CUTE(test_shouldFailThrowsFailure);
+    suite throwing=test_cute_expect();
+    s.insert(s.end(),throwing.begin(),throwing.end());
+    s += CUTE_SUITE_TEST(test_repeated_test());
+    s += CUTE(test_cute_runner);
+    s += CUTE_SUITE_TEST(test_cute_suite_test());
+    s += CUTE(test_cute_suite);
+    s += CUTE_SUITE_TEST(test_cute_test_incarnate());
+    s += CUTE_SUITE_TEST(test_cute_test());
+    s += CUTE_SUITE_TEST(test_cute_testmember());
+    s += CUTE_SUITE_TEST(test_cute());
+    //---
+    s += CUTE_INCARNATE(to_incarnate_without);
+    s += CUTE_INCARNATE_WITH_CONTEXT(to_incarnate,boost_or_tr1::ref(std::cout));
+    s += CUTE_CONTEXT_MEMFUN(boost_or_tr1::ref(std::cerr),to_incarnate,operator());
 
-	runner<counting_listener<ide_listener> > run;
-	run(s);
+    runner<counting_listener<ide_listener> > run;
+    run(s);
 
-	cerr << flush;
-	cerr << run.numberOfTests << " Tests - expect 58" << endl;
-	cerr << run.failedTests << " failed - expect 0 failures" << endl;
-	cerr << run.errors << " errors - expect 2 errors" << endl;
-	return run.failedTests;
+    cerr << flush;
+    cerr << run.numberOfTests << " Tests - expect 58" << endl;
+    cerr << run.failedTests << " failed - expect 0 failures" << endl;
+    cerr << run.errors << " errors - expect 2 errors" << endl;
+    return run.failedTests;
 }

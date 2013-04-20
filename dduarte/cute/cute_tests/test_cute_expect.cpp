@@ -29,58 +29,58 @@ void no_exception() {
 }
 
 void throws_std_exception () {
-	throw std::exception();
+    throw std::exception();
 }
 void test_throws() {
-	ASSERT_THROWS( throws_std_exception() , std::exception);
+    ASSERT_THROWS( throws_std_exception() , std::exception);
 }
 void test_doesntthrow() {
-	int avoid_warning_of_no_effect=0;
-	ASSERT_THROWS(++avoid_warning_of_no_effect,std::exception);
+    int avoid_warning_of_no_effect=0;
+    ASSERT_THROWS(++avoid_warning_of_no_effect,std::exception);
 }
 void test_throws_with_code(){
-	ASSERT_THROWS( throw std::string("oops"), std::string);
+    ASSERT_THROWS( throw std::string("oops"), std::string);
 }
 void test_throws_with_message() {
-	ASSERT_THROWSM("oops",throws_std_exception(),std::exception);
+    ASSERT_THROWSM("oops",throws_std_exception(),std::exception);
 }
 void test_fails_throws(){
-	ASSERT_THROWS(CUTE(no_exception)(),std::exception);
+    ASSERT_THROWS(CUTE(no_exception)(),std::exception);
 }
 void test_that_fails_throws_failure(){
-	ASSERT_THROWS(CUTE(test_fails_throws)(),cute::test_failure);
+    ASSERT_THROWS(CUTE(test_fails_throws)(),cute::test_failure);
 }
 void test_that_throws_throws(){
-	ASSERT_THROWS(CUTE(throws_std_exception)(),std::exception);
+    ASSERT_THROWS(CUTE(throws_std_exception)(),std::exception);
 }
 void test_that_doesnt_throw_fails_when_expected_to_throws(){
-	ASSERT_THROWS(CUTE(test_doesntthrow)(),cute::test_failure);
+    ASSERT_THROWS(CUTE(test_doesntthrow)(),cute::test_failure);
 }
 void test_assert_throws_is_safe_against_throwing_test_failure(){
-	ASSERT_THROWS(ASSERT(false),cute::test_failure);
-	try {
-		ASSERT_THROWS(ASSERT(true),cute::test_failure);
-		throw true;
-	} catch (cute::test_failure&) {
-	} catch (bool &b){
-		FAILM("ASSERT_THROWS falsely catched test_failure");
-	}
+    ASSERT_THROWS(ASSERT(false),cute::test_failure);
+    try {
+        ASSERT_THROWS(ASSERT(true),cute::test_failure);
+        throw true;
+    } catch (cute::test_failure&) {
+    } catch (bool &b){
+        FAILM("ASSERT_THROWS falsely catched test_failure");
+    }
 
 }
 void test_throwing_with_demangle_failure_therefore_suite_should_be_inserted_instead_of_wrapped() {
-	throw std::logic_error("NOT A VALID TYPE NAME");
+    throw std::logic_error("NOT A VALID TYPE NAME");
 }
 }
 cute::suite test_cute_expect() {
-	cute::suite s;
-	s += CUTE(test_that_fails_throws_failure);
-	s += CUTE(test_that_throws_throws);
-	s += CUTE(test_throws);
-	s += CUTE(test_that_doesnt_throw_fails_when_expected_to_throws);
-	s += CUTE(test_throws_with_code);
-	s += CUTE(test_throws_with_message);
-	s += CUTE(test_assert_throws_is_safe_against_throwing_test_failure);
-	s.push_back(CUTE(test_throwing_with_demangle_failure_therefore_suite_should_be_inserted_instead_of_wrapped));
-	return s;
+    cute::suite s;
+    s += CUTE(test_that_fails_throws_failure);
+    s += CUTE(test_that_throws_throws);
+    s += CUTE(test_throws);
+    s += CUTE(test_that_doesnt_throw_fails_when_expected_to_throws);
+    s += CUTE(test_throws_with_code);
+    s += CUTE(test_throws_with_message);
+    s += CUTE(test_assert_throws_is_safe_against_throwing_test_failure);
+    s.push_back(CUTE(test_throwing_with_demangle_failure_therefore_suite_should_be_inserted_instead_of_wrapped));
+    return s;
 }
 

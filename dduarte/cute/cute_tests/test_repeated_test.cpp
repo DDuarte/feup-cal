@@ -25,26 +25,26 @@
 using namespace cute;
 namespace {
 struct TestRepetition {
-	int n;
-	TestRepetition(){ n = 0;}
-	void operator()(){ ++n; }
+    int n;
+    TestRepetition(){ n = 0;}
+    void operator()(){ ++n; }
 };
 void repeat_test(){
-	TestRepetition toRepeat;
-	CUTE_REPEAT(boost_or_tr1::ref(toRepeat),5)();
-	ASSERT_EQUAL(5,toRepeat.n);
+    TestRepetition toRepeat;
+    CUTE_REPEAT(boost_or_tr1::ref(toRepeat),5)();
+    ASSERT_EQUAL(5,toRepeat.n);
 }
 void would_fail_if_run(){
-	FAIL();
+    FAIL();
 }
 void repeat_0_test(){
-	CUTE_REPEAT(CUTE(would_fail_if_run),0)();
+    CUTE_REPEAT(CUTE(would_fail_if_run),0)();
 }
 }
 
 suite test_repeated_test(){
-	suite s;
-	s += CUTE(repeat_test);
-	s += CUTE(repeat_0_test);
-	return s;
+    suite s;
+    s += CUTE(repeat_test);
+    s += CUTE(repeat_0_test);
+    return s;
 }

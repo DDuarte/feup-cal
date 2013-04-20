@@ -5,6 +5,6 @@
 
 double Ship::Comsumption(const Order& order, bool followsFlow)
 {
-	// throw std::exception("The method or operation is not implemented.");
-    return 0.0; 
+    // throw std::exception("The method or operation is not implemented.");
+    return 0.0;
 }

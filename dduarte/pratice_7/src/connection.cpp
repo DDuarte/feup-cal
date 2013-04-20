@@ -9,11 +9,11 @@ Connection::Connection(short port) {
 #ifdef linux
   struct sockaddr_in echoServAddr; /* Echo server address */
   struct  hostent  *ptrh;
-  
+
   /* Create a reliable, stream socket using TCP */
   if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     myerror("socket() failed");
-  
+
   /* Construct the server address structure */
   memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
   echoServAddr.sin_family      = AF_INET;             /* Internet address family */
@@ -22,17 +22,17 @@ Connection::Connection(short port) {
   ptrh = gethostbyname("localhost");
 
   memcpy(&echoServAddr.sin_addr, ptrh->h_addr, ptrh->h_length);
-  
+
   /* Establish the connection to the echo server */
   if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
     myerror("connect() failed");
 #else
-		WSADATA wsaData;
+        WSADATA wsaData;
     int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != NO_ERROR)
-				printf("Client: Error at WSAStartup().\n");
+                printf("Client: Error at WSAStartup().\n");
 
-	// Create a socket.
+    // Create a socket.
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock == INVALID_SOCKET) {
         printf("Client: socket() - Error at socket(): %ld\n", WSAGetLastError());
@@ -55,14 +55,14 @@ Connection::Connection(short port) {
 
 bool Connection::sendMsg(string msg) {
   int res = send(sock, msg.c_str(), msg.size(), 0);
-  if (res < 0) 
+  if (res < 0)
     myerror("Unable to send");
   string answer = readLine();
   return answer == "ok";
 }
 
 string Connection::readLine() {
-  string msg;  
+  string msg;
   char ch;
   while (true) {
     recv(sock, &ch, 1, 0);

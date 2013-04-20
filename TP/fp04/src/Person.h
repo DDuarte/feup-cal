@@ -8,14 +8,14 @@
 #include <string>
 #include <ostream>
 
-class Person 
+class Person
 {
 public:
-	Person();
-	Person (std::string n, int a);
-	std::string getName() const;
-	bool operator == (const Person &p2) const;
-	friend std::ostream & operator << (std::ostream &os, Person &p);
+    Person();
+    Person (std::string n, int a);
+    std::string getName() const;
+    bool operator == (const Person &p2) const;
+    friend std::ostream & operator << (std::ostream &os, Person &p);
 private:
     std::string _name;
     int _age;

@@ -17,17 +17,17 @@
 
 class Labirinth {
     static const int SIZE = 10;
-	int labirinth[SIZE][SIZE];
-	bool visited[SIZE][SIZE];
-	void initializeVisited(int x, int y);
+    int labirinth[SIZE][SIZE];
+    bool visited[SIZE][SIZE];
+    void initializeVisited(int x, int y);
     bool wasVisited(std::pair<int, int> pos);
     void visit(std::pair<int, int> pos);
     std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> pos);
-	bool foundTheSolution;
+    bool foundTheSolution;
 public:
-	Labirinth(int values[10][10]);
-	void printLabirinth();
-	bool findGoal(int x, int y);
+    Labirinth(int values[10][10]);
+    void printLabirinth();
+    bool findGoal(int x, int y);
 };
 
 #endif /* LABIRINTH_H_ */

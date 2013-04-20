@@ -12,19 +12,19 @@ using namespace std;
 
 class Ponto {
 public:
-	double x;
-	double y;
+    double x;
+    double y;
 
-	Ponto();
-	Ponto(double x, double y);
-	Ponto(int x, int y);
-	double distancia(Ponto &p);
-    double distanciaSqr(const Ponto &p) const 
+    Ponto();
+    Ponto(double x, double y);
+    Ponto(int x, int y);
+    double distancia(Ponto &p);
+    double distanciaSqr(const Ponto &p) const
     {
         return (pow(x-p.x, 2) + pow(y-p.y, 2));
     }
-	virtual ~Ponto();
-	bool operator==(const Ponto &p) const;
+    virtual ~Ponto();
+    bool operator==(const Ponto &p) const;
 };
 ostream& operator<<(ostream& os, const Ponto &p);
 

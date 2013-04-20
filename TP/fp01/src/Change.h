@@ -16,9 +16,9 @@
  * Devolve:
  * Uma string que contém com a indicação, para cada n, a combinação de moedas a utilizar.
  * Por exemplo: troco de 1 cêntimo: 1 moeda de 1
- * 				troco de 2 cêntimos: 1 moeda de 2
- * 				troco de 3 cêntimos: 1 moeda de 1, 1 moeda de 2
- * 				(...)
+ *                 troco de 2 cêntimos: 1 moeda de 2
+ *                 troco de 3 cêntimos: 1 moeda de 1, 1 moeda de 2
+ *                 (...)
  * A string devolvida representar os valores das moedas (separadas por virgula) para cada n (separado por ponto e vírgula)
  * Exemplo: 1;2;1,2;2,2;5;1,5;...
  * */

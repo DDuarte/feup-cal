@@ -29,34 +29,34 @@ void createNetwork(Graph<Person, double> & net1)
     net1.addEdge(p6,p2,0);
 }
 
-void test_addVertex() 
+void test_addVertex()
 {
-	Graph<Person, double> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(false, net1.addVertex(p2));
-	ASSERT_EQUAL(4, net1.getNumVertex());
+    Graph<Person, double> net1;
+    Person p1("Ana",19);
+    Person p2("Carlos",33);
+    Person p3("Filipe", 20);
+    Person p4("Inês", 18);
+    net1.addVertex(p1); net1.addVertex(p2);
+    net1.addVertex(p3); net1.addVertex(p4);
+    ASSERT_EQUAL(false, net1.addVertex(p2));
+    ASSERT_EQUAL(4, net1.getNumVertex());
 }
 
-void test_removeVertex() 
+void test_removeVertex()
 {
-	Graph<Person, double> net1;
-	Person p1("Ana",19);
-	Person p2("Carlos",33);
-	Person p3("Filipe", 20);
-	Person p4("Inês", 18);
-	net1.addVertex(p1); net1.addVertex(p2);
-	net1.addVertex(p3); net1.addVertex(p4);
-	ASSERT_EQUAL(true, net1.removeVertex(p2));
-	ASSERT_EQUAL(false, net1.removeVertex(p2));
-	ASSERT_EQUAL(3, net1.getNumVertex());
+    Graph<Person, double> net1;
+    Person p1("Ana",19);
+    Person p2("Carlos",33);
+    Person p3("Filipe", 20);
+    Person p4("Inês", 18);
+    net1.addVertex(p1); net1.addVertex(p2);
+    net1.addVertex(p3); net1.addVertex(p4);
+    ASSERT_EQUAL(true, net1.removeVertex(p2));
+    ASSERT_EQUAL(false, net1.removeVertex(p2));
+    ASSERT_EQUAL(3, net1.getNumVertex());
 }
 
-void test_addEdge() 
+void test_addEdge()
 {
     Graph<Person, double> net1;
     Person p1("Ana",19);
@@ -72,7 +72,7 @@ void test_addEdge()
     ASSERT_EQUAL(false, net1.addEdge(p2,p5,0));
 }
 
-void test_removeEdge() 
+void test_removeEdge()
 {
     Graph<Person, double> net1;
     Person p1("Ana",19);
@@ -92,7 +92,7 @@ void test_removeEdge()
 }
 
 
-void test_dfs() 
+void test_dfs()
 {
     Graph<Person, double> net1;
     createNetwork(net1);
@@ -106,7 +106,7 @@ void test_dfs()
     ASSERT_EQUAL("Ines", v1[6].getName());
 }
 
-void test_bfs() 
+void test_bfs()
 {
     Graph<Person, double> net1;
     createNetwork(net1);
@@ -120,22 +120,22 @@ void test_bfs()
     ASSERT_EQUAL("Vasco", v1[6].getName());
 }
 
-void test_removeVertex_Again() 
+void test_removeVertex_Again()
 {
-	Graph<Person, double> net1;
-	createNetwork(net1);
-	Person p2("Carlos",33);
-	ASSERT_EQUAL(true, net1.removeVertex(p2));
-	vector<Person> v1=net1.dfs();
-	ASSERT_EQUAL("Ana", v1[0].getName());
-	ASSERT_EQUAL("Filipe", v1[1].getName());
-	ASSERT_EQUAL("Rui", v1[2].getName());
-	ASSERT_EQUAL("Vasco", v1[3].getName());
-	ASSERT_EQUAL("Ines", v1[4].getName());
-	ASSERT_EQUAL("Maria", v1[5].getName());
+    Graph<Person, double> net1;
+    createNetwork(net1);
+    Person p2("Carlos",33);
+    ASSERT_EQUAL(true, net1.removeVertex(p2));
+    vector<Person> v1=net1.dfs();
+    ASSERT_EQUAL("Ana", v1[0].getName());
+    ASSERT_EQUAL("Filipe", v1[1].getName());
+    ASSERT_EQUAL("Rui", v1[2].getName());
+    ASSERT_EQUAL("Vasco", v1[3].getName());
+    ASSERT_EQUAL("Ines", v1[4].getName());
+    ASSERT_EQUAL("Maria", v1[5].getName());
 }
 
-void test_removeEdge_Again() 
+void test_removeEdge_Again()
 {
     Graph<Person, double> net1;
     createNetwork(net1);
@@ -152,7 +152,7 @@ void test_removeEdge_Again()
     ASSERT_EQUAL("Ines", v1[6].getName());
 }
 
-void test_maxNewChildren() 
+void test_maxNewChildren()
 {
     Graph<Person, double> net1;
     Person p1("Ana",19);
@@ -181,18 +181,18 @@ void test_maxNewChildren()
 
 
 void runSuite(){
-	cute::suite s;
-	s.push_back(CUTE(test_addVertex));
-	s.push_back(CUTE(test_removeVertex));
-	s.push_back(CUTE(test_addEdge));
-	s.push_back(CUTE(test_removeEdge));
-	s.push_back(CUTE(test_dfs));
-	s.push_back(CUTE(test_bfs));
-	s.push_back(CUTE(test_removeVertex_Again));
-	s.push_back(CUTE(test_removeEdge_Again));
-	s.push_back(CUTE(test_maxNewChildren));
-	cute::ide_listener lis;
-	cute::makeRunner(lis)(s, "CAL 2012/2013 - Aula Pratica 4");
+    cute::suite s;
+    s.push_back(CUTE(test_addVertex));
+    s.push_back(CUTE(test_removeVertex));
+    s.push_back(CUTE(test_addEdge));
+    s.push_back(CUTE(test_removeEdge));
+    s.push_back(CUTE(test_dfs));
+    s.push_back(CUTE(test_bfs));
+    s.push_back(CUTE(test_removeVertex_Again));
+    s.push_back(CUTE(test_removeEdge_Again));
+    s.push_back(CUTE(test_maxNewChildren));
+    cute::ide_listener lis;
+    cute::makeRunner(lis)(s, "CAL 2012/2013 - Aula Pratica 4");
 }
 
 int main(){

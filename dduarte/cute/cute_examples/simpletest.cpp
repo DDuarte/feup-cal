@@ -28,59 +28,59 @@ void mysimpletest(){
 #include <iostream>
 #include "cute_runner.h"
 int main1(){
-	using namespace std;
-	cute::test t=CUTE(mysimpletest);
-	if (cute::runner<>()(t)){
-		cout << "OK" << endl;
-	} else {
-		cout << "failed" << endl;
-	}
-	return 0;
+    using namespace std;
+    cute::test t=CUTE(mysimpletest);
+    if (cute::runner<>()(t)){
+        cout << "OK" << endl;
+    } else {
+        cout << "failed" << endl;
+    }
+    return 0;
 }
 #include "ide_listener.h"
 int main2(){
-	using namespace std;
+    using namespace std;
 
-	return cute::runner<cute::ide_listener>()(CUTE(mysimpletest));
+    return cute::runner<cute::ide_listener>()(CUTE(mysimpletest));
 }
 
 
 #include "cute_test.h"
 #include "cute_equals.h"
 int anothertest(){
-	ASSERT_EQUAL(42,lifeTheUniverseAndEverything);
-	return 0;
+    ASSERT_EQUAL(42,lifeTheUniverseAndEverything);
+    return 0;
 }
 
 cute::test tests[]={
 #ifdef __GNUG__
-	CUTE(mysimpletest)
-	,mysimpletest
-	,CUTE(anothertest)
+    CUTE(mysimpletest)
+    ,mysimpletest
+    ,CUTE(anothertest)
 #else /* for MSVC... */
-	CUTE(mysimpletest)
-	,CUTE(mysimpletest)
-	,CUTE(reinterpret_cast<void(*)()>(anothertest))
+    CUTE(mysimpletest)
+    ,CUTE(mysimpletest)
+    ,CUTE(reinterpret_cast<void(*)()>(anothertest))
 #endif
 };
 
 struct ATestFunctor {
-	void operator()(){
-		ASSERT_EQUAL_DELTA(42.0,static_cast<double>(lifeTheUniverseAndEverything),0.001);
-	}
+    void operator()(){
+        ASSERT_EQUAL_DELTA(42.0,static_cast<double>(lifeTheUniverseAndEverything),0.001);
+    }
 };
 #include "cute_suite.h"
 int main3(){
-	using namespace std;
+    using namespace std;
 
-	cute::runner<cute::ide_listener> run;
-	cute::suite s(tests,tests+(sizeof(tests)/sizeof(tests[0])));
-	s+=ATestFunctor();
-	return run(s,"suite");
+    cute::runner<cute::ide_listener> run;
+    cute::suite s(tests,tests+(sizeof(tests)/sizeof(tests[0])));
+    s+=ATestFunctor();
+    return run(s,"suite");
 }
 
 int main(){
-	main1();
-	main2();
-	main3();
+    main1();
+    main2();
+    main3();
 }

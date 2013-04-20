@@ -107,8 +107,8 @@ void exercicio2()
 
         i += 2;
     }
-    
-    
+
+
 
 
 }
@@ -135,7 +135,7 @@ void exercicio3()
         {
             std::string line;
             std::getline(nodesFile, line, ';');
-            
+
             if (!line.empty())
             {
                 if (i == 0)
@@ -201,9 +201,9 @@ void exercicio3()
 
 
 int main() {
-	//exercicio1();
-	//exercicio2();
-	exercicio3();
-	getchar();
-	return 0;
+    //exercicio1();
+    //exercicio2();
+    exercicio3();
+    getchar();
+    return 0;
 }

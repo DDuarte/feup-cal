@@ -10,14 +10,14 @@
  * function to fill list 'lp' with 'Ponto' objects read from 'is'
  */
 void lerPontos(istream &is, vector<Ponto> &vp){
-	double x, y;
-	if (!is)
-		return;
-	while (!is.eof()) {
-		is >> x >> y;
-		Ponto p(x,y);
-		vp.push_back(p);
-	}
+    double x, y;
+    if (!is)
+        return;
+    while (!is.eof()) {
+        is >> x >> y;
+        Ponto p(x,y);
+        vp.push_back(p);
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -135,7 +135,7 @@ int GetMilliSpan(int nTimeStart)
 {
   int nSpan = GetMilliCount() - nTimeStart;
   if (nSpan < 0)
-	  nSpan += 0x100000 * 1000;
+      nSpan += 0x100000 * 1000;
   return nSpan;
 }
 //---------------------------------------------------------------------------

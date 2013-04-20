@@ -14,8 +14,8 @@
  * o índice i a partir do qual a soma s dos valores dessa subsequência é mínimo.
  *
  * Argumentos:
- * 	sequence - Array com a sequência
- * 	size - Tamanho da sequência
+ *     sequence - Array com a sequência
+ *     size - Tamanho da sequência
  *
  * Devolve:
  * Uma string que contém com a indicação do índice i e somatório s, para cada m

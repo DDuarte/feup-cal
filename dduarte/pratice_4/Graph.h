@@ -13,30 +13,30 @@ template <class T> class Graph;
 
 template <class T>
 class Vertex {
-	T info;
-	vector<Edge<T>> adj;
-	bool visited;
+    T info;
+    vector<Edge<T>> adj;
+    bool visited;
 public:
-	Vertex(T in);
-	friend class Graph<T>;
+    Vertex(T in);
+    friend class Graph<T>;
 };
 
 template <class T>
 class Edge {
-	Vertex<T>* dest;
-	double weight;
+    Vertex<T>* dest;
+    double weight;
 public:
-	Edge(Vertex<T>* d, double w);
-	friend class Graph<T>;
-	friend class Vertex<T>;
+    Edge(Vertex<T>* d, double w);
+    friend class Graph<T>;
+    friend class Vertex<T>;
 };
 
 template <class T>
 class Graph {
-	vector<Vertex<T>*> vertexSet;
+    vector<Vertex<T>*> vertexSet;
 public:
-	vector<Vertex<T>*> getVertexSet() const;
-	int getNumVertex() const;
+    vector<Vertex<T>*> getVertexSet() const;
+    int getNumVertex() const;
     bool addVertex(const T& in);
     bool addEdge(const T& sourc, const T& dest, double w);
     bool removeVertex(const T& in);
@@ -79,7 +79,7 @@ void Graph<T>::dfs(Vertex<T>* v, vector<T>& vec) const
         {
             vec.push_back(e.dest->info);
             dfs(e.dest, vec);
-            
+
         }
     }
 }
@@ -164,11 +164,11 @@ bool Graph<T>::addVertex(const T& in)
 
 template <class T>
 int Graph<T>::getNumVertex() const {
-	return vertexSet.size();
+    return vertexSet.size();
 }
 template <class T>
 vector<Vertex<T> * > Graph<T>::getVertexSet() const {
-	return vertexSet;
+    return vertexSet;
 }
 
 template <class T>

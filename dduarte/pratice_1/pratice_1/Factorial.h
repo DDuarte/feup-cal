@@ -36,7 +36,7 @@ int factorialDinam(int n)
         return 1;
 
     arr[n] = n * factorialDinam(n - 1);
-    
+
     return arr[n];
 }
 

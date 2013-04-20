@@ -26,7 +26,7 @@ std::string calcSum( int* sequence, int size )
 
     for (auto r : res)
         ss << r.first << "," << r.second << ";";
-    
+
 
     return ss.str();
 }

@@ -12,16 +12,16 @@ using namespace std;
 
 class Ponto {
 public:
-	double x;
-	double y;
+    double x;
+    double y;
 
     Ponto() { };
-	Ponto(double x, double y) : x(x), y(y) { }
+    Ponto(double x, double y) : x(x), y(y) { }
 
     Ponto(int x, int y) : x(x), y(y) { }
     double distanciaSqr(const Ponto &p) const { return (pow(x-p.x, 2) + pow(y-p.y, 2));  }
-	double distancia(const Ponto &p) const { return (sqrt(pow(x-p.x, 2) + pow(y-p.y, 2))); }
-	bool operator==(const Ponto &p) const { return (x == p.x && y == p.y); }
+    double distancia(const Ponto &p) const { return (sqrt(pow(x-p.x, 2) + pow(y-p.y, 2))); }
+    bool operator==(const Ponto &p) const { return (x == p.x && y == p.y); }
 };
 ostream& operator<<(ostream& os, const Ponto &p);
 

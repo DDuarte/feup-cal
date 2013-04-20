@@ -8,8 +8,8 @@ pid_t GraphViewer::procId = NULL;
 short GraphViewer::port = 7772;
 
 GraphViewer::GraphViewer(int width, int height, bool dynamic) {
-	initialize(width, height, dynamic, GraphViewer::port);
-	++GraphViewer::port;
+    initialize(width, height, dynamic, GraphViewer::port);
+    ++GraphViewer::port;
 }
 
 GraphViewer::GraphViewer(int width, int height, bool dynamic, int port_n) {
@@ -33,7 +33,7 @@ void GraphViewer::initialize(int width, int height, bool dynamic, int port_n) {
     kill(getppid(), SIGINT);
     exit(0);
   }
-  else {    
+  else {
     usleep(2000000);
     con = new Connection(port_n);
 
@@ -50,27 +50,27 @@ void GraphViewer::initialize(int width, int height, bool dynamic, int port_n) {
   ZeroMemory( &pi, sizeof(pi) );
   LPSTR command_lpstr = const_cast<char *>(command.c_str());
   if( !CreateProcess( NULL,   // No module name (use command line)
-		      command_lpstr,        // Command line
-		      NULL,           // Process handle not inheritable
-		      NULL,           // Thread handle not inheritable
-		      FALSE,          // Set handle inheritance to FALSE
-		      0,              // No creation flags
-		      NULL,           // Use parent's environment block
-		      NULL,           // Use parent's starting directory 
-		      &si,            // Pointer to STARTUPINFO structure
-		      &pi )           // Pointer to PROCESS_INFORMATION structure
+              command_lpstr,        // Command line
+              NULL,           // Process handle not inheritable
+              NULL,           // Thread handle not inheritable
+              FALSE,          // Set handle inheritance to FALSE
+              0,              // No creation flags
+              NULL,           // Use parent's environment block
+              NULL,           // Use parent's starting directory
+              &si,            // Pointer to STARTUPINFO structure
+              &pi )           // Pointer to PROCESS_INFORMATION structure
       ) {
     printf( "CreateProcess failed (%d).\n", GetLastError() );
     return;
   }
- 
-  // Close process and thread handles. 
+
+  // Close process and thread handles.
   CloseHandle( pi.hProcess );
   CloseHandle( pi.hThread );
 
   Sleep(2000);
   con = new Connection(port_n);
-  
+
   char buff[200];
   sprintf(buff, "newGraph %d %d %s\n", width, height, (dynamic?"true":"false"));
   string str(buff);
@@ -185,17 +185,17 @@ bool GraphViewer::setBackground(string path) {
 }
 
 bool GraphViewer::setEdgeWeight(int id, int weight) {
-	char buff[200];
-	sprintf(buff, "setEdgeWeight %d %d\n", id, weight);
-	string str(buff);
-	return con->sendMsg(str);
+    char buff[200];
+    sprintf(buff, "setEdgeWeight %d %d\n", id, weight);
+    string str(buff);
+    return con->sendMsg(str);
 }
 
 bool GraphViewer::setEdgeFlow(int id, int flow) {
-	char buff[200];
-	sprintf(buff, "setEdgeFlow %d %d\n", id, flow);
-	string str(buff);
-	return con->sendMsg(str);
+    char buff[200];
+    sprintf(buff, "setEdgeFlow %d %d\n", id, flow);
+    string str(buff);
+    return con->sendMsg(str);
 }
 
 bool GraphViewer::rearrange() {

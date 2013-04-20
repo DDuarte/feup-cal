@@ -13,8 +13,8 @@ template<class Fwd>
 struct Reverser {
     const Fwd &fwd;
     Reverser<Fwd>(const Fwd &fwd_): fwd(fwd_) {}
-    auto begin() -> decltype(fwd.rbegin()) const { return fwd.rbegin(); } 
-    auto end() -> decltype(fwd.rend()) const  { return fwd.rend(); } 
+    auto begin() -> decltype(fwd.rbegin()) const { return fwd.rbegin(); }
+    auto end() -> decltype(fwd.rend()) const  { return fwd.rend(); }
 };
 
 template<class Fwd>
@@ -24,11 +24,11 @@ template <class T, class E> class Edge;
 template <class T, class E> class Graph;
 
 template <class T, class E>
-class Vertex 
+class Vertex
 {
 public:
-	Vertex(T in);
-	friend class Graph<T, E>;
+    Vertex(T in);
+    friend class Graph<T, E>;
 private:
     T _info;
     std::vector<Edge<T, E>> _adj;
@@ -36,7 +36,7 @@ private:
 };
 
 template <class T, class E>
-class Edge 
+class Edge
 {
 public:
     Edge(Vertex<T, E> *d, E w);
@@ -48,7 +48,7 @@ private:
 };
 
 template <class T, class E>
-class Graph 
+class Graph
 {
 public:
     std::vector<Vertex<T, E>*> getVertexSet() const;
@@ -68,7 +68,7 @@ template <class T, class E> Vertex<T, E>::Vertex( T in ) : _info(in), _visited(f
 template <class T, class E> Edge<T, E>::Edge( Vertex<T, E> *d, E w ) : _dest(d), _weight(w) { }
 template <class T, class E> int Graph<T, E>::getNumVertex() const { return _vertexSet.size(); }
 
-template <class T, class E> std::vector<Vertex<T, E>*> Graph<T, E>::getVertexSet() const 
+template <class T, class E> std::vector<Vertex<T, E>*> Graph<T, E>::getVertexSet() const
 {
     return _vertexSet;
 }
@@ -86,7 +86,7 @@ bool Graph<T, E>::addVertex(const T &in)
 }
 
 template <class T, class E>
-bool Graph<T, E>::removeVertex( const T& in ) 
+bool Graph<T, E>::removeVertex( const T& in )
 {
     auto elem = std::find_if(_vertexSet.begin(), _vertexSet.end(), [&in] (Vertex<T, E>* ver) { return in == ver->_info; });
 
@@ -105,10 +105,10 @@ bool Graph<T, E>::removeVertex( const T& in )
 
 
 template <class T, class E>
-bool Graph<T, E>::addEdge(const T &sourc, const T &dest, E w) 
+bool Graph<T, E>::addEdge(const T &sourc, const T &dest, E w)
 {
     auto src = std::find_if(_vertexSet.begin(), _vertexSet.end(), [&sourc] (Vertex<T, E>* ver) { return sourc == ver->_info; });
-    
+
     if (src == _vertexSet.end())
         return false;
 
@@ -124,7 +124,7 @@ bool Graph<T, E>::addEdge(const T &sourc, const T &dest, E w)
 
 
 template <class T, class E>
-bool Graph<T, E>::removeEdge(const T& sourc, const T& dest) 
+bool Graph<T, E>::removeEdge(const T& sourc, const T& dest)
 {
     auto src = std::find_if(_vertexSet.begin(), _vertexSet.end(), [&sourc] (Vertex<T, E>* ver) { return sourc == ver->_info; });
 
@@ -152,16 +152,16 @@ std::vector<T> Graph<T, E>::dfs() const
     std::for_each(_vertexSet.begin(), _vertexSet.end(), [] (Vertex<T, E>* ver) { ver->_visited = false; });
 
     std::vector<T> result;
-    
+
     std::stack<Vertex<T,E>*> stateStk;
-    
+
     for (size_t i = 0; i < _vertexSet.size(); i++)
     {
         if (_vertexSet[i]->_visited) continue;
 
         Vertex<T,E>* ver = _vertexSet[i];
 
-        do 
+        do
         {
             if (! ver->_visited)
                 result.push_back(ver->_info);
@@ -183,7 +183,7 @@ std::vector<T> Graph<T, E>::dfs() const
             }
         } while (!stateStk.empty());
     }
-    
+
     return result;
 }
 

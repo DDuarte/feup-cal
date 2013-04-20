@@ -11,29 +11,29 @@
 
 Labirinth::Labirinth(int values[10][10])
 {
-	for (int i = 0; i < 10; i++)
-		for (int j = 0; j < 10; j++)
-			labirinth[i][j]=values[i][j];
+    for (int i = 0; i < 10; i++)
+        for (int j = 0; j < 10; j++)
+            labirinth[i][j]=values[i][j];
 }
 
 
 void Labirinth::initializeVisited(int x, int y)
 {
-	for (int i = 0; i < 10; i++)
-		for (int a = 0; a < 10; a++)
-			visited[i][a] = false;
-	visited[y][x] = true;
+    for (int i = 0; i < 10; i++)
+        for (int a = 0; a < 10; a++)
+            visited[i][a] = false;
+    visited[y][x] = true;
 }
 
 void  Labirinth::printLabirinth()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		for (int a = 0; a < 10; a++)
-			std::cout << labirinth[i][a] << " ";
+    for (int i = 0; i < 10; i++)
+    {
+        for (int a = 0; a < 10; a++)
+            std::cout << labirinth[i][a] << " ";
 
-		std::cout << std::endl;
-	}
+        std::cout << std::endl;
+    }
 }
 
 
@@ -56,7 +56,7 @@ bool Labirinth::findGoal(int x, int y)
     h.neighbors = getNeighbors(h.currentPosition);
     bool found = false;
 
-    do 
+    do
     {
         bool success = false;
         std::pair<int, int> chosen;
@@ -88,7 +88,7 @@ bool Labirinth::findGoal(int x, int y)
         }
     } while (!stk.empty() && !found);
 
-	return found;
+    return found;
 }
 
 bool Labirinth::wasVisited( std::pair<int, int> pos )
@@ -99,7 +99,7 @@ bool Labirinth::wasVisited( std::pair<int, int> pos )
 std::vector<std::pair<int, int>> Labirinth::getNeighbors( std::pair<int, int> pos )
 {
     std::vector<std::pair<int, int>> result;
-    
+
     if (pos.first > 0 && (labirinth[pos.second][pos.first - 1] != 0)) result.push_back(std::make_pair(pos.first - 1, pos.second));
     if (pos.second > 0 && (labirinth[pos.second - 1][pos.first] != 0)) result.push_back(std::make_pair(pos.first, pos.second - 1));
     if (pos.first < SIZE - 1 && (labirinth[pos.second][pos.first + 1] != 0)) result.push_back(std::make_pair(pos.first + 1, pos.second));

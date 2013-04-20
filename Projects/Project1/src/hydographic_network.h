@@ -14,19 +14,19 @@ class HydographicNetwork : public Graph<Village, River>
 {
 public:
 
-	/*class MinCostMaxFlow : public Graph<Village, River> 
-	{
-	public:
-		MinCostMaxFlow(const HydographicNetwork& hN, const Village& src, const std::map<Village, std::vector<Order> > ordersWithDests);
-		MinCostMaxFlow(const HydographicNetwork& hN, const Village& src, const std::map<Village, std::vector<Order> > ordersWithDests);
-	};*/
-	
-	/**
-	 * HydographicNetwork
-	 */
-	HydographicNetwork() { }
+    /*class MinCostMaxFlow : public Graph<Village, River>
+    {
+    public:
+        MinCostMaxFlow(const HydographicNetwork& hN, const Village& src, const std::map<Village, std::vector<Order> > ordersWithDests);
+        MinCostMaxFlow(const HydographicNetwork& hN, const Village& src, const std::map<Village, std::vector<Order> > ordersWithDests);
+    };*/
 
-	static HydographicNetwork Load(std::istream& source);
+    /**
+     * HydographicNetwork
+     */
+    HydographicNetwork() { }
+
+    static HydographicNetwork Load(std::istream& source);
 
 private:
 };
