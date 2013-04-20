@@ -21,9 +21,6 @@
     <ClCompile Include="src\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Person.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -94,9 +91,6 @@
     </ClInclude>
     <ClInclude Include="cute\eclipse_listener.h">
       <Filter>cute</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Person.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\defs.h">
       <Filter>Header Files</Filter>
