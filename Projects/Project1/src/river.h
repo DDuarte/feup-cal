@@ -8,7 +8,7 @@ class River
 public:
 	River(const std::string& name, int maxCapacity) : _name(name), _maxCapacity(maxCapacity) { }
 
-	std::string GetName() const { return _name; }
+	const std::string& GetName() const { return _name; }
 	int GetMaxCapacity()  const { return _maxCapacity; }
 
 	void SetName(const std::string& newName) { _name = newName; }

@@ -43,6 +43,7 @@ private:
 
 public:
 	Graph();
+    ~Graph();
 
 	uint AddVertex(const V& info);
 	bool RemoveVertex(uint id);
@@ -79,6 +80,13 @@ private:
 };
 
 template <class V, class E>
+Graph<V, E>::~Graph()
+{
+    for (const auto& mv : _vertices)
+        delete mv.second;
+}
+
+template <class V, class E>
 bool Graph<V, E>::GetElementInDegree(uint id, int& elem)
 {
 	if (id >= _nextId) return false;
@@ -103,7 +111,7 @@ std::vector<uint> Graph<V, E>::topologicalOrder() const
 {
 	std::vector<uint> res;
 
-	if( ! isDag() )
+	if(!isDag())
 		return res;
 
 	resetIndegrees();
@@ -116,7 +124,7 @@ std::vector<uint> Graph<V, E>::topologicalOrder() const
 		sources.pop_back();
 	}
 
-	while( !q.empty() ) {
+	while(!q.empty()) {
 		uint vertexId = q.front();
 		q.pop();
 

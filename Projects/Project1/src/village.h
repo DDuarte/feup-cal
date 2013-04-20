@@ -8,7 +8,7 @@ class Village
 public:
 	Village(const std::string& name) : _name(name) { }
 
-	std::string GetName() const { return _name; }
+	const std::string& GetName() const { return _name; }
 	void SetName(const std::string& val) { _name = val; }
 
 private:
