@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "greedy_backtracking_algorithms", "greedy_backtracking_algorithms.vcxproj", "{A22ED090-5364-475A-8187-A44E1EBEDC8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A22ED090-5364-475A-8187-A44E1EBEDC8E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A22ED090-5364-475A-8187-A44E1EBEDC8E}.Debug|Win32.Build.0 = Debug|Win32
+		{A22ED090-5364-475A-8187-A44E1EBEDC8E}.Release|Win32.ActiveCfg = Release|Win32
+		{A22ED090-5364-475A-8187-A44E1EBEDC8E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
