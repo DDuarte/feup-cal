@@ -12,9 +12,7 @@
 
 #include "defs.h"
 #include "graph.h"
-
-using namespace cute;
-using namespace std;
+#include "hydographic_network.h"
 
 Graph<int,int> Load(const char* fileName)
 {
@@ -242,6 +240,34 @@ int main(){
 	srand(time(nullptr));
     //runSuite();
 
+    Village v1("A");
+    Village v2("B");
+    Village v3("C");
+    Village v4("D");
+    Village v5("E");
+
+    River r1("R1", 100);
+    River r2("R2", 100);
+    River r3("R3", 50);
+    River r4("R4", 150);
+
+    HydographicNetwork hn;
+    uint a1 = hn.AddVertex(v1);
+    uint a2 = hn.AddVertex(v2);
+    uint a3 = hn.AddVertex(v3);
+    uint a4 = hn.AddVertex(v4);
+    uint a5 = hn.AddVertex(v5);
+
+    hn.AddEdge(a1, a2, r1);
+    hn.AddEdge(a1, a3, r2);
+    hn.AddEdge(a3, a4, r3);
+    hn.AddEdge(a4, a5, r4);
+    
+    hn.ViewGraph();
+
+
+    /*
+
     Graph<int, int> grp;
 	//Graph<int, int> grp = Load("graph.txt");
 	
@@ -345,7 +371,7 @@ int main(){
 	/*ordersIds.insert(5);
 	ordersIds.insert(7);
 	ordersIds.insert(8);
-	ordersIds.insert(2);*/
+	ordersIds.insert(2);
 	while(ordersIds.size() < 4)
 	{
 		ordersIds.insert(rand() % 14);
@@ -377,6 +403,8 @@ int main(){
 		path.insert(path.end(), path1.begin() + 1, path1.end());
 	}
 */
+
+    /*
 	uint dijkstraSrc = src;
 	std::vector<uint> path;
 	path.push_back(src);
@@ -426,9 +454,6 @@ int main(){
 
 
 	}
-
-
-
 	
 
 
@@ -469,7 +494,7 @@ int main(){
 		ordersIds.erase(minimum.first);
 
 		path.insert(path.end(), path1.begin() + 1, path1.end());
-	}*/
+	}
 
 	//std::cout << std::endl;
 	//for (uint elem : orders)
@@ -482,7 +507,7 @@ int main(){
 	}
     std::cout << std::endl;
 
-
+    */
 	// grp.ShowGraph();
 	
 

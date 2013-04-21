@@ -18,17 +18,13 @@ template <class V, class E>
 class Graph
 {
 // Inner Classes Declarations
-private:
+protected:
     struct Edge
     {
         uint idDest;
         E weight;
 
-        Edge(uint destId, const E& whgt)
-        {
-            idDest = destId;
-            weight = whgt;
-        }
+        Edge(uint destId, const E& whgt) : idDest(destId), weight(whgt) { }
     };
 
     struct Vertex
@@ -37,11 +33,7 @@ private:
         mutable uint indegree;
         std::vector<Edge> adj;
 
-        Vertex(const V& in)
-        {
-            info = in;
-            indegree = 0;
-        }
+        Vertex(const V& in) : info(in), indegree(0) { }
 
 		Vertex(const Vertex& other)
 		{
@@ -87,7 +79,8 @@ public:
     std::map<uint, std::pair<uint, double>> dijkstraShortestPath(uint srcId) const;
 	void copyInvertedEdges(E w);
 	GraphViewer* ShowGraph();
-private:
+
+protected:
     uint _nextId;
     std::map<uint, Vertex*> _vertices;
 };
@@ -414,8 +407,6 @@ std::vector<uint> Graph<V, E>::dfs() const
     return result;
 }
 
-#endif // GRAPH_H_
-
 template <class V, class E>
 bool Graph<V, E>::isDag() const
 {
@@ -566,3 +557,5 @@ std::map<uint, std::pair<uint, double>> Graph<V,E>::dijkstraShortestPath(uint sr
     return result;
 
 }
+
+#endif // GRAPH_H_

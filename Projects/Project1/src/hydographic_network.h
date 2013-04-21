@@ -13,13 +13,11 @@
 class HydographicNetwork : public Graph<Village, River>
 {
 public:
-
-    /**
-     * HydographicNetwork
-     */
     HydographicNetwork() { }
 
     static HydographicNetwork Load(std::istream& source);
+
+    void ViewGraph() const;
 
 private:
 };
