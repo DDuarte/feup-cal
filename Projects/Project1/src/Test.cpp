@@ -5,12 +5,43 @@
 #undef max
 
 #include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <set>
+#include <ctime>
 
 #include "defs.h"
 #include "graph.h"
 
 using namespace cute;
 using namespace std;
+
+Graph<int,int> Load(const char* fileName)
+{
+	Graph<int,int> result;
+	std::ifstream file(fileName);
+
+	if (!file.is_open())
+		return result;
+
+	int numberVertex;
+	file >> numberVertex;
+
+	for (int i = 0; i < numberVertex; ++i)
+		result.AddVertex(i);
+
+	int numberEdges;
+	file >> numberEdges;
+
+	for (int i = 0; i < numberEdges; ++i)
+	{
+		int id1, id2;
+		file >> id1 >> id2;
+		result.AddEdge(id1, id2, 1);
+	}
+
+	return result;
+}
 
 Graph<int, double> CreateTestGraph()
 {
@@ -109,176 +140,351 @@ void test_d_topologicaOrder() {
     ASSERT_EQUAL("", ss.str());
 }
 
-void test_dijkstra() {
-    Graph<int, double> myGraph = CreateTestGraph();
+std::vector<uint> GetPath(const std::map<uint, std::pair<uint,double>>& dsp, uint src, uint dst)
+{
+	std::vector<uint> result;
 
-    std::map<uint, uint> shrtsPath = myGraph.dijkstraShortestPath(2);
+	uint act = dst;
 
-    vector<uint> vs = myGraph.GetVerticesIds();
+	while(act != -1 && act != src)
+	{
+		result.push_back(act);
+		act = dsp.at(act).first;
+	}
 
-    stringstream ss;
-    for(unsigned int i = 0; i < vs.size(); i++) {
-        int info;
-        myGraph.GetElement(i, info);
-        ss << info << "<-";
-        if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
-        {
-            int pathInfo;
-            myGraph.GetElement(shrtsPath[i], pathInfo);
-            ss << pathInfo;
-        }
-        ss << "|";
-    }
+	if (act == -1)
+		return std::vector<uint>();
+	else
+		result.push_back(act);
 
-    ASSERT_EQUAL("1<-3|2<-1|3<-|4<-2|5<-4|6<-3|7<-5|", ss.str());
-
-    shrtsPath = myGraph.dijkstraShortestPath(0);
-
-    ss.str("");
-    for(unsigned int i = 0; i < vs.size(); i++) {
-        int info;
-        myGraph.GetElement(i, info);
-        ss << info << "<-";
-        if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
-        {
-            int pathInfo;
-            myGraph.GetElement(shrtsPath[i], pathInfo);
-            ss << pathInfo;
-        }
-        ss << "|";
-    }
-
-
-    ASSERT_EQUAL("1<-|2<-1|3<-4|4<-2|5<-4|6<-4|7<-5|", ss.str());
-
-    //vector<int> path = myGraph.getPath(1, 7);
-    //ss.str("");
-    //for(unsigned int i = 0; i < path.size(); i++) {
-    //    ss << path[i] << " ";
-    //}
-    //ASSERT_EQUAL("1 2 4 5 7 ", ss.str());
-
-    //myGraph.dijkstraShortestPath(5);
-    //path = myGraph.getPath(5, 6);
-    //ss.str("");
-    //for(unsigned int i = 0; i < path.size(); i++) {
-    //    ss << path[i] << " ";
-    //}
-    //ASSERT_EQUAL("5 7 6 ", ss.str());
-
-
-    //myGraph.dijkstraShortestPath(7);
-    //path = myGraph.getPath(7, 1);
-    //ss.str("");
-    //for(unsigned int i = 0; i < path.size(); i++) {
-    //    ss << path[i] << " ";
-    //}
-    //ASSERT_EQUAL("7 6 4 3 1 ", ss.str());
+	std::reverse(result.begin(), result.end());
+	return result;
 }
-
-void runSuite(){
-    cute::suite s;
-    //TODO add your test here
-    s.push_back(CUTE(test_d_topologicaOrder));
-    s.push_back(CUTE(test_dijkstra));
-    ide_listener lis;
-    makeRunner(lis)(s, "The Suite");
-}
-
+//
+///*
+//void test_dijkstra() {
+//    Graph<int, double> myGraph = CreateTestGraph();
+//
+//    std::map<uint, uint> shrtsPath = myGraph.dijkstraShortestPath(2);
+//
+//    vector<uint> vs = myGraph.GetVerticesIds();
+//
+//    stringstream ss;
+//    for(unsigned int i = 0; i < vs.size(); i++) {
+//        int info;
+//        myGraph.GetElement(i, info);
+//        ss << info << "<-";
+//        if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
+//        {
+//            int pathInfo;
+//            myGraph.GetElement(shrtsPath[i], pathInfo);
+//            ss << pathInfo;
+//        }
+//        ss << "|";
+//    }
+//
+//    ASSERT_EQUAL("1<-3|2<-1|3<-|4<-2|5<-4|6<-3|7<-5|", ss.str());
+//
+//    shrtsPath = myGraph.dijkstraShortestPath(0);
+//
+//    ss.str("");
+//    for(unsigned int i = 0; i < vs.size(); i++) {
+//        int info;
+//        myGraph.GetElement(i, info);
+//        ss << info << "<-";
+//        if ( shrtsPath[i] != std::numeric_limits<uint>::max() )
+//        {
+//            int pathInfo;
+//            myGraph.GetElement(shrtsPath[i], pathInfo);
+//            ss << pathInfo;
+//        }
+//        ss << "|";
+//    }
+//
+//
+//    ASSERT_EQUAL("1<-|2<-1|3<-4|4<-2|5<-4|6<-4|7<-5|", ss.str());
+//
+//        vector<uint> path = GetPath(shrtsPath, 0, 6);
+//        ss.str("");
+//        for(unsigned int i = 0; i < path.size(); i++) {
+//                ss << path[i] + 1 << " ";
+//        }
+//        ASSERT_EQUAL("1 2 4 5 7 ", ss.str());
+//
+//    //myGraph.dijkstraShortestPath(5);
+//    //path = myGraph.getPath(5, 6);
+//    //ss.str("");
+//    //for(unsigned int i = 0; i < path.size(); i++) {
+//    //    ss << path[i] << " ";
+//    //}
+//    //ASSERT_EQUAL("5 7 6 ", ss.str());
+//	//
+//	//
+//    //myGraph.dijkstraShortestPath(7);
+//    //path = myGraph.getPath(7, 1);
+//    //ss.str("");
+//    //for(unsigned int i = 0; i < path.size(); i++) {
+//    //    ss << path[i] << " ";
+//    //}
+//    //ASSERT_EQUAL("7 6 4 3 1 ", ss.str());
+//}
+//*/
+//void runSuite(){
+//    cute::suite s;
+//    //TODO add your test here
+//    s.push_back(CUTE(test_d_topologicaOrder));
+////    s.push_back(CUTE(test_dijkstra));
+//    ide_listener lis;
+//    makeRunner(lis)(s, "The Suite");
+//}
+ 
 int main(){
+	srand(time(nullptr));
     //runSuite();
 
     Graph<int, int> grp;
+	//Graph<int, int> grp = Load("graph.txt");
+	
+	//for (uint elem : topo)
+	//	std::cout << elem << ", ";
+	//std::cout << std::endl;
+	
+	
+	
+	//std::map<uint,uint> d1 = grp.dijkstraShortestPath(0);
+	//
+	//std::vector<uint> path = GetPath(d1, 0, 67);
+	//
+	//for (uint elem : path)
+	//{
+	//	std::cout << elem << "->";
+	//}
+	//std::cout << std::endl;
+	//
+	//for(const auto& val : d1)
+	//	std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
+	//std::cout << std::endl;
 
-    uint elem1 = grp.AddVertex(1);
-    uint elem2 = grp.AddVertex(2);
-    uint elem3 = grp.AddVertex(3);
-    uint elem4 = grp.AddVertex(4);
-    uint elem5 = grp.AddVertex(5);
-    uint elem6 = grp.AddVertex(6);
-    uint elem7 = grp.AddVertex(7);
-    uint elem8 = grp.AddVertex(8);
-    uint elem9 = grp.AddVertex(9);
-    uint elem10 = grp.AddVertex(10);
-    uint elem11 = grp.AddVertex(11);
-    uint elem12 = grp.AddVertex(12);
-    uint elem13 = grp.AddVertex(13);
-    uint elem14 = grp.AddVertex(14);
+     uint elem1 = grp.AddVertex(1);
+     uint elem2 = grp.AddVertex(2);
+     uint elem3 = grp.AddVertex(3);
+     uint elem4 = grp.AddVertex(4);
+     uint elem5 = grp.AddVertex(5);
+     uint elem6 = grp.AddVertex(6);
+     uint elem7 = grp.AddVertex(7);
+     uint elem8 = grp.AddVertex(8);
+     uint elem9 = grp.AddVertex(9);
+     uint elem10 = grp.AddVertex(10);
+     uint elem11 = grp.AddVertex(11);
+     uint elem12 = grp.AddVertex(12);
+     uint elem13 = grp.AddVertex(13);
+     uint elem14 = grp.AddVertex(14);
+	 
+     grp.AddEdge(elem1,  elem2,  1);
+     grp.AddEdge(elem1,  elem6,  1);
+     grp.AddEdge(elem6,  elem2,  1);
+     grp.AddEdge(elem6,  elem7,  1);
+     grp.AddEdge(elem5,  elem1,  1);
+     grp.AddEdge(elem5,  elem6,  1);
+     grp.AddEdge(elem5,  elem11, 1);
+     grp.AddEdge(elem6,  elem7,  1);
+     grp.AddEdge(elem11, elem12, 1);
+     grp.AddEdge(elem7,  elem3,  1);
+     grp.AddEdge(elem7,  elem12, 1);
+     grp.AddEdge(elem3,  elem4,  1);
+     grp.AddEdge(elem3,  elem8,  1);
+     grp.AddEdge(elem13, elem12, 1);
+     grp.AddEdge(elem13, elem8,  1);
+     grp.AddEdge(elem8,  elem14, 1);
+     grp.AddEdge(elem4,  elem10, 1);
+     grp.AddEdge(elem10, elem9,  1);
+	 
+	uint src = 4;
 
-    grp.AddEdge(elem1,  elem2,  1);
-    grp.AddEdge(elem1,  elem6,  1);
-    grp.AddEdge(elem6,  elem2,  1);
-    grp.AddEdge(elem6,  elem7,  1);
-    grp.AddEdge(elem5,  elem1,  1);
-    grp.AddEdge(elem5,  elem6,  1);
-    grp.AddEdge(elem5,  elem11, 1);
-    grp.AddEdge(elem6,  elem7,  1);
-    grp.AddEdge(elem11, elem12, 1);
-    grp.AddEdge(elem7,  elem3,  1);
-    grp.AddEdge(elem7,  elem12, 1);
-    grp.AddEdge(elem3,  elem4,  1);
-    grp.AddEdge(elem3,  elem8,  1);
-    grp.AddEdge(elem13, elem12, 1);
-    grp.AddEdge(elem13, elem8,  1);
-    grp.AddEdge(elem8,  elem14, 1);
-    grp.AddEdge(elem4,  elem10, 1);
-    grp.AddEdge(elem10, elem9,  1);
+	std::vector<uint> topo = grp.topologicalOrder();
 
-    std::vector<uint> topo = grp.topologicalOrder();
-    for(const auto& val : topo)
-        std::cout << val + 1 << ", ";
+	for (uint elem: topo)
+		std::cout << elem + 1<< ", ";
+	std::cout << std::endl;
+
+	std::vector<uint> dfs = grp.dfs();
+
+	for (uint elem: dfs)
+		std::cout << elem + 1<< ", ";
+	std::cout << std::endl;
+
+	grp.copyInvertedEdges(2);
+    
+    // for(const auto& val : topo)
+    //     std::cout << val + 1 << ", ";
+    // std::cout << std::endl;
+	// 
+	// 
+    // grp.AddEdge(elem2, elem1,   2);
+    // grp.AddEdge(elem6, elem1,   2);
+    // grp.AddEdge(elem2, elem6,   2);
+    // grp.AddEdge(elem7, elem6,   2);
+    // grp.AddEdge(elem1, elem5,   2);
+    // grp.AddEdge(elem6, elem5,   2);
+    // grp.AddEdge(elem11,elem5,   2);
+    // grp.AddEdge(elem7, elem6,   2);
+    // grp.AddEdge(elem12,elem11,  2);
+    // grp.AddEdge(elem3, elem7,   2);
+    // grp.AddEdge(elem12,elem7,   2);
+    // grp.AddEdge(elem4, elem3,   2);
+    // grp.AddEdge(elem8, elem3,   2);
+    // grp.AddEdge(elem12,elem13,  2);
+    // grp.AddEdge(elem8, elem13,  2);
+    // grp.AddEdge(elem14,elem8,   2);
+    // grp.AddEdge(elem10,elem4,   2);
+    // grp.AddEdge(elem9, elem10,  2);
+	
+
+	std::set<uint> ordersIds;
+
+	/*ordersIds.insert(5);
+	ordersIds.insert(7);
+	ordersIds.insert(8);
+	ordersIds.insert(2);*/
+	while(ordersIds.size() < 4)
+	{
+		ordersIds.insert(rand() % 14);
+	}
+
+	std::vector<uint> orders;
+	orders.resize(ordersIds.size());
+	std::copy(ordersIds.begin(), ordersIds.end(), orders.begin());
+
+	// sort special based on index comparison. Complexity = O(K * log(K) * N) K-> number of orders, N -> number of nodes
+	std::sort(orders.begin(), orders.end(), [ &topo](uint const& r, uint const& s){
+		auto i = std::distance( topo.begin(), std::find(topo.begin(), topo.end(), r)); 
+		auto j = std::distance( topo.begin(), std::find(topo.begin(), topo.end(), s)); 
+		return i < j;
+	});
+
+	for (const auto& elem: orders)
+		std::cout << elem + 1<< ", ";
+	std::cout << std::endl;
+
+   /* std::map<uint, uint> order = grp.dijkstraShortestPath(src);
+	std::vector<uint> path = GetPath(order, src, orders[0]);
+
+	for (size_t i = 1; i < orders.size(); ++i)
+	{
+		order = grp.dijkstraShortestPath(orders[i-1]);
+		std::vector<uint> path1 = GetPath(order, orders[i-1], orders[i]);
+
+		path.insert(path.end(), path1.begin() + 1, path1.end());
+	}
+*/
+	uint dijkstraSrc = src;
+	std::vector<uint> path;
+	path.push_back(src);
+
+	auto srcOrder = std::find(orders.begin(), orders.end(), src);
+
+	if (srcOrder != orders.end())
+		orders.erase(srcOrder);
+
+	size_t number_of_times = orders.size();
+
+	for (size_t i = 0; i < number_of_times; ++i) 
+	{
+		std::map<uint, std::pair<uint, double>> order = grp.dijkstraShortestPath(dijkstraSrc);
+
+		double minDist = std::numeric_limits<double>::infinity();
+
+		for (const auto& elem : order)
+		{
+			if (elem.first != dijkstraSrc && (std::find(orders.begin(), orders.end(), elem.first) != orders.end()) && elem.second.second < minDist)
+				minDist = elem.second.second;
+		}
+
+		std::vector<uint> minimumDists;
+
+		for (const auto& elem : order)
+		{
+			if (elem.second.second == minDist && std::find(orders.begin(), orders.end(), elem.first) !=orders.end())
+				minimumDists.push_back(elem.first);
+		}
+
+		auto nextElem = std::min_element(minimumDists.begin(), minimumDists.end(), [ &orders](uint const& r, uint const& s){
+			auto i = std::distance( orders.begin(), std::find(orders.begin(), orders.end(), r)); 
+			auto j = std::distance( orders.begin(), std::find(orders.begin(), orders.end(), s)); 
+			return i < j;
+		});
+
+		std::vector<uint> path1 = GetPath(order, dijkstraSrc, *nextElem);
+
+		path.insert(path.end(), path1.begin() + 1, path1.end());
+
+		if (dijkstraSrc != src)
+			orders.erase(std::find(orders.begin(), orders.end(), dijkstraSrc));
+
+		dijkstraSrc = *nextElem;
+
+
+
+	}
+
+
+
+	
+
+
+	/*
+	std::map<uint, uint> order = grp.dijkstraShortestPath(src);
+
+	std::pair<uint, uint> minimum = std::make_pair(-1, std::numeric_limits<uint>::max());
+
+	for (uint id : ordersIds)
+	{
+		if (order[id] < minimum.second)
+		{
+			minimum.first = id;
+			minimum.second = order[id];
+		}
+	}
+
+	std::vector<uint> path = GetPath(order, src, minimum.first);
+	ordersIds.erase(minimum.first);
+
+	while (!ordersIds.empty())
+	{
+		uint prevMinimum = minimum.first;
+		order = grp.dijkstraShortestPath(prevMinimum);
+
+		minimum = std::make_pair(-1, std::numeric_limits<uint>::max());
+
+		for (uint id : ordersIds)
+		{
+			if (order[id] < minimum.second)
+			{
+				minimum.first = id;
+				minimum.second = order[id];
+			}
+		}
+
+		std::vector<uint> path1 = GetPath(order, prevMinimum, minimum.first);
+		ordersIds.erase(minimum.first);
+
+		path.insert(path.end(), path1.begin() + 1, path1.end());
+	}*/
+
+	//std::cout << std::endl;
+	//for (uint elem : orders)
+	//	std::cout << elem + 1 << ", ";
+	//std::cout << std::endl;
+
+	for (uint elem : path)
+	{
+		std::cout << elem + 1 << "->";
+	}
     std::cout << std::endl;
 
 
-    grp.AddEdge(elem2, elem1,   2);
-    grp.AddEdge(elem6, elem1,   2);
-    grp.AddEdge(elem2, elem6,   2);
-    grp.AddEdge(elem7, elem6,   2);
-    grp.AddEdge(elem1, elem5,   2);
-    grp.AddEdge(elem6, elem5,   2);
-    grp.AddEdge(elem11,elem5,   2);
-    grp.AddEdge(elem7, elem6,   2);
-    grp.AddEdge(elem12,elem11,  2);
-    grp.AddEdge(elem3, elem7,   2);
-    grp.AddEdge(elem12,elem7,   2);
-    grp.AddEdge(elem4, elem3,   2);
-    grp.AddEdge(elem8, elem3,   2);
-    grp.AddEdge(elem12,elem13,  2);
-    grp.AddEdge(elem8, elem13,  2);
-    grp.AddEdge(elem14,elem8,   2);
-    grp.AddEdge(elem10,elem4,   2);
-    grp.AddEdge(elem9, elem10,  2);
-
-    std::map<uint, uint> order = grp.dijkstraShortestPath(4);
-
-    for(const auto& val : order)
-        std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
-    std::cout << std::endl;
-
-    order = grp.dijkstraShortestPath(5);
-
-    for(const auto& val : order)
-        std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
-    std::cout << std::endl;
-
-    order = grp.dijkstraShortestPath(2);
-
-    for(const auto& val : order)
-        std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
-    std::cout << std::endl;
-
-    order = grp.dijkstraShortestPath(7);
-
-    for(const auto& val : order)
-        std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
-    std::cout << std::endl;
-
-    order = grp.dijkstraShortestPath(8);
-
-    for(const auto& val : order)
-        std::cout << val.first + 1 << "|-" << val.second + 1 << ", ";
-    std::cout << std::endl;
-
+	// grp.ShowGraph();
+	
 
     cin.get();
     return 0;

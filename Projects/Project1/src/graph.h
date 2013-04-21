@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "utilities.h"
+#include "graphviewer.h"
 
 #include <vector>
 #include <stack>
@@ -10,6 +11,8 @@
 #include <map>
 #include <algorithm>
 #include <exception>
+
+#undef max
 
 template <class V, class E>
 class Graph
@@ -39,10 +42,17 @@ private:
             info = in;
             indegree = 0;
         }
+
+		Vertex(const Vertex& other)
+		{
+			info = other.info;
+			indegree = other.indegree;
+		}
     };
 
 public:
     Graph();
+	Graph(const Graph<V,E>& other);
     ~Graph();
 
     uint AddVertex(const V& info);
@@ -71,13 +81,105 @@ public:
      */
     std::vector<uint> dfs() const;
     std::vector<uint> topologicalOrder() const;
+	std::vector<uint> topologicalOrder(uint srcId) const;
     void resetIndegrees() const;
     std::vector<uint> getSources() const;
-    std::map<uint, uint> dijkstraShortestPath(uint srcId) const;
+    std::map<uint, std::pair<uint, double>> dijkstraShortestPath(uint srcId) const;
+	void copyInvertedEdges(E w);
+	GraphViewer* ShowGraph();
 private:
     uint _nextId;
     std::map<uint, Vertex*> _vertices;
 };
+
+template <class V, class E>
+std::vector<uint> Graph<V, E>::topologicalOrder(uint srcId) const
+{
+	std::vector<uint> res;
+
+	if(!isDag())
+		return res;
+
+	resetIndegrees();
+
+	std::queue<uint> q;
+
+	std::vector<uint> sources = getSources();
+	
+	if (_vertices.at(srcId)->indegree != 0)
+	{
+		_vertices.at(srcId)->indegree = 0;
+		sources.push_back(srcId);
+	}
+	else
+	{
+		auto sourceit = std::find(sources.begin(), sources.end(), srcId);
+		q.push(*sourceit);
+		sources.erase(sourceit);
+	}
+
+	while( !sources.empty() ) {
+		q.push( sources.back() );
+		sources.pop_back();
+	}
+
+	while(!q.empty()) {
+		uint vertexId = q.front();
+		q.pop();
+
+		res.push_back(vertexId);
+
+		for(const Edge& edge: _vertices.at(vertexId)->adj) {
+			Vertex* dest = _vertices.at(edge.idDest);
+			dest->indegree--;
+			if( dest->indegree == 0)
+				q.push( edge.idDest );
+		}
+	}
+
+	/*if ( res.size() != _vertices.size() )
+		res.erase(res.begin(), res.end());*/
+
+	resetIndegrees();
+
+	return res;
+}
+
+template <class V, class E>
+GraphViewer* Graph<V, E>::ShowGraph()
+{
+	GraphViewer* gv = new GraphViewer(600, 600, true);
+
+	for (const auto& ver: _vertices)
+		gv->addNode(ver.first);
+
+	int i = 0;
+
+	for (const auto& ver: _vertices)
+		for (const Edge& edge : ver.second->adj)
+			gv->addEdge(i++, ver.first, edge.idDest, EdgeType::DIRECTED);
+
+	return gv;
+}
+
+template <class V, class E>
+void Graph<V, E>::copyInvertedEdges(E w)
+{
+	std::vector<std::pair<uint,uint>> edges;
+	for(const auto& ver : _vertices)
+	{
+		for (const auto& edge : ver.second->adj)
+		{
+			edges.push_back(std::make_pair(edge.idDest, ver.first));
+		}
+	}
+
+	for (const auto& edgeToAdd: edges)
+	{
+		AddEdge(edgeToAdd.first, edgeToAdd.second, w);
+	}
+}
+
 
 template <class V, class E>
 Graph<V, E>::~Graph()
@@ -148,6 +250,19 @@ std::vector<uint> Graph<V, E>::topologicalOrder() const
 
 template <class V, class E>
 Graph<V, E>::Graph() : _nextId(0) { }
+
+template <class V, class E>
+Graph<V, E>::Graph(const Graph<V,E>& other)
+{
+	for(const auto& ver : other._vertices)
+		this->_vertices[ver.first] = new Vertex(*(ver.second));
+
+	for (const auto& ver : other._vertices)
+		for (const Edge& edge: ver.second->adj)
+		{
+			this->AddEdge(ver.first, edge.idDest, edge.weight);
+		}
+}
 
 template <class V, class E>
 uint Graph<V, E>::AddVertex(const V& info)
@@ -389,7 +504,7 @@ std::vector<uint> Graph<V,E>::getSources() const
 }
 
 template <class V, class E>
-std::map<uint, uint> Graph<V,E>::dijkstraShortestPath(uint srcId) const
+std::map<uint, std::pair<uint, double>> Graph<V,E>::dijkstraShortestPath(uint srcId) const
 {
     struct VertexAux
     {
@@ -442,10 +557,11 @@ std::map<uint, uint> Graph<V,E>::dijkstraShortestPath(uint srcId) const
         }
     }
 
-    std::map<uint, uint> result;
+    std::map<uint, std::pair<uint, double>> result;
 
-    for (const auto& verAux : vertexAux)
-        result[verAux.first] = verAux.second.pathID;
+    for (const auto& verAux : vertexAux) {
+        result[verAux.first] = std::make_pair(verAux.second.pathID, verAux.second.dist);
+	}
 
     return result;
 
