@@ -34,9 +34,9 @@ public:
 		void ViewGraph() const;
 	};
 
-	HydographicNetwork() : _nextRiverId(0) { }
+	HydographicNetwork() : _nextRiverId(0), _igarapeMaxCapacity(0.0) { }
 
-	Delivery GetDeliveryPath(uint src, std::multimap<uint, Order> orders);
+	Delivery GetDeliveryPath(uint src, std::multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double igarapeMaxCapacity = 0, double changeInRiverCapacity = 1.0);
 
     void ViewGraph() const;
 
@@ -54,9 +54,12 @@ public:
 	uint AddRiver(uint sourceVilalge, uint destVillage, const River& weight);
 	bool RemoveRiver(uint sourceId, uint destId);
 
+	DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
+
 private:
 	std::map<uint, River> _rivers;
 	uint _nextRiverId;
+	double _igarapeMaxCapacity;
 };
 
 #endif // HYDOGRAPHIC_NETWORK_H_

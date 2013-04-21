@@ -5,7 +5,7 @@
 
 #include <numeric>
 
-HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::multimap<uint, Order> orders)
+HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double igarapeMaxCapacity, double changeInRiverCapacity)
 {
 	std::vector<uint> path;
 
@@ -29,6 +29,16 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 			orders.erase(srcOrder);
 		}
 	}
+
+	if (changeInRiverCapacity != 1.0)
+	{
+		for (std::map<uint, River>::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
+		{
+			rit->second.SetMaxCapacity(rit->second.GetMaxCapacity() * changeInRiverCapacity);
+		}
+	}
+
+	_igarapeMaxCapacity = igarapeMaxCapacity;
 
 	std::vector<uint> topoOrder = topologicalOrder();
 
@@ -63,7 +73,8 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 		std::vector<uint> path1 = shrtPath.GetPath(dijkstraSrc, *nextElem);
 		consumption += totalWeight * shrtPath.Vertices.at(*nextElem).Dist;
 
-		path.insert(path.end(), path1.begin() + 1, path1.end());
+		if (!path1.empty())
+			path.insert(path.end(), path1.begin() + 1, path1.end());
 
 		dijkstraSrc = *nextElem;
 
@@ -80,6 +91,17 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 
 
 	}
+
+	if (changeInRiverCapacity != 1.0)
+	{
+		double invChangeInRiverCapacity = 1.0 / changeInRiverCapacity;
+		for (std::map<uint, River>::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
+		{
+			rit->second.SetMaxCapacity(rit->second.GetMaxCapacity() * invChangeInRiverCapacity);
+		}
+	}
+
+	_igarapeMaxCapacity = 0.;
 
 	return Delivery(this, path, consumption);
 }
@@ -125,7 +147,7 @@ std::vector<uint> HydographicNetwork::topologicalOrder() const
 	for (const auto& ver : _vertices)
 		for (std::vector<Edge>::const_reference edge : ver.second->adj)
 		{
-			if (edge.weight.FollowsFlow)
+			if (edge.weight.FollowsFlow && (_rivers.at(edge.weight.RiverId).GetMaxCapacity() > _igarapeMaxCapacity))
 				_vertices.at(edge.idDest)->indegree++;
 		}
 
@@ -145,7 +167,7 @@ std::vector<uint> HydographicNetwork::topologicalOrder() const
 
 		for(const Edge& edge: _vertices.at(vertexId)->adj) 
 		{
-			if (edge.weight.FollowsFlow)
+			if (edge.weight.FollowsFlow && (_rivers.at(edge.weight.RiverId).GetMaxCapacity() > _igarapeMaxCapacity))
 			{
 				Vertex* dest = _vertices.at(edge.idDest);
 				dest->indegree--;
@@ -189,7 +211,7 @@ int HydographicNetwork::getNumCycles() const
 
 			for (std::vector<Edge>::reverse_iterator edgeIt = vertex->adj.rbegin(); edgeIt != vertex->adj.rend(); edgeIt++)
 			{
-				if (edgeIt->weight.FollowsFlow)
+				if (edgeIt->weight.FollowsFlow && (_rivers.at(edgeIt->weight.RiverId).GetMaxCapacity() > _igarapeMaxCapacity))
 				{
 					if (! visitedVertices[edgeIt->idDest])
 					{
@@ -259,5 +281,115 @@ double RiverEdge::GetWeight() const
 
 void HydographicNetwork::Delivery::ViewGraph() const
 {
+	GraphViewer gv(600, 600, true);
+	gv.createWindow(600, 600);
 
+	gv.defineVertexColor(DARK_GRAY);
+	gv.defineEdgeColor(BLUE);
+
+	int edgeId = 1;
+	std::map<const Edge*, int> edges;
+
+	for (std::map<uint, Vertex*>::value_type v : hn->_vertices)
+	{
+		gv.addNode(v.first);
+		gv.setVertexLabel(v.first, v.second->info.GetName());
+
+		for (Edge& e : v.second->adj)
+		{
+			gv.addEdge(edgeId, v.first, e.idDest, EdgeType::DIRECTED);
+			gv.setEdgeThickness(edgeId, 50 / hn->GetRiver(e.weight.RiverId).GetMaxCapacity());
+			gv.setEdgeLabel(edgeId, hn->GetRiver(e.weight.RiverId).GetName());
+
+			edges.insert(std::make_pair(&e, edgeId));
+
+			edgeId += 1;
+		}
+	}
+
+	std::vector<uint>::const_iterator finalVertex = Path.begin() + Path.size() - 1;
+	for (std::vector<uint>::const_iterator verIdIt = Path.begin(); verIdIt != finalVertex; verIdIt++)
+	{
+		const Vertex& ver = *(hn->_vertices.at(*verIdIt));
+		std::vector<uint>::const_iterator nextVertexId = verIdIt + 1;
+		for (const Edge& e : ver.adj)
+		{
+			if (e.idDest == *nextVertexId)
+			{
+				gv.setEdgeColor(edges.at(&e), BLACK);
+				break;
+			}
+		}
+	}
+
+
+	
+
+	gv.rearrange();
+}
+
+Graph<Village, RiverEdge>::DijkstraShortestPath HydographicNetwork::dijkstraShortestPath(uint srcId) const 
+{
+	struct VertexAux
+	{
+		VertexAux(uint p = std::numeric_limits<uint>::max(), double d = std::numeric_limits<double>::infinity(), bool pr = false) : pathId(p), dist(d), processing(pr) { }
+		uint pathId;
+		double dist;
+		bool processing;
+	};
+
+	std::map<uint, VertexAux> vertexAux;
+
+	for (const auto& ver : _vertices)
+		vertexAux[ver.first] = VertexAux();
+
+	uint v = srcId;
+	vertexAux[v].dist = 0;
+
+	std::vector<uint> pq;
+	pq.push_back(v);
+
+	std::make_heap(pq.begin(), pq.end());
+
+	while (! pq.empty())
+	{
+		v = pq.front();
+		pop_heap(pq.begin(), pq.end());
+		pq.pop_back();
+
+		VertexAux& vAux = vertexAux[v];
+		vAux.processing = false;
+
+		for (std::vector<Edge>::const_reference edge : _vertices.at(v)->adj)
+		{
+			if (_rivers.at(edge.weight.RiverId).GetMaxCapacity() > _igarapeMaxCapacity)
+			{
+				uint w = edge.idDest;
+				VertexAux& wAux = vertexAux[w];
+
+				if (vAux.dist + edge.weight.GetWeight() < wAux.dist)
+				{
+					wAux.dist = vAux.dist + edge.weight.GetWeight();
+					wAux.pathId = v;
+
+					if (! wAux.processing)
+					{
+						wAux.processing = true;
+						pq.push_back(w);
+					}
+
+					std::make_heap (pq.begin(),pq.end());
+				}
+			}
+		}
+	}
+
+	DijkstraShortestPath result;
+	for (const auto& verAux : vertexAux) 
+	{
+		/*DijkstraShortestPath::DijkstraVertex val(verAux.second.pathId, verAux.second.dist);*/
+		result.Vertices.insert(std::make_pair(verAux.first, DijkstraShortestPath::DijkstraVertex(verAux.second.pathId, verAux.second.dist)));
+	}
+
+	return result;
 }

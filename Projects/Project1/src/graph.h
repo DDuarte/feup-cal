@@ -114,7 +114,7 @@ public:
 	virtual std::vector<uint> topologicalOrder(uint srcId) const;
 	void resetIndegrees() const;
 	std::vector<uint> getSources() const;
-	DijkstraShortestPath dijkstraShortestPath(uint srcId) const;
+	virtual DijkstraShortestPath dijkstraShortestPath(uint srcId) const;
 	void copyInvertedEdges(E w);
 	GraphViewer* ShowGraph();
 

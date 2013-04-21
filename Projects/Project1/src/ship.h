@@ -8,28 +8,16 @@
 class Ship
 {
 public:
-    Ship(const std::string& name, int capacity, bool hasSupportVessel) : _name(name), _capacity(capacity), _hasSupportVessel(hasSupportVessel) { }
+    Ship(const std::string& name, int capacity, int supportVesselCapacity = 0) : _name(name), _capacity(capacity), _supportVesselCapacity(supportVesselCapacity) { }
 
     std::string GetName() const { return _name; }
     int GetCapacity() const { return _capacity; }
-    bool GetHasSupportVessel() const { return _hasSupportVessel; }
-
-    void SetName(const std::string& val) { _name = val; }
-    void SetCapacity(int val) { _capacity = val; }
-    void SetHasSupportVessel(bool val) { _hasSupportVessel = val; }
-
-    /**
-     * Comsumption
-     * @param order
-     * @param followsFlow
-     * @return [double]
-     */
-    double Comsumption(const Order& order, bool followsFlow);
-
+    bool HasSupportVessel() const { return _supportVesselCapacity != 0; }
+	int GetSupportVesselCapacity() const { return _supportVesselCapacity; }
 private:
-    std::string _name;
-    int            _capacity;
-    bool        _hasSupportVessel;
+    const std::string _name;
+    const int            _capacity;
+    const int        _supportVesselCapacity;
 
 };
 

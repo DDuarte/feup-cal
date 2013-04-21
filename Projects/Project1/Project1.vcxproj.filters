@@ -24,9 +24,6 @@
     <ClCompile Include="src\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ship.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\hydographic_network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
