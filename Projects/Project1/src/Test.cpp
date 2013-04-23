@@ -265,24 +265,31 @@ int main(){
 
 	/*hn.ViewGraph();*/
 
-	std::multimap<uint, Order> orders;
+	std::unordered_multimap<uint, Order> orders;
 
 	orders.insert(std::make_pair(a5, Order(100., 0.)));
 
-	HydographicNetwork::Delivery del = hn.GetDeliveryPath(a1, orders, std::numeric_limits<double>::infinity(), 0.0, 0, 0);
+	double epsilon = std::numeric_limits<double>::epsilon();
+	double fiftyplusespilon = 50 + std::numeric_limits<double>::epsilon();
+	HydographicNetwork::Delivery del = hn.GetDeliveryPath(a1, orders, 75, fiftyplusespilon, 1);
 
-	std::multimap<uint, Order> orders1;
+	std::unordered_multimap<uint, Order> orders1;
 
 	orders1.insert(std::make_pair(a2, Order(1000., 0.)));
 
-	HydographicNetwork::Delivery del1 = hn.GetDeliveryPath(a1, orders1, std::numeric_limits<double>::infinity(), 0.0, 0, 0);
+	HydographicNetwork::Delivery del1 = hn.GetDeliveryPath(a1, orders1, 75);
 
-	std::multimap<uint, Order> orders2;
+	std::unordered_multimap<uint, Order> orders2;
+
+	uint a6 = hn.AddVillage(Village("F"));
+
+	hn.AddRiver(a3, a6, River("R5", 100));
+	hn.AddRiver(a6, a5, River("R6", 100));
 
 	orders2.insert(std::make_pair(a5, Order(100., 0.)));
 	orders2.insert(std::make_pair(a2, Order(1000., 0.)));
 
-	HydographicNetwork::Delivery del2 = hn.GetDeliveryPath(a1, orders2, std::numeric_limits<double>::infinity(), 0.0, 0, 0);
+	HydographicNetwork::Delivery del2 = hn.GetDeliveryPath(a1, orders2, 75, 50, 1);
 
 	del.ViewGraph();
 

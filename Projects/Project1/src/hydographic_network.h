@@ -10,6 +10,8 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <unordered_set>
+#include <unordered_map>
 
 struct RiverEdge
 {
@@ -27,16 +29,23 @@ class HydographicNetwork : protected Graph<Village, RiverEdge>
 public:
 	struct Delivery
 	{
-		Delivery(const HydographicNetwork* hn, const std::vector<uint>& path, double consumption) : hn(hn), Path(path), TotalConsumption(consumption) { }
-		const std::vector<uint> Path;
-		const double TotalConsumption;
+		struct PathInfo
+		{
+			uint villageId;
+			double transportedWeight;
+			bool followsFlow;
+			bool isIgarape;
+		};
+		Delivery(const HydographicNetwork* hn, const std::vector<PathInfo>& path) : hn(hn), Path(path) { }
+		Delivery(const HydographicNetwork* hn, const std::vector<PathInfo>&& path) : hn(hn), Path(path) { }
+		const std::vector<PathInfo> Path;
 		const HydographicNetwork* hn;
 		void ViewGraph() const;
 	};
+	
+	HydographicNetwork() : _nextRiverId(0), _igarapeMaxCapacity(0.) { }
 
-	HydographicNetwork() : _nextRiverId(0), _igarapeMaxCapacity(0.0) { }
-
-	Delivery GetDeliveryPath(uint src, std::multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double igarapeMaxCapacity = 0, double changeInRiverCapacity = 1.0);
+	Delivery GetDeliveryPath(uint src, std::unordered_multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
 
     void ViewGraph() const;
 
@@ -55,9 +64,11 @@ public:
 	bool RemoveRiver(uint sourceId, uint destId);
 
 	DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
+	std::unordered_set<uint> GetVisitable(uint srcId) const;
 
 private:
-	std::map<uint, River> _rivers;
+	typedef std::unordered_map<uint, River> RiversContainer;
+	RiversContainer _rivers;
 	uint _nextRiverId;
 	double _igarapeMaxCapacity;
 };
