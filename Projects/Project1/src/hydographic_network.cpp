@@ -4,40 +4,12 @@
 #include "graphviewer.h"
 
 #include <numeric>
+#include <set>
+#include <cmath>
 
-HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::unordered_multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double changeInRiverCapacity)
+HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double changeInRiverCapacity)
 {
 	std::vector<Delivery::PathInfo> path;
-
-	_igarapeMaxCapacity = (numberOfSupportVessels == 0 ? boatCapacity : supportVesselCapacity);
-
-	std::unordered_set<uint> visitable = GetVisitable(src); // O(|V|+|E|)
-
-	for (std::unordered_multimap<uint, Order>::iterator iter = orders.begin(); iter != orders.end();) //
-	{																						//
-		auto erase_iter = iter++;															//
-																							// O(|N|lg(|N|))
-		// removes all even values															//
-		if (visitable.find(erase_iter->first) == visitable.end())							//
-			orders.erase(erase_iter);														//
-	}
-
-	double totalWeight = std::accumulate(orders.begin(), orders.end(), 0.0,   // 
-		[] (double val, std::pair<const uint, Order> o1)					  // 
-	{																		  // O(|N|)
-		return val + o1.second.GetWeight();									  // 
-	});																		  // 
-
-	size_t srcOrdersNumber = orders.count(src);
-	if (srcOrdersNumber > 0) 
-	{
-		for (size_t i = 0; i < srcOrdersNumber; ++i)
-		{
-			std::unordered_multimap<uint, Order>::iterator srcOrder = orders.find(src);
-			totalWeight -= srcOrder->second.GetWeight();
-			orders.erase(srcOrder);
-		}
-	}
 
 	if (changeInRiverCapacity != 1.0)
 	{
@@ -47,8 +19,118 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 		}
 	}
 
-	std::vector<uint> topoOrder = topologicalOrder();
+	_igarapeMaxCapacity = boatCapacity;
 
+	std::unordered_set<uint> visitable = GetVisitable(src); // O(|V|+|E|)
+
+	std::unordered_map<uint, std::vector<Order>> unreacheable;
+
+	std::swap(unreacheable, orders);
+	for (uint verId : visitable)
+	{
+		auto val = unreacheable.find(verId);
+		if (val != unreacheable.end())
+		{
+			orders.insert(std::make_pair(verId, std::move(unreacheable[verId])));
+			unreacheable.erase(verId);
+		}
+	}
+
+	std::unordered_map<uint, std::vector<Order>> reachableWithIgarapes;
+
+	if (numberOfSupportVessels > 0 && !unreacheable.empty())
+	{
+		_igarapeMaxCapacity = supportVesselCapacity;
+
+		std::unordered_set<uint> visitableWithIgarapes = GetVisitable(src);
+
+		for (uint verId : visitableWithIgarapes)
+		{
+			auto val = unreacheable.find(verId);
+			if (val != unreacheable.end())
+			{
+				reachableWithIgarapes.insert(std::make_pair(verId, std::move(unreacheable[verId])));
+				unreacheable.erase(verId);
+			}
+		}
+	}
+
+	std::unordered_map<uint, std::vector<Order>>::iterator it = orders.find(src);
+	if (it != orders.end()) 
+	{
+		orders.erase(it);
+	}
+
+	double totalWeight = std::accumulate(orders.begin(), orders.end(), 0.0,  
+		[] (double val, std::pair<const uint, std::vector<Order>> o1)					  
+	{							
+		for (const Order& ord : o1.second)
+			val += ord.GetWeight();	
+		
+		return val; 
+	});												  
+
+	/*for (std::unordered_map<uint, std::vector<Order>>::const_reference ord : orders)
+	{
+		std::unordered_set<uint> ords_i;
+		for (uint i = 0; i < ord.second.size(); ++i)
+			ords_i.insert(i);
+
+
+		KnapsackSolver(boatCapacity, ord.second, ords_i);
+	}*/
+
+	std::unordered_map<uint, uint> numberOfBoats; 
+	for(std::unordered_map<uint, std::vector<Order>>::const_reference ord : orders)
+	{
+		std::vector<Order> ords = ord.second; 
+		uint ordersVolume = std::accumulate(ords.begin(), ords.end(), 0, [] (double val, const Order & order)					  
+		{							
+			return val + order.GetVolume(); 
+		});
+
+		numberOfBoats.insert(std::make_pair(ord.first, ceill(ordersVolume / static_cast<double>(boatCapacity))));
+	}
+
+	std::unordered_map<uint, std::vector<Order>>::iterator ord;
+	for(std::unordered_map<uint, std::vector<Order>>::iterator ord = reachableWithIgarapes.begin(); ord != reachableWithIgarapes.end() && numberOfSupportVessels > 0; ord++)
+	{
+		std::vector<Order> ords = ord->second; 
+		double ordersVolume;
+		double boatCap = static_cast<double>(boatCapacity);
+		
+		for(std::vector<Order>::iterator orderIt = ords.begin(); orderIt != ords.end(); orderIt++)
+		{
+			double vol = orderIt->GetVolume() / boatCap;
+
+			if(ordersVolume + vol >= numberOfSupportVessels)
+			{
+				std::vector<Order> toRemove(orderIt, ords.end());
+				unreacheable.insert(std::make_pair(ord->first, std::move(toRemove)));
+				ords.erase(orderIt, ords.end());
+				break;
+			}
+			else
+				ordersVolume += vol; 
+
+			
+		}
+
+		uint boats = ceill(ordersVolume);
+
+		numberOfSupportVessels -= boats;
+		
+		numberOfBoats.insert(std::make_pair(ord->first, boats));
+	}
+
+	if (ord != reachableWithIgarapes.end())
+	{
+		unreacheable.insert(ord, reachableWithIgarapes.end());
+		reachableWithIgarapes.erase(ord, reachableWithIgarapes.end());
+	}
+
+
+	std::vector<uint> topoOrder = topologicalOrder();
 
 	size_t number_of_times = orders.size();
 	uint dijkstraSrc = src;
@@ -102,15 +184,14 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 
 		dijkstraSrc = *nextElem;
 
-		if (dijkstraSrc != src)
+		std::unordered_map<uint, std::vector<Order>>::iterator srcOrderIt;
+		if (dijkstraSrc != src && ((srcOrderIt = orders.find(dijkstraSrc)) != orders.end()))
 		{
-			size_t numOrders = orders.count(dijkstraSrc);
-			for (size_t i = 0; i < numOrders; ++i)
+			for (const Order& ord : srcOrderIt->second)
 			{
-				std::unordered_multimap<uint, Order>::iterator srcOrder = orders.find(dijkstraSrc);
-				totalWeight -= srcOrder->second.GetWeight();
-				orders.erase(srcOrder);
+				totalWeight -= ord.GetWeight();
 			}
+			orders.erase(srcOrderIt);
 		}
 
 		if (path1.size() != 0 && i == (number_of_times - 1))
@@ -138,11 +219,10 @@ HydographicNetwork::Delivery HydographicNetwork::GetDeliveryPath(uint src, std::
 	return Delivery(this, std::move(path));
 }
 
-void HydographicNetwork::ViewGraph() const
+void HydrographicNetwork::ViewGraph() const
 {
 	GraphViewer gv(600, 600, true);
 	gv.createWindow(600, 600);
-
 	gv.defineVertexColor(DARK_GRAY);
 	gv.defineEdgeColor(BLUE);
 
@@ -166,7 +246,7 @@ void HydographicNetwork::ViewGraph() const
 	gv.rearrange();
 }
 
-std::vector<uint> HydographicNetwork::topologicalOrder() const 
+std::vector<uint> HydrographicNetwork::topologicalOrder() const 
 {
 	std::vector<uint> res;
 
@@ -217,7 +297,7 @@ std::vector<uint> HydographicNetwork::topologicalOrder() const
 	return res;
 }
 
-int HydographicNetwork::getNumCycles() const
+int HydrographicNetwork::getNumCycles() const
 {
 	int result = 0;
 	std::map<uint, bool> visitedVertices;
@@ -271,37 +351,40 @@ int HydographicNetwork::getNumCycles() const
 	return result;
 }
 
-uint HydographicNetwork::AddVillage(const Village& info)
+uint HydrographicNetwork::AddVillage(const Village& info)
 {
 	return AddVertex(info);
 }
 
-bool HydographicNetwork::RemoveVillage(uint id)
+bool HydrographicNetwork::RemoveVillage(uint id)
 {
 	return RemoveVertex(id);
 }
 
-uint HydographicNetwork::AddRiver(uint sourceVilalge, uint destVillage, const River& weight)
+uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const River& weight)
 {
-	uint riverId = _nextRiverId++;
+	uint riverId = _nextRiverId++;	
+
+	if (AddEdge(sourceVillage, destVillage, RiverEdge(riverId, true)))
+	{
+		if (!AddEdge(destVillage, sourceVillage, RiverEdge(riverId, false)))
+		{
+			RemoveEdge(sourceVillage, destVillage);
+			_nextRiverId--;
+			return -1;
+		}
+	}
+
 	_rivers.insert(std::make_pair(riverId, weight));
-
-	if (AddEdge(sourceVilalge, destVillage, RiverEdge(riverId, true)))
-		if (AddEdge(destVillage, sourceVilalge, RiverEdge(riverId, false)))
-			return riverId;
-
-	_rivers.erase(riverId);
-	_nextRiverId--;
-
-	return -1;
+	return riverId;
 }
 
-bool HydographicNetwork::RemoveRiver(uint sourceId, uint destId)
+bool HydrographicNetwork::RemoveRiver(uint sourceId, uint destId)
 {
 	return RemoveEdge(sourceId, destId);
 }
 
-const River& HydographicNetwork::GetRiver(uint id) const
+const River& HydrographicNetwork::GetRiver(uint id) const
 {
 	return _rivers.at(id);
 }
@@ -311,7 +394,7 @@ double RiverEdge::GetWeight() const
 	return 1.0 + !FollowsFlow;
 }
 
-void HydographicNetwork::Delivery::ViewGraph() const
+void HydrographicNetwork::Delivery::ViewGraph() const
 {
 	GraphViewer gv(600, 600, true);
 	gv.createWindow(600, 600);
@@ -360,7 +443,7 @@ void HydographicNetwork::Delivery::ViewGraph() const
 	gv.rearrange();
 }
 
-Graph<Village, RiverEdge>::DijkstraShortestPath HydographicNetwork::dijkstraShortestPath(uint srcId) const 
+Graph<Village, RiverEdge>::DijkstraShortestPath HydrographicNetwork::dijkstraShortestPath(uint srcId) const 
 {
 	struct VertexAux
 	{
@@ -426,7 +509,7 @@ Graph<Village, RiverEdge>::DijkstraShortestPath HydographicNetwork::dijkstraShor
 	return result;
 }
 
-std::unordered_set<uint> HydographicNetwork::GetVisitable(uint srcId) const
+std::unordered_set<uint> HydrographicNetwork::GetVisitable(uint srcId) const
 {
 	std::unordered_set<uint> result;
 	std::queue<uint> vers;
@@ -450,3 +533,53 @@ std::unordered_set<uint> HydographicNetwork::GetVisitable(uint srcId) const
 
 	return result;
 }
+
+std::unordered_set<uint> HydrographicNetwork::KnapsackSolver(double max_capacity, const std::vector<Order>& orders, std::unordered_set<uint>& orders_i)
+{
+	std::vector<std::vector<uint>> values(orders_i.size() + 1, std::vector<uint>(max_capacity + 1, 0));
+	std::vector<std::vector<uint>> best(orders_i.size() + 1, std::vector<uint>(max_capacity + 1, 0));
+
+	uint i = 1;
+	for (uint ord_i : orders_i)
+	{
+		for (uint j = 1; j < max_capacity; ++j)
+		{
+			if (orders[ord_i].GetVolume() <= j)
+			{
+				if (orders[ord_i].GetVolume() + values[i-1][j - orders[ord_i].GetVolume()] > values[i-1][j])
+				{
+					values[i][j] = orders[i].GetVolume() + values[i-1][j - orders[ord_i].GetVolume()];
+					best[i][j] = i;
+				}
+				else
+				{
+					values[i][j] = values[i-1][j];
+					best[i][j] = best[i-1][j];
+				}
+
+			}
+			else
+			{
+				values[i][j] = values[i-1][j];
+				best[i][j] = best[i-1][j];
+			}
+		}
+		++i;
+	}
+
+	uint volume = max_capacity;
+	uint item = orders_i.size() - 1;
+
+	std::unordered_set<uint> result;
+
+	while (item > 0 && best[item][volume] != 0)
+	{
+		result.insert(best[item][volume]);
+		orders_i.erase(best[item][volume]);
+		volume -= orders[ best[item][volume] ].GetVolume();
+		item--;
+	}
+
+	return result;
+}
+

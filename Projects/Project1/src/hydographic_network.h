@@ -12,6 +12,7 @@
 #include <limits>
 #include <unordered_set>
 #include <unordered_map>
+#include <set>
 
 struct RiverEdge
 {
@@ -24,7 +25,7 @@ struct RiverEdge
 	double GetWeight() const;
 };
 
-class HydographicNetwork : protected Graph<Village, RiverEdge>
+class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:
 	struct Delivery
@@ -36,16 +37,16 @@ public:
 			bool followsFlow;
 			bool isIgarape;
 		};
-		Delivery(const HydographicNetwork* hn, const std::vector<PathInfo>& path) : hn(hn), Path(path) { }
-		Delivery(const HydographicNetwork* hn, const std::vector<PathInfo>&& path) : hn(hn), Path(path) { }
+		Delivery(const HydrographicNetwork* hn, const std::vector<PathInfo>& path) : hn(hn), Path(path) { }
+		Delivery(const HydrographicNetwork* hn, const std::vector<PathInfo>&& path) : hn(hn), Path(path) { }
 		const std::vector<PathInfo> Path;
-		const HydographicNetwork* hn;
+		const HydrographicNetwork* hn;
 		void ViewGraph() const;
 	};
 	
-	HydographicNetwork() : _nextRiverId(0), _igarapeMaxCapacity(0.) { }
+	HydrographicNetwork() : _nextRiverId(0), _igarapeMaxCapacity(0.) { }
 
-	Delivery GetDeliveryPath(uint src, std::unordered_multimap<uint, Order> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
+	Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
 
     void ViewGraph() const;
 
@@ -65,6 +66,8 @@ public:
 
 	DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
 	std::unordered_set<uint> GetVisitable(uint srcId) const;
+
+	std::unordered_set<uint> KnapsackSolver(double max_capacity, const std::vector<Order>& orders, std::unordered_set<uint>& orders_i);
 
 private:
 	typedef std::unordered_map<uint, River> RiversContainer;
