@@ -18,10 +18,12 @@ struct Delivery
         bool isIgarape;
     };
 
-    Delivery(const std::unordered_map<uint, std::vector<PathInfo>>& path) : Path(path) { }
-    Delivery(const std::unordered_map<uint, std::vector<PathInfo>>&& path) : Path(path) { }
+	typedef std::unordered_map<uint, std::vector<Delivery::PathInfo>> PathInfoMap;
 
-    std::unordered_map<uint, std::vector<Delivery::PathInfo>> Path;
+    Delivery(const PathInfoMap& path) : Path(path) { }
+    Delivery(const PathInfoMap&& path) : Path(path) { }
+
+    PathInfoMap Path;
     static Delivery Load(std::istream& source, HydrographicNetwork& hn);
 };
 

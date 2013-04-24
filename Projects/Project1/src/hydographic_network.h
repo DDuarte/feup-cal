@@ -43,6 +43,7 @@ public:
 	
     static bool Load(std::istream& source, HydrographicNetwork& hn);
 
+	Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
 	Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
 
     void ViewGraph();
@@ -50,9 +51,6 @@ public:
 
 	int getNumCycles() const override;
 	std::vector<uint> topologicalOrder() const override;
-
-	/*const Village& GetVillage(uint id) const;
-	Village GetVillage(uint id);*/
 
 	const River& GetRiver(uint id) const { return _rivers.at(id); }
 
@@ -64,8 +62,6 @@ public:
 
 	DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
 	std::unordered_set<uint> GetVisitable(uint srcId) const;
-
-	std::unordered_set<uint> KnapsackSolver(uint maxCapacity, const std::vector<Order>& orders, std::unordered_set<uint>& orders_i);
 
     GraphViewer* GetGraphViewer() const { return _graphViewer; }
 
