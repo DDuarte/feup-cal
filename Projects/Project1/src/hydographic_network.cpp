@@ -5,19 +5,16 @@
 
 #include <numeric>
 #include <set>
+#include <cassert>
 #include <cmath>
 
-HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double changeInRiverCapacity)
+Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double changeInRiverCapacity)
 {
 	std::vector<Delivery::PathInfo> path;
 
 	if (changeInRiverCapacity != 1.0)
-	{
 		for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
-		{
-			rit->second.SetMaxCapacity(rit->second.GetMaxCapacity() * changeInRiverCapacity);
-		}
-	}
+			rit->second.MultiplyMaxCapacity(changeInRiverCapacity);
 
 	_igarapeMaxCapacity = boatCapacity;
 
@@ -81,29 +78,29 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 	}*/
 
 	std::unordered_map<uint, uint> numberOfBoats; 
-	for(std::unordered_map<uint, std::vector<Order>>::const_reference ord : orders)
+	for (std::unordered_map<uint, std::vector<Order>>::const_reference ord : orders)
 	{
 		std::vector<Order> ords = ord.second; 
-		uint ordersVolume = std::accumulate(ords.begin(), ords.end(), 0, [] (double val, const Order & order)					  
+		uint ordersVolume = std::accumulate(ords.begin(), ords.end(), 0, [] (uint val, const Order & order)					  
 		{							
 			return val + order.GetVolume(); 
 		});
 
-		numberOfBoats.insert(std::make_pair(ord.first, ceill(ordersVolume / static_cast<double>(boatCapacity))));
+		numberOfBoats.insert(std::make_pair(ord.first, static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity)))));
 	}
 
 	std::unordered_map<uint, std::vector<Order>>::iterator ord;
 	for(std::unordered_map<uint, std::vector<Order>>::iterator ord = reachableWithIgarapes.begin(); ord != reachableWithIgarapes.end() && numberOfSupportVessels > 0; ord++)
 	{
 		std::vector<Order> ords = ord->second; 
-		double ordersVolume;
+		double ordersVolume = 0.0;
 		double boatCap = static_cast<double>(boatCapacity);
 		
 		for(std::vector<Order>::iterator orderIt = ords.begin(); orderIt != ords.end(); orderIt++)
 		{
 			double vol = orderIt->GetVolume() / boatCap;
 
-			if(ordersVolume + vol >= numberOfSupportVessels)
+			if (ordersVolume + vol >= numberOfSupportVessels)
 			{
 				std::vector<Order> toRemove(orderIt, ords.end());
 				unreacheable.insert(std::make_pair(ord->first, std::move(toRemove)));
@@ -111,12 +108,10 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 				break;
 			}
 			else
-				ordersVolume += vol; 
-
-			
+				ordersVolume += vol; 			
 		}
 
-		uint boats = ceill(ordersVolume);
+		uint boats = static_cast<uint>(ceil(ordersVolume));
 
 		numberOfSupportVessels -= boats;
 		
@@ -131,7 +126,6 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 
 
 	std::vector<uint> topoOrder = topologicalOrder();
-
 	size_t number_of_times = orders.size();
 	uint dijkstraSrc = src;
 	for (size_t i = 0; i < number_of_times; ++i) 
@@ -143,7 +137,8 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 		std::vector<uint> minimumDists;
 
 		for (DijkstraShortestPath::const_reference elem : shrtPath)
-			if (elem.first != dijkstraSrc && (orders.find(elem.first) != orders.end())) 
+			if (elem.first != dijkstraSrc && (orders.find(elem.first) != orders.end()))
+            {
 				if (elem.second.Dist < minDist)
 				{
 					minDist = elem.second.Dist;
@@ -152,10 +147,12 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 				}
 				else if (elem.second.Dist == minDist)
 					minimumDists.push_back(elem.first);
+            }
 
-		auto nextElem = std::min_element(minimumDists.begin(), minimumDists.end(), [ &topoOrder](uint const& r, uint const& s){
-			auto i = std::distance( topoOrder.begin(), std::find(topoOrder.begin(), topoOrder.end(), r)); 
-			auto j = std::distance( topoOrder.begin(), std::find(topoOrder.begin(), topoOrder.end(), s)); 
+		auto nextElem = std::min_element(minimumDists.begin(), minimumDists.end(), [&topoOrder](uint const& r, uint const& s)
+        {
+			auto i = std::distance(topoOrder.begin(), std::find(topoOrder.begin(), topoOrder.end(), r)); 
+			auto j = std::distance(topoOrder.begin(), std::find(topoOrder.begin(), topoOrder.end(), s)); 
 			return i < j;
 		});
 
@@ -205,46 +202,93 @@ HydrographicNetwork::Delivery HydrographicNetwork::GetDeliveryPath(uint src, std
 
 	}
 
-	if (changeInRiverCapacity != 1.0)
-	{
-		double invChangeInRiverCapacity = 1.0 / changeInRiverCapacity;
-		for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
-		{
-			rit->second.SetMaxCapacity(rit->second.GetMaxCapacity() * invChangeInRiverCapacity);
-		}
-	}
+    if (changeInRiverCapacity != 1.0)
+    {
+        double invChangeInRiverCapacity = 1.0 / changeInRiverCapacity;
+        for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
+            rit->second.MultiplyMaxCapacity(invChangeInRiverCapacity);
+    }
 
 	_igarapeMaxCapacity = 0.;
 
-	return Delivery(this, std::move(path));
+	return Delivery(std::move(path));
 }
 
-void HydrographicNetwork::ViewGraph() const
+void HydrographicNetwork::ViewGraph()
 {
-	GraphViewer gv(600, 600, true);
-	gv.createWindow(600, 600);
-	gv.defineVertexColor(DARK_GRAY);
-	gv.defineEdgeColor(BLUE);
+    if (_graphViewer == nullptr)
+    {
+        // new window
+        _graphViewer = new GraphViewer(800, 600, false);
+        //_graphViewer->setBackground("water1.jpg");
+        _graphViewer->createWindow(800, 600);
+    }
+    else
+    {
+        // remove existing nodes/edges
+        for (auto& v : _vertices)
+            _graphViewer->removeNode(v.first);
 
-	int edgeId = 1;
+        for (auto& r : _rivers)
+            _graphViewer->removeEdge(r.first);
+    }
 
-	for (std::map<uint, Vertex*>::value_type v : _vertices)
-	{
-		gv.addNode(v.first);
-		gv.setVertexLabel(v.first, v.second->info.GetName());
+    _graphViewer->defineVertexColor(DARK_GRAY);
+    _graphViewer->defineEdgeColor(BLUE);
 
-		for (Edge& e : v.second->adj)
-		{
-			gv.addEdge(edgeId, v.first, e.idDest, EdgeType::DIRECTED);
-			gv.setEdgeThickness(edgeId, 50 / GetRiver(e.weight.RiverId).GetMaxCapacity());
-			gv.setEdgeLabel(edgeId, GetRiver(e.weight.RiverId).GetName());
+    for (std::map<uint, Vertex*>::value_type v : _vertices)
+    {
+        _graphViewer->addNode(v.first, static_cast<int>(v.second->info.GetX()), static_cast<int>(v.second->info.GetY()));
+        _graphViewer->setVertexLabel(v.first, v.second->info.GetName());
 
-			edgeId += 1;
-		}
-	}
+        for (Edge& e : v.second->adj)
+        {
+            if (!e.weight.FollowsFlow)
+                continue;
 
-	gv.rearrange();
+            _graphViewer->addEdge(_tempEdgeId, v.first, e.idDest, EdgeType::DIRECTED);
+            _graphViewer->setEdgeThickness(_tempEdgeId, 50 / GetRiver(e.weight.RiverId).GetMaxCapacity());
+            _graphViewer->setEdgeLabel(_tempEdgeId, GetRiver(e.weight.RiverId).GetName());
+
+            _tempEdgeId += 1;
+        }
+    }
+
+    _graphViewer->rearrange();
 }
+
+void HydrographicNetwork::ViewGraph(Delivery& delivery, const std::string& color)
+{
+    if (_graphViewer == nullptr)
+        return; // throw?
+
+    for (auto& v : _vertices)
+        _graphViewer->setVertexLabel(v.first, " \b");
+
+    for (auto& r : _rivers)
+        _graphViewer->setEdgeLabel(r.first, " \b");
+
+    for (std::pair<uint, std::vector<Delivery::PathInfo>> d : delivery.Path)
+    {
+        _graphViewer->setVertexColor(d.second.front().villageId, GREEN);
+
+        for (size_t i = 0; i < d.second.size() - 1; ++i)
+        {
+            _graphViewer->addEdge(_tempEdgeId, d.second[i].villageId, d.second[i + 1].villageId, EdgeType::DIRECTED);
+            _graphViewer->setEdgeColor(_tempEdgeId, color);
+            _graphViewer->setEdgeLabel(_tempEdgeId, std::to_string(i + 1));
+
+            // Animation:
+            Sleep(800);
+            _graphViewer->rearrange();
+
+            _tempEdgeId += 1;
+        }
+
+        _graphViewer->rearrange();
+    }
+}
+
 
 std::vector<uint> HydrographicNetwork::topologicalOrder() const 
 {
@@ -351,96 +395,73 @@ int HydrographicNetwork::getNumCycles() const
 	return result;
 }
 
-uint HydrographicNetwork::AddVillage(const Village& info)
-{
-	return AddVertex(info);
-}
-
-bool HydrographicNetwork::RemoveVillage(uint id)
-{
-	return RemoveVertex(id);
-}
-
 uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const River& weight)
 {
-	uint riverId = _nextRiverId++;	
+    uint riverId = _nextRiverId++;
 
-	if (AddEdge(sourceVillage, destVillage, RiverEdge(riverId, true)))
-	{
-		if (!AddEdge(destVillage, sourceVillage, RiverEdge(riverId, false)))
-		{
-			RemoveEdge(sourceVillage, destVillage);
-			_nextRiverId--;
-			return -1;
-		}
-	}
+    double x1 = _vertices[sourceVillage]->info.GetX();
+    double y1 = _vertices[sourceVillage]->info.GetY();
 
-	_rivers.insert(std::make_pair(riverId, weight));
-	return riverId;
+    double x2 = _vertices[destVillage]->info.GetX();
+    double y2 = _vertices[destVillage]->info.GetY();
+
+    double d = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    if (AddEdge(sourceVillage, destVillage, RiverEdge(d, riverId, true)))
+    {
+        if (!AddEdge(destVillage, sourceVillage, RiverEdge(d, riverId, false)))
+        {
+            RemoveEdge(sourceVillage, destVillage);
+            _nextRiverId--;
+            return -1;
+        }
+    }
+
+    _rivers.insert(std::make_pair(riverId, weight));
+    return riverId;
 }
 
-bool HydrographicNetwork::RemoveRiver(uint sourceId, uint destId)
+HydrographicNetwork::~HydrographicNetwork()
 {
-	return RemoveEdge(sourceId, destId);
+    if (_graphViewer != nullptr)
+        delete _graphViewer;
 }
 
-const River& HydrographicNetwork::GetRiver(uint id) const
+bool HydrographicNetwork::Load(std::istream& source, HydrographicNetwork& hn)
 {
-	return _rivers.at(id);
-}
+    try
+    {
+        uint villageCount;
+        source >> villageCount;
 
-double RiverEdge::GetWeight() const
-{
-	return 1.0 + !FollowsFlow;
-}
+        for (uint i = 0; i < villageCount; ++i)
+        {
+            uint id;
+            double x, y;
+            std::string name;
+            source >> id >> x >> y >> name;
+            x *= 15;
+            y *= 15;
+            assert(hn.AddVillage(Village(name, x, y)) == id);
+        }
 
-void HydrographicNetwork::Delivery::ViewGraph() const
-{
-	GraphViewer gv(600, 600, true);
-	gv.createWindow(600, 600);
+        uint riverCount;
+        source >> riverCount;
 
-	gv.defineVertexColor(DARK_GRAY);
-	gv.defineEdgeColor(BLUE);
+        for (uint i = 0; i < riverCount; ++i)
+        {
+            uint idS, idD, capacity;
+            std::string name;
+            source >> idS >> idD >> capacity >> name;
+            hn.AddRiver(idS, idD, River(name, capacity));
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception """ << e.what() << """ occurred when loading Hydrographic Network." << std::endl;
+    	return false;
+    }
 
-	int edgeId = 1;
-	std::map<const Edge*, int> edges;
-
-	for (std::map<uint, Vertex*>::value_type v : hn->_vertices)
-	{
-		gv.addNode(v.first);
-		gv.setVertexLabel(v.first, v.second->info.GetName());
-
-		for (Edge& e : v.second->adj)
-		{
-			gv.addEdge(edgeId, v.first, e.idDest, EdgeType::DIRECTED);
-			gv.setEdgeThickness(edgeId, 50 / hn->GetRiver(e.weight.RiverId).GetMaxCapacity());
-			gv.setEdgeLabel(edgeId, hn->GetRiver(e.weight.RiverId).GetName());
-
-			edges.insert(std::make_pair(&e, edgeId));
-
-			edgeId += 1;
-		}
-	}
-
-	std::vector<PathInfo>::const_iterator finalVertex = Path.begin() + Path.size() - 1;
-	for (std::vector<PathInfo>::const_iterator verIdIt = Path.begin(); verIdIt != finalVertex; verIdIt++)
-	{
-		const Vertex& ver = *(hn->_vertices.at(verIdIt->villageId));
-		std::vector<PathInfo>::const_iterator nextVertexId = verIdIt + 1;
-		for (const Edge& e : ver.adj)
-		{
-			if (e.idDest == nextVertexId->villageId)
-			{
-				gv.setEdgeColor(edges.at(&e), BLACK);
-				break;
-			}
-		}
-	}
-
-
-	
-
-	gv.rearrange();
+    return true;
 }
 
 Graph<Village, RiverEdge>::DijkstraShortestPath HydrographicNetwork::dijkstraShortestPath(uint srcId) const 
@@ -534,15 +555,15 @@ std::unordered_set<uint> HydrographicNetwork::GetVisitable(uint srcId) const
 	return result;
 }
 
-std::unordered_set<uint> HydrographicNetwork::KnapsackSolver(double max_capacity, const std::vector<Order>& orders, std::unordered_set<uint>& orders_i)
+std::unordered_set<uint> HydrographicNetwork::KnapsackSolver(uint maxCapacity, const std::vector<Order>& orders, std::unordered_set<uint>& orders_i)
 {
-	std::vector<std::vector<uint>> values(orders_i.size() + 1, std::vector<uint>(max_capacity + 1, 0));
-	std::vector<std::vector<uint>> best(orders_i.size() + 1, std::vector<uint>(max_capacity + 1, 0));
+	std::vector<std::vector<uint>> values(orders_i.size() + 1, std::vector<uint>(maxCapacity + 1, 0));
+	std::vector<std::vector<uint>> best(orders_i.size() + 1, std::vector<uint>(maxCapacity + 1, 0));
 
 	uint i = 1;
 	for (uint ord_i : orders_i)
 	{
-		for (uint j = 1; j < max_capacity; ++j)
+		for (uint j = 1; j < maxCapacity; ++j)
 		{
 			if (orders[ord_i].GetVolume() <= j)
 			{
@@ -567,7 +588,7 @@ std::unordered_set<uint> HydrographicNetwork::KnapsackSolver(double max_capacity
 		++i;
 	}
 
-	uint volume = max_capacity;
+	uint volume = maxCapacity;
 	uint item = orders_i.size() - 1;
 
 	std::unordered_set<uint> result;

@@ -6,17 +6,17 @@
 class River
 {
 public:
-    River(const std::string& name = "", double maxCapacity = 0.0) : _name(name), _maxCapacity(maxCapacity) { }
+    River(const std::string& name, uint maxCapacity) : _name(name), _maxCapacity(static_cast<double>(maxCapacity)) { }
+    River(const River& other) : _name(other._name), _maxCapacity(other._maxCapacity) { }
 
     const std::string& GetName() const { return _name; }
-    double GetMaxCapacity()  const { return _maxCapacity; }
+    uint GetMaxCapacity()  const { return static_cast<uint>(_maxCapacity); }
 
-    void SetName(const std::string& newName) { _name = newName; }
-	void SetMaxCapacity(double newMaxCapacity) { _maxCapacity = newMaxCapacity; }
+    void MultiplyMaxCapacity(double factor) { _maxCapacity *= factor; }
 
 private:
-    std::string _name;
-    double            _maxCapacity;
+    const std::string _name;
+    double _maxCapacity;
 };
 
 #endif // RIVER_H_

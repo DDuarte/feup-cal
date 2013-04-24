@@ -4,17 +4,16 @@
 class Order
 {
 public:
-    Order(double weight, int volume) : _weight(weight), _volume(volume) { }
+    Order(double weight, uint volume) : _weight(weight), _volume(volume) { }
+    Order(const Order& other) : _weight(other._weight), _volume(other._volume) { }
+    Order operator=(const Order& other) const { return Order(other); }
 
     double    GetWeight() const { return _weight; }
-    int        GetVolume() const { return _volume; }
-
-    void SetWeight(double newWeight)  { _weight = newWeight; }
-    void SetVolume(int newVolume) { _volume = newVolume; }
+    uint      GetVolume() const { return _volume; }
 
 private:
-    double    _weight;
-    int        _volume;
+    const double    _weight;
+    const uint      _volume;
 };
 
 #endif // ORDER_H_

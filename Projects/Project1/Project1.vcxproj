@@ -71,6 +71,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>cute;graphviewer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="graphviewer\connection.cpp" />
     <ClCompile Include="graphviewer\graphviewer.cpp" />
+    <ClCompile Include="src\delivery.cpp" />
     <ClCompile Include="src\hydographic_network.cpp" />
     <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
@@ -162,6 +164,7 @@
     <ClInclude Include="graphviewer\edgetype.h" />
     <ClInclude Include="graphviewer\graphviewer.h" />
     <ClInclude Include="src\defs.h" />
+    <ClInclude Include="src\delivery.h" />
     <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\hydographic_network.h" />
     <ClInclude Include="src\order.h" />

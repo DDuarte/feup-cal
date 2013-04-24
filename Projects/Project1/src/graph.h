@@ -116,7 +116,6 @@ public:
 	std::vector<uint> getSources() const;
 	virtual DijkstraShortestPath dijkstraShortestPath(uint srcId) const;
 	void copyInvertedEdges(E w);
-	GraphViewer* ShowGraph();
 
 protected:
 	uint _nextId;
@@ -174,23 +173,6 @@ std::vector<uint> Graph<V, E>::topologicalOrder(uint srcId) const
 	resetIndegrees();
 
 	return res;
-}
-
-template <class V, class E>
-GraphViewer* Graph<V, E>::ShowGraph()
-{
-	GraphViewer* gv = new GraphViewer(600, 600, true);
-
-	for (const auto& ver: _vertices)
-		gv->addNode(ver.first);
-
-	int i = 0;
-
-	for (const auto& ver: _vertices)
-		for (const Edge& edge : ver.second->adj)
-			gv->addEdge(i++, ver.first, edge.idDest, EdgeType::DIRECTED);
-
-	return gv;
 }
 
 template <class V, class E>
