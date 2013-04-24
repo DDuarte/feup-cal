@@ -26,5 +26,5 @@ Delivery Delivery::Load(std::istream& source, HydrographicNetwork& hn)
         return Delivery(std::unordered_map<uint, std::vector<PathInfo>>());
     }
 
-    return hn.GetDeliveryItinerary(villageSource, orders, 100.0);
+    return hn.GetDeliveryPath(villageSource, orders, 100.0);
 }

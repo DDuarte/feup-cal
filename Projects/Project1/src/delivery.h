@@ -18,7 +18,7 @@ struct Delivery
         bool isIgarape;
     };
 
-	typedef std::unordered_map<uint, std::vector<Delivery::PathInfo>> PathInfoMap;
+    typedef std::unordered_map<uint, std::vector<Delivery::PathInfo>> PathInfoMap;
 
     Delivery(const PathInfoMap& path) : Path(path) { }
     Delivery(const PathInfoMap&& path) : Path(path) { }

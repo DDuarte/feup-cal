@@ -21,12 +21,12 @@ class GraphViewer;
 struct RiverEdge
 {
     RiverEdge() : Distance(-1), RiverId(std::numeric_limits<uint>::max()), FollowsFlow(false) { }
-	RiverEdge(double d, uint ri, bool ff) : Distance(d), RiverId(ri), FollowsFlow(ff) { }
-	uint RiverId;
-	bool FollowsFlow;
+    RiverEdge(double d, uint ri, bool ff) : Distance(d), RiverId(ri), FollowsFlow(ff) { }
+    uint RiverId;
+    bool FollowsFlow;
     double Distance;
 
-	double GetWeight() const
+    double GetWeight() const
     {
         if (FollowsFlow)
             return Distance;
@@ -38,37 +38,37 @@ struct RiverEdge
 class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:
-	HydrographicNetwork() : _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
+    HydrographicNetwork() : _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
     ~HydrographicNetwork();
-	
+
     static bool Load(std::istream& source, HydrographicNetwork& hn);
 
-	Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
-	Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
+    Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
+    Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
 
     void ViewGraph();
     void ViewGraph(Delivery& delivery, const std::string& color);
 
-	int getNumCycles() const override;
-	std::vector<uint> topologicalOrder() const override;
+    int getNumCycles() const override;
+    std::vector<uint> topologicalOrder() const override;
 
-	const River& GetRiver(uint id) const { return _rivers.at(id); }
+    const River& GetRiver(uint id) const { return _rivers.at(id); }
 
-	uint AddVillage(const Village& info) { return AddVertex(info); }
-	bool RemoveVillage(uint id) { return RemoveVertex(id); } 
+    uint AddVillage(const Village& info) { return AddVertex(info); }
+    bool RemoveVillage(uint id) { return RemoveVertex(id); }
 
-	uint AddRiver(uint sourceVilalge, uint destVillage, const River& weight);
-	bool RemoveRiver(uint sourceId, uint destId) { return RemoveEdge(sourceId, destId); }
+    uint AddRiver(uint sourceVilalge, uint destVillage, const River& weight);
+    bool RemoveRiver(uint sourceId, uint destId) { return RemoveEdge(sourceId, destId); }
 
-	DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
-	std::unordered_set<uint> GetVisitable(uint srcId) const;
+    DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
+    std::unordered_set<uint> GetVisitable(uint srcId) const;
 
     GraphViewer* GetGraphViewer() const { return _graphViewer; }
 
 private:
-	typedef std::unordered_map<uint, River> RiversContainer;
-	RiversContainer _rivers;
-	uint _nextRiverId;
+    typedef std::unordered_map<uint, River> RiversContainer;
+    RiversContainer _rivers;
+    uint _nextRiverId;
     uint _tempEdgeId;
     double _igarapeMaxCapacity;
     GraphViewer* _graphViewer;

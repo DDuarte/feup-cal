@@ -13,7 +13,7 @@ public:
     std::string GetName() const { return _name; }
     int GetCapacity() const { return _capacity; }
     bool HasSupportVessel() const { return _supportVesselCapacity != 0; }
-	int GetSupportVesselCapacity() const { return _supportVesselCapacity; }
+    int GetSupportVesselCapacity() const { return _supportVesselCapacity; }
 private:
     const std::string _name;
     const int            _capacity;
