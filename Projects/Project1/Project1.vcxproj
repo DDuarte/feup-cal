@@ -135,7 +135,7 @@
     <ClCompile Include="graphviewer\connection.cpp" />
     <ClCompile Include="graphviewer\graphviewer.cpp" />
     <ClCompile Include="src\delivery.cpp" />
-    <ClCompile Include="src\hydographic_network.cpp" />
+    <ClCompile Include="src\hydrographic_network.cpp" />
     <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +166,7 @@
     <ClInclude Include="src\defs.h" />
     <ClInclude Include="src\delivery.h" />
     <ClInclude Include="src\graph.h" />
-    <ClInclude Include="src\hydographic_network.h" />
+    <ClInclude Include="src\hydrographic_network.h" />
     <ClInclude Include="src\order.h" />
     <ClInclude Include="src\river.h" />
     <ClInclude Include="src\ship.h" />
