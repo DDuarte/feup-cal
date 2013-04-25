@@ -38,6 +38,12 @@ struct RiverEdge
 class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:
+    typedef std::unordered_map<uint, std::vector<Order>> OrderMap;
+    typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
+    typedef std::vector<uint> Path;
+    typedef std::unordered_map<uint, Path> DeliveryMap;
+    typedef std::unordered_set<uint> VertexSet;
+
     HydrographicNetwork() : _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
     ~HydrographicNetwork();
 
@@ -74,6 +80,7 @@ private:
     uint _tempEdgeId;
     double _igarapeMaxCapacity;
     GraphViewer* _graphViewer;
+    OrderMap FilterUnreacheable(uint src, OrderMap &orders);
 };
 
 #endif // HYDOGRAPHIC_NETWORK_H_

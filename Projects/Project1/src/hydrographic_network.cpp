@@ -196,47 +196,18 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
     if (_vertices.empty())
         throw std::runtime_error("No Villages found!");
 
-    typedef std::unordered_map<uint, std::vector<Order>> OrderMap;
-    typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
-    typedef std::vector<uint> Path;
-    typedef std::unordered_map<uint, Path> DeliveryMap;
-    typedef std::unordered_set<uint> VertexSet;
-
     // Test to see which destinations are reachable without transversing igarapes
     _igarapeMaxCapacity = boatCapacity;
 
-    VertexSet visitable = GetVisitable(src);
-
-    OrderMap unreacheable;
-
-    std::swap(unreacheable, orders);
-    for (VertexSet::value_type verId : visitable)
-    {
-        OrderMap::iterator val = unreacheable.find(verId);
-        if (val != unreacheable.end())
-        {
-            orders.insert(std::make_pair(verId, std::move(unreacheable[verId])));
-            unreacheable.erase(verId);
-        }
-    }
+    OrderMap unreacheable = FilterUnreacheable(src, orders);
 
     OrderMap reachableWithIgarapes;
 
     if (numberOfSupportVessels > 0 && !unreacheable.empty())
     {
         _igarapeMaxCapacity = supportVesselCapacity;
-
-        VertexSet visitableWithIgarapes = GetVisitable(src);
-
-        for (VertexSet::value_type verId : visitableWithIgarapes)
-        {
-            OrderMap::iterator val = unreacheable.find(verId);
-            if (val != unreacheable.end())
-            {
-                reachableWithIgarapes.insert(std::make_pair(verId, std::move(unreacheable[verId])));
-                unreacheable.erase(verId);
-            }
-        }
+        std::swap(unreacheable, reachableWithIgarapes);
+        unreacheable = FilterUnreacheable(src, reachableWithIgarapes);
     }
 
     OrderMap::iterator it = orders.find(src);
@@ -806,4 +777,24 @@ void HydrographicNetwork::ChangeRiversCapacity(double factor)
     if (factor != 1.0)
         for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
             rit->second.MultiplyMaxCapacity(factor);
+}
+
+HydrographicNetwork::OrderMap HydrographicNetwork::FilterUnreacheable(uint src, OrderMap &orders)
+{
+    VertexSet visitable = GetVisitable(src);
+
+    OrderMap unreacheable;
+
+    std::swap(unreacheable, orders);
+    for (VertexSet::value_type verId : visitable)
+    {
+        OrderMap::iterator val = unreacheable.find(verId);
+        if (val != unreacheable.end())
+        {
+            orders.insert(std::make_pair(verId, std::move(unreacheable[verId])));
+            unreacheable.erase(verId);
+        }
+    }
+
+    return std::move(unreacheable);
 }
