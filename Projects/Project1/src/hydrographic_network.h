@@ -80,7 +80,7 @@ private:
     uint _tempEdgeId;
     double _igarapeMaxCapacity;
     GraphViewer* _graphViewer;
-    OrderMap FilterUnreacheable(uint src, OrderMap &orders);
+    OrderMap FilterUnreachable(uint src, OrderMap &orders);
 };
 
 #endif // HYDOGRAPHIC_NETWORK_H_
