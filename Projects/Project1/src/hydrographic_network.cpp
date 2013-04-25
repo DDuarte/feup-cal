@@ -204,6 +204,9 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
 Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity /*= 0.0*/, int numberOfSupportVessels /*= 0*/, double changeInRiverCapacity /*= 1.0*/)
 {
+    if (_vertices.empty())
+        throw std::runtime_error("No Villages found!");
+
     typedef std::unordered_map<uint, std::vector<Order>> OrderMap;
     typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
     typedef std::vector<uint> Path;
