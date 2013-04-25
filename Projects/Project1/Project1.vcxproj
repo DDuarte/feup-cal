@@ -78,7 +78,8 @@
       <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)graphviewer\GraphViewerController.jar" "$(TargetDir)"</Command>
+      <Command>copy "$(ProjectDir)graphviewer\GraphViewerController.jar" "$(TargetDir)"
+xcopy "$(ProjectDir)resources\*" "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying GraphViewerController.jar to target directory</Message>
@@ -136,7 +137,7 @@
     <ClCompile Include="graphviewer\graphviewer.cpp" />
     <ClCompile Include="src\delivery.cpp" />
     <ClCompile Include="src\hydrographic_network.cpp" />
-    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cute\cute.h" />

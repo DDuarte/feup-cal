@@ -1,9 +1,3 @@
-#include "cute.h"
-#include "cute_runner.h"
-#include "ide_listener.h"
-
-#undef max
-
 #include <iostream>
 #include <fstream>
 #include <algorithm>
