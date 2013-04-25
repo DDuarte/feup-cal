@@ -10,13 +10,9 @@
 
 #define WHITESPACE_GRAPHVIEWER " \b" // hack to remove vertex and edge labels (empty string or only whitespace does not work)
 
-Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, int numberOfSupportVessels, double changeInRiverCapacity)
+Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, uint numberOfSupportVessels)
 {
     std::vector<Delivery::PathInfo> path;
-
-    if (changeInRiverCapacity != 1.0)
-        for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
-            rit->second.MultiplyMaxCapacity(changeInRiverCapacity);
 
     _igarapeMaxCapacity = boatCapacity;
 
@@ -187,13 +183,6 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
         }
     }
 
-    if (changeInRiverCapacity != 1.0)
-    {
-        double invChangeInRiverCapacity = 1.0 / changeInRiverCapacity;
-        for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
-            rit->second.MultiplyMaxCapacity(invChangeInRiverCapacity);
-    }
-
     _igarapeMaxCapacity = 0.;
 
     std::unordered_map<uint, std::vector<Delivery::PathInfo>> returnPath;
@@ -202,7 +191,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
     return returnPath;
 }
 
-Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity /*= 0.0*/, int numberOfSupportVessels /*= 0*/, double changeInRiverCapacity /*= 1.0*/)
+Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity /*= 0.0*/, uint numberOfSupportVessels /*= 0*/)
 {
     if (_vertices.empty())
         throw std::runtime_error("No Villages found!");
@@ -212,10 +201,6 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
     typedef std::vector<uint> Path;
     typedef std::unordered_map<uint, Path> DeliveryMap;
     typedef std::unordered_set<uint> VertexSet;
-
-    if (changeInRiverCapacity != 1.0)
-        for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
-            rit->second.MultiplyMaxCapacity(changeInRiverCapacity);
 
     // Test to see which destinations are reachable without transversing igarapes
     _igarapeMaxCapacity = boatCapacity;
@@ -814,4 +799,11 @@ std::unordered_set<uint> HydrographicNetwork::GetVisitable(uint srcId) const
     }
 
     return result;
+}
+
+void HydrographicNetwork::ChangeRiversCapacity(double factor)
+{
+    if (factor != 1.0)
+        for (RiversContainer::iterator rit = _rivers.begin(); rit != _rivers.end(); rit++)
+            rit->second.MultiplyMaxCapacity(factor);
 }

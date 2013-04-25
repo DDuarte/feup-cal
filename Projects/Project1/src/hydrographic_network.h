@@ -43,8 +43,8 @@ public:
 
     static bool Load(std::istream& source, HydrographicNetwork& hn);
 
-    Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
-    Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, int numberOfSupportVessels = 0, double changeInRiverCapacity = 1.0);
+    Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, uint numberOfSupportVessels = 0);
+    Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, uint numberOfSupportVessels = 0);
 
     void ViewGraph();
     void ViewGraph(Delivery& delivery, const std::string& color);
@@ -64,6 +64,8 @@ public:
     std::unordered_set<uint> GetVisitable(uint srcId) const;
 
     GraphViewer* GetGraphViewer() const { return _graphViewer; }
+
+    void ChangeRiversCapacity(double factor);
 
 private:
     typedef std::unordered_map<uint, River> RiversContainer;
