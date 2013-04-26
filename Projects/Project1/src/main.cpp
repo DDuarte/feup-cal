@@ -249,6 +249,9 @@ void AddVillage(HydrographicNetwork* hn)
 
     std::cout << "Village created, assigned id " << id << "." << std::endl;
 
+    if (hn->GetGraphViewer())
+        hn->GetGraphViewer()->rearrange();
+
     PauseConsole();
     ClearConsole();
 }
@@ -296,6 +299,9 @@ void AddRiver(HydrographicNetwork* hn)
 
     std::cout << "River created, assigned id " << id << "." << std::endl;
 
+    if (hn->GetGraphViewer())
+        hn->GetGraphViewer()->rearrange();
+
     PauseConsole();
     ClearConsole();
 }
@@ -337,6 +343,9 @@ void ChangeSeason(HydrographicNetwork* hn)
     hn->ChangeRiversCapacity(factor);
 
     std::cout << "Rivers capacity factor changed to " << factor << "." << std::endl;
+
+    if (hn->GetGraphViewer())
+        hn->GetGraphViewer()->rearrange();
 
     PauseConsole();
     ClearConsole();
