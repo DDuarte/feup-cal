@@ -8,6 +8,7 @@
 #include <set>
 #include <cassert>
 #include <cmath>
+#include <algorithm>
 
 #define WHITESPACE_GRAPHVIEWER " \b" ///< hack to remove vertex and edge labels (empty string or only whitespace does not work)
 
@@ -579,12 +580,27 @@ void HydrographicNetwork::ViewGraph()
             _graphViewer->removeEdge(r.first);
     }
 
+    std::pair<std::map<uint, Vertex*>::iterator, std::map<uint, Vertex*>::iterator> minmaxVerticeX = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
+    {
+        return ver1.second->info.GetX() < ver2.second->info.GetX();    
+    });
+
+    auto minmaxVerticeY = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
+    {
+        return ver1.second->info.GetY() < ver2.second->info.GetY();    
+    });
+
+    double dX = 800. / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + 40);
+
+    double dY = 600. / (minmaxVerticeY.second->second->info.GetY() - minmaxVerticeY.first->second->info.GetY() + 40);
+
+
     _graphViewer->defineVertexColor(DARK_GRAY);
     _graphViewer->defineEdgeColor(BLUE);
 
     for (std::map<uint, Vertex*>::value_type v : _vertices)
     {
-        _graphViewer->addNode(v.first, static_cast<int>(v.second->info.GetX()), static_cast<int>(v.second->info.GetY()));
+        _graphViewer->addNode(v.first, static_cast<int>(v.second->info.GetX() * dX) + 30, static_cast<int>(v.second->info.GetY() * dY) + 30);
         _graphViewer->setVertexLabel(v.first, v.second->info.GetName());
 
         for (Edge& e : v.second->adj)

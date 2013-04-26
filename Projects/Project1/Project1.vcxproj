@@ -180,7 +180,6 @@ xcopy "$(ProjectDir)resources\examples\*" "$(TargetDir)" /Y</Command>
     <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\order.h" />
     <ClInclude Include="src\river.h" />
-    <ClInclude Include="src\ship.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\village.h" />
   </ItemGroup>

@@ -125,9 +125,6 @@
     <ClInclude Include="src\village.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\order.h">
       <Filter>Header Files</Filter>
     </ClInclude>
