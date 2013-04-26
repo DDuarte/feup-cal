@@ -17,18 +17,18 @@ template <class V, class E>
 class Graph
 {
 public:
-    struct DijkstraShortestPath
+    struct DijkstraPath
     {
         struct DijkstraVertex
         {
-            DijkstraVertex(uint p = std::numeric_limits<uint>::max(), double d = std::numeric_limits<double>::infinity()) : PathId(p), Dist(d) { }
-            DijkstraVertex(const DijkstraVertex& other) : PathId(other.PathId), Dist(other.Dist) { }
-            DijkstraVertex operator=(const DijkstraVertex& other) { return DijkstraVertex(other); }
+            DijkstraVertex(uint p = std::numeric_limits<uint>::max(), double d = std::numeric_limits<double>::infinity()) : PathId(p), Dist(d) { } ///< Constructor
+            DijkstraVertex(const DijkstraVertex& other) : PathId(other.PathId), Dist(other.Dist) { } ///< Copy constructor
+            DijkstraVertex operator=(const DijkstraVertex& other) { return DijkstraVertex(other); } ///< Assignment operator
             const uint PathId;
             const double Dist;
         };
 
-        std::map<uint, typename Graph<V,E>::DijkstraShortestPath::DijkstraVertex> Vertices;
+        std::map<uint, typename Graph<V,E>::DijkstraPath::DijkstraVertex> Vertices;
 
         typedef typename std::map<uint, DijkstraVertex>::iterator iterator;
         typedef typename std::map<uint, DijkstraVertex>::const_iterator const_iterator;
@@ -36,15 +36,12 @@ public:
         typedef typename std::map<uint, DijkstraVertex>::reference reference;
         typedef typename std::map<uint, DijkstraVertex>::const_reference const_reference;
 
-        iterator begin();
+        iterator begin(); ///< Returns an iterator to the begin of the vertex map. Allows the struct to be iterated.
+        iterator end(); ///< Returns an iterator to the end  of the vertex map. Allows the struct to be iterated.
+        const_iterator begin() const; ///< Returns a const iterator to the begin of the vertex map. Allows the struct to be iterated.
+        const_iterator end() const; ///< Returns a const iterator to the end of the vertex map. Allows the struct to be iterated.
 
-        iterator end();
-
-        const_iterator begin() const;
-
-        const_iterator end() const;
-
-        std::vector<uint> GetPath(uint src, uint dst) const;
+        std::vector<uint> GetPath(uint src, uint dst) const; ///< Returns the path from the specified source to the specified destination
     };
 
     // Inner Classes Declarations
@@ -54,14 +51,14 @@ protected:
         uint idDest;
         E weight;
 
-        Edge(uint destId, const E& whgt) : idDest(destId), weight(whgt) { }
-        Edge(const Edge& other)
+        Edge(uint destId, const E& whgt) : idDest(destId), weight(whgt) { } ///< Constructor
+        Edge(const Edge& other) ///< Copy constructor
         {
             idDest = other.idDest;
             weight = other.weight;
         }
 
-        Edge operator=(const Edge& other) { return Edge(other); }
+        Edge operator=(const Edge& other) { return Edge(other); } ///< Assignment operator
     };
 
     struct Vertex
@@ -70,9 +67,9 @@ protected:
         mutable uint indegree;
         std::vector<Edge> adj;
 
-        Vertex(const V& in) : info(in), indegree(0) { }
+        Vertex(const V& in) : info(in), indegree(0) { } ///< Constructor
 
-        Vertex(const Vertex& other)
+        Vertex(const Vertex& other) ///< Copy constructor
         {
             info = other.info;
             indegree = other.indegree;
@@ -80,18 +77,18 @@ protected:
     };
 
 public:
-    Graph();
-    Graph(const Graph<V,E>& other);
-    ~Graph();
+    Graph(); ///< Constructor
+    Graph(const Graph<V,E>& other); ///< Copy contructor
+    ~Graph(); ///< Destructor
 
-    uint AddVertex(const V& info);
-    bool RemoveVertex(uint id);
+    uint AddVertex(const V& info); ///< Adds a vertex to the graph
+    bool RemoveVertex(uint id); ///< Removes the specified vertex from the graph
 
-    uint GetNumberOfVertices() const;
-    std::vector<uint> GetVerticesIds() const;
+    uint GetNumberOfVertices() const; ///< Returns the number of vertices
+    std::vector<uint> GetVerticesIds() const; ///< Returns a vector with all the vertices ids
 
-    bool AddEdge(uint sourceId, uint destId, const E& weight);
-    bool RemoveEdge(uint sourceId, uint destId);
+    bool AddEdge(uint sourceId, uint destId, const E& weight); ///< Adds an edge to the graph with the specified source and the specified destination
+    bool RemoveEdge(uint sourceId, uint destId); ///< Removes the specified  edge
 
     /**
     * GetElement
@@ -100,21 +97,29 @@ public:
     * @return true if the id is in use false otherwise
     */
     bool GetElement(uint id, V& elem);
+
+    /**
+     * GetElementInDegree Returns the number of edges that have the specified id as destination
+     * @param id
+     * @param elem variable where the value will be returned
+     * @return true if the id is in use false otherwise
+     */
     bool GetElementInDegree(uint id, int& elem);
-    bool isDag() const;
-    virtual int getNumCycles() const;
+
+    bool IsDag() const; ///< Checks if the graph is acyclic 
+    virtual int GetNumCycles() const; ///< Returns the number of cycles of the graph
 
     /**
     * Performs a depth-first-search on the graph and returns a std::vector<uint> containing the ids by the order that were visited
     * @return ordered vector of ids
     */
-    std::vector<uint> dfs() const;
-    virtual std::vector<uint> topologicalOrder() const;
-    virtual std::vector<uint> topologicalOrder(uint srcId) const;
-    void resetIndegrees() const;
-    std::vector<uint> getSources() const;
-    virtual DijkstraShortestPath dijkstraShortestPath(uint srcId) const;
-    void copyInvertedEdges(E w);
+    std::vector<uint> Dfs() const;
+
+    virtual std::vector<uint> TopologicalOrder() const; ///< Returns a vector with the vertices ids ordered topologically
+    virtual std::vector<uint> TopologicalOrder(uint srcId) const; ///< Returns a vector with the vertices ids ordered topologically forcing that the specified source comes in first
+    void ResetIndegrees() const; ///< Resets the graph indegree values
+    std::vector<uint> GetSources() const; ///< Returns all vertices of the graph that have indegree 0
+    virtual DijkstraPath DijkstraShortestPath(uint srcId) const; ///< Returns the shortest path from the specified source to all the other vertices in the graph
 
 protected:
     uint _nextId;
@@ -122,18 +127,18 @@ protected:
 };
 
 template <class V, class E>
-std::vector<uint> Graph<V, E>::topologicalOrder(uint srcId) const
+std::vector<uint> Graph<V, E>::TopologicalOrder(uint srcId) const
 {
     std::vector<uint> res;
 
-    if(!isDag())
+    if(!IsDag())
         return res;
 
-    resetIndegrees();
+    ResetIndegrees();
 
     std::queue<uint> q;
 
-    std::vector<uint> sources = getSources();
+    std::vector<uint> sources = GetSources();
 
     if (_vertices.at(srcId)->indegree != 0)
     {
@@ -169,29 +174,10 @@ std::vector<uint> Graph<V, E>::topologicalOrder(uint srcId) const
     /*if ( res.size() != _vertices.size() )
     res.erase(res.begin(), res.end());*/
 
-    resetIndegrees();
+    ResetIndegrees();
 
     return res;
 }
-
-template <class V, class E>
-void Graph<V, E>::copyInvertedEdges(E w)
-{
-    std::vector<std::pair<uint,uint>> edges;
-    for(const auto& ver : _vertices)
-    {
-        for (const auto& edge : ver.second->adj)
-        {
-            edges.push_back(std::make_pair(edge.idDest, ver.first));
-        }
-    }
-
-    for (const auto& edgeToAdd: edges)
-    {
-        AddEdge(edgeToAdd.first, edgeToAdd.second, w);
-    }
-}
-
 
 template <class V, class E>
 Graph<V, E>::~Graph()
@@ -221,18 +207,18 @@ std::vector<uint> Graph<V, E>::GetVerticesIds() const
 }
 
 template <class V, class E>
-std::vector<uint> Graph<V, E>::topologicalOrder() const
+std::vector<uint> Graph<V, E>::TopologicalOrder() const
 {
     std::vector<uint> res;
 
-    if(!isDag())
+    if(!IsDag())
         return res;
 
-    resetIndegrees();
+    ResetIndegrees();
 
     std::queue<uint> q;
 
-    std::vector<uint> sources = getSources();
+    std::vector<uint> sources = GetSources();
     while( !sources.empty() ) {
         q.push( sources.back() );
         sources.pop_back();
@@ -255,7 +241,7 @@ std::vector<uint> Graph<V, E>::topologicalOrder() const
     if ( res.size() != _vertices.size() )
         res.erase(res.begin(), res.end());
 
-    resetIndegrees();
+    ResetIndegrees();
 
     return res;
 }
@@ -382,7 +368,7 @@ bool Graph<V, E>::GetElement( uint id, V& elem )
 }
 
 template <class V, class E>
-std::vector<uint> Graph<V, E>::dfs() const
+std::vector<uint> Graph<V, E>::Dfs() const
 {
     std::map<uint, bool> visitedVertices;
 
@@ -427,13 +413,13 @@ std::vector<uint> Graph<V, E>::dfs() const
 }
 
 template <class V, class E>
-bool Graph<V, E>::isDag() const
+bool Graph<V, E>::IsDag() const
 {
-    return this->getNumCycles() == 0;
+    return this->GetNumCycles() == 0;
 }
 
 template <class V, class E>
-int Graph<V, E>::getNumCycles() const
+int Graph<V, E>::GetNumCycles() const
 {
     int result = 0;
     std::map<uint, bool> visitedVertices;
@@ -485,7 +471,7 @@ int Graph<V, E>::getNumCycles() const
 }
 
 template <class V, class E>
-void Graph<V,E>::resetIndegrees() const
+void Graph<V,E>::ResetIndegrees() const
 {
     for(const auto& ver: _vertices)
     {
@@ -502,7 +488,7 @@ void Graph<V,E>::resetIndegrees() const
 }
 
 template <class V, class E>
-std::vector<uint> Graph<V,E>::getSources() const
+std::vector<uint> Graph<V,E>::GetSources() const
 {
     std::vector<uint> result;
 
@@ -514,7 +500,7 @@ std::vector<uint> Graph<V,E>::getSources() const
 }
 
 template <class V, class E>
-typename Graph<V,E>::DijkstraShortestPath Graph<V,E>::dijkstraShortestPath(uint srcId) const
+typename Graph<V,E>::DijkstraPath Graph<V,E>::DijkstraShortestPath(uint srcId) const
 {
     struct VertexAux
     {
@@ -567,42 +553,42 @@ typename Graph<V,E>::DijkstraShortestPath Graph<V,E>::dijkstraShortestPath(uint 
         }
     }
 
-    DijkstraShortestPath result;
+    DijkstraPath result;
     for (const auto& verAux : vertexAux)
     {
         /*DijkstraShortestPath::DijkstraVertex val(verAux.second.pathId, verAux.second.dist);*/
-        result.Vertices.insert(std::make_pair(verAux.first, DijkstraShortestPath::DijkstraVertex(verAux.second.pathId, verAux.second.dist)));
+        result.Vertices.insert(std::make_pair(verAux.first, DijkstraPath::DijkstraVertex(verAux.second.pathId, verAux.second.dist)));
     }
 
     return result;
 }
 
 template<class V, class E>
-typename Graph<V,E>::DijkstraShortestPath::iterator Graph<V,E>::DijkstraShortestPath::begin()
+typename Graph<V,E>::DijkstraPath::iterator Graph<V,E>::DijkstraPath::begin()
 {
     return Vertices.begin();
 }
 
 template<class V, class E>
-typename Graph<V,E>::DijkstraShortestPath::iterator Graph<V,E>::DijkstraShortestPath::end()
+typename Graph<V,E>::DijkstraPath::iterator Graph<V,E>::DijkstraPath::end()
 {
     return Vertices.end();
 }
 
 template<class V, class E>
-typename Graph<V,E>::DijkstraShortestPath::const_iterator Graph<V,E>::DijkstraShortestPath::begin() const
+typename Graph<V,E>::DijkstraPath::const_iterator Graph<V,E>::DijkstraPath::begin() const
 {
     return Vertices.begin();
 }
 
 template<class V, class E>
-typename Graph<V,E>::DijkstraShortestPath::const_iterator Graph<V,E>::DijkstraShortestPath::end() const
+typename Graph<V,E>::DijkstraPath::const_iterator Graph<V,E>::DijkstraPath::end() const
 {
     return Vertices.end();
 }
 
 template <class V, class E>
-std::vector<uint> Graph<V,E>::DijkstraShortestPath::GetPath(uint source, uint destination) const
+std::vector<uint> Graph<V,E>::DijkstraPath::GetPath(uint source, uint destination) const
 {
     std::vector<uint> result;
 

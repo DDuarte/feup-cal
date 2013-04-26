@@ -20,15 +20,20 @@ class GraphViewer;
 class Menu;
 class ByteBuffer;
 
+//! RiverEdge class
+/*!
+    Represents an edge in the graph. It is used to distinguish the flow's way.
+*/
 struct RiverEdge
 {
-    RiverEdge() : Distance(-1), RiverId(std::numeric_limits<uint>::max()), FollowsFlow(false) { }
-    RiverEdge(double d, uint ri, bool ff) : Distance(d), RiverId(ri), FollowsFlow(ff) { }
+    RiverEdge() : Distance(-1), RiverId(std::numeric_limits<uint>::max()), FollowsFlow(false) { } ///< Constructor
+    RiverEdge(double d, uint ri, bool ff) : Distance(d), RiverId(ri), FollowsFlow(ff) { } ///< Constructor
+
     uint RiverId;
     bool FollowsFlow;
     double Distance;
 
-    double GetWeight() const
+    double GetWeight() const ///< Returns the Edge Weight
     {
         if (FollowsFlow)
             return Distance;
@@ -40,42 +45,41 @@ struct RiverEdge
 class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:
-    typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
     typedef std::vector<uint> Path;
     typedef std::unordered_map<uint, Path> DeliveryMap;
     typedef std::unordered_set<uint> VertexSet;
     typedef std::unordered_map<uint, River> RiversContainer;
 
-    HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
-    ~HydrographicNetwork();
+    HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { } ///< Constructor
+    ~HydrographicNetwork(); ///< Destructor 
 
-    DeliveryRoute GetDeliveryItinerary(Delivery& delivery);
-    DeliveryRoute GetDeliveryPath(Delivery& delivery);
+    DeliveryRoute GetDeliveryItinerary(Delivery& delivery); ///< Calculates and returns one itinerary for the specified delivery.
+    DeliveryRoute GetDeliveryPath(Delivery& delivery); ///< Calculates and returns one path per destination for the specified delivery
 
-    void ViewGraph();
-    void ViewGraph(DeliveryRoute& DeliveryRoute, const std::string& color);
+    void ViewGraph(); ///< Shows the HydrographicNetwork with the GraphViewer API
+    void ViewGraph(DeliveryRoute& DeliveryRoute, const std::string& color); ///< Shows the HydrographicNetwork and the specified DeliveryRoute with the GraphViewer API
 
-    int getNumCycles() const override;
-    std::vector<uint> topologicalOrder() const override;
+    int GetNumCycles() const override; ///< Returns the number of cycles of the HydrographicNetwork
+    std::vector<uint> TopologicalOrder() const override; ///< Returns the vertices of the graph ordered topologically
 
-    uint AddVillage(const Village& info) { return AddVertex(info); }
-    bool RemoveVillage(uint id) { return RemoveVertex(id); }
-    const Village* GetVillage(uint id) const;
+    uint AddVillage(const Village& info) { return AddVertex(info); } ///< Adds a village to the HydrographicNetwork
+    bool RemoveVillage(uint id) { return RemoveVertex(id); } ///< Removes a village to the HydrographicNetwork
+    const Village* GetVillage(uint id) const; ///< Returns the Village with the specified id
 
-    uint AddRiver(uint sourceVillage, uint destVillage, const River& river);
-    bool RemoveRiver(uint sourceId, uint destId) { return RemoveEdge(sourceId, destId); }
-    const River* GetRiver(uint id) const;
+    uint AddRiver(uint sourceVillage, uint destVillage, const River& river); ///< Adds a river to the HydrographicNetwork
+    bool RemoveRiver(uint sourceId, uint destId) { return RemoveEdge(sourceId, destId); } ///< Removes a river to the HydrographicNetwork
+    const River* GetRiver(uint id) const; ///< Returns the river with the specified id
 
-    DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
-    std::unordered_set<uint> GetVisitable(uint srcId) const;
+    DijkstraPath DijkstraShortestPath(uint srcId) const override; ///< Returns the dijkstra shortest path from the specified source village
+    std::unordered_set<uint> GetVisitable(uint srcId) const; ///< Returns the visitable vertices ids from the specified source village
 
-    GraphViewer* GetGraphViewer() const { return _graphViewer; }
+    GraphViewer* GetGraphViewer() const { return _graphViewer; } ///< Returns the GraphViewer class pointer
 
     static Menu* GetMenu() { return _menu; } ///< Returns the menu for the HydrographicNetwork class
 
-    void ChangeRiversCapacity(double factor);
+    void ChangeRiversCapacity(double factor); ///< Changes the rivers capacity multiplying all the rivers capacities by the specified factor
 
-    static HydrographicNetwork* Load(ByteBuffer& bb);
+    static HydrographicNetwork* Load(ByteBuffer& bb); ///< Loads an HydrographicNetwork from the specified ByteBuffer instance
 
 private:
     RiversContainer _rivers;
@@ -85,6 +89,12 @@ private:
     GraphViewer* _graphViewer;
     std::string _name;
 
+    /**
+     * Filters the unreachable orders from the specified OrderMap. The function removes the unreachable orders from the specified OrderMap
+     * @param src Source village
+     * @param orders OrderMap to be filtered
+     * @return OrderMap with unreachable orders
+     */
     Delivery::OrderMap FilterUnreachable(uint src, Delivery::OrderMap& orders);
 
     static Menu* _menu; ///< Menu associated with the HydrographicNetwork class

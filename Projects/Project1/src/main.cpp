@@ -20,7 +20,7 @@ DeliveryRoute LoadOrdersFile(const std::string& fileName, HydrographicNetwork& h
     if (!order1.is_open())
     {
         std::cerr << "Could not open file " << fileName << " for reading." << std::endl;
-        return DeliveryRoute(std::unordered_map<uint, std::vector<DeliveryRoute::PathInfo>>());
+        return DeliveryRoute(DeliveryRoute::PathInfoMap(), Delivery::BoatMap(), Delivery::OrderMap());
     }
 
     return DeliveryRoute::Load(order1, hn);

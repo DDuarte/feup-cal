@@ -27,7 +27,7 @@ DeliveryRoute DeliveryRoute::Load(std::istream& source, HydrographicNetwork& hn)
     catch (std::exception& e)
     {
         std::cerr << "Exception """ << e.what() << """ occurred when loading Delivery." << std::endl;
-        return DeliveryRoute(std::unordered_map<uint, std::vector<PathInfo>>());
+        return DeliveryRoute(PathInfoMap(), Delivery::BoatMap(), Delivery::OrderMap());
     }
 
     Delivery del(villageSource, 100.0, 0.0, 0);

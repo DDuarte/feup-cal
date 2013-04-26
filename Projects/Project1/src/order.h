@@ -4,12 +4,12 @@
 class Order
 {
 public:
-    Order(uint weight, uint volume) : _weight(weight), _volume(volume) { }
-    Order(const Order& other) : _weight(other._weight), _volume(other._volume) { }
-    Order operator=(const Order& other) const { return Order(other); }
+    Order(uint weight, uint volume) : _weight(weight), _volume(volume) { } ///< Constructor
+    Order(const Order& other) : _weight(other._weight), _volume(other._volume) { } ///< Copy constructor
+    Order operator=(const Order& other) const { return Order(other); } ///< Assignment operator
 
-    uint GetWeight() const { return _weight; }
-    uint GetVolume() const { return _volume; }
+    uint GetWeight() const { return _weight; } ///< Returns the order weight
+    uint GetVolume() const { return _volume; } ///< Returns the order volume
 
 private:
     const uint _weight;

@@ -6,10 +6,10 @@
 #include <vector>
 #include <unordered_map>
 
-class HydrographicNetwork;
 class Order;
 class ByteBuffer;
 class Menu;
+class HydrographicNetwork;
 
 /**
  * Encapsulates information of a delivery from a single source point to
@@ -19,6 +19,7 @@ class Delivery
 {
 public:
     typedef std::unordered_map<uint, std::vector<Order>> OrderMap;
+    typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
 
     /// Constructor
     Delivery(uint sourceVillage, double boatCapacity, double supportVesselCapacity, uint numberOfSupportVessels) :
@@ -66,11 +67,13 @@ struct DeliveryRoute
 
     typedef std::unordered_map<uint, std::vector<DeliveryRoute::PathInfo>> PathInfoMap;
 
-    DeliveryRoute(const PathInfoMap& path) : Path(path) { }
-    DeliveryRoute(const PathInfoMap&& path) : Path(path) { }
+    DeliveryRoute(const PathInfoMap& path, const Delivery::BoatMap& numberOfBoats, const Delivery::OrderMap& unreachable) : Path(path), NumberOfBoats(numberOfBoats), Unreachable(unreachable) { } ///< Constructor
 
     PathInfoMap Path;
-    static DeliveryRoute Load(std::istream& source, HydrographicNetwork& hn);
+    Delivery::BoatMap NumberOfBoats;
+    Delivery::OrderMap Unreachable;
+
+    static DeliveryRoute Load(std::istream& source, HydrographicNetwork& hn); ///< Loads orders from file
 };
 
 #endif // DELIVERY_H_
