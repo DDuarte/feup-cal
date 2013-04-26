@@ -162,10 +162,13 @@ void NewHydrographicBasin()
 
 void LoadHydrographicBasin()
 {
+    std::string prefix = HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX;
+    std::string suffix = ".txt";
+
     std::vector<std::string> fileNames;
-    File::GetFiles(".", fileNames, [](const std::string& str)
+    File::GetFiles(".", fileNames, [&prefix](const std::string& str)
     {
-        return starts_with(str, HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX);
+        return starts_with(str, prefix);
     });
 
     if (fileNames.empty())
@@ -177,16 +180,16 @@ void LoadHydrographicBasin()
     {
         std::cout << "Available hydrographic basins:" << std::endl;
         for (const std::string& name : fileNames)
-            std::cout << "\t - " << name << std::endl;
+            std::cout << "\t - " << name.substr(prefix.size(), name.size() - suffix.size() - prefix.size()) << std::endl;
     }
 
     std::string selectedHydrographicBasinName;
 
     try
     {
-        selectedHydrographicBasinName = ReadValue<std::string>("Hydrographic basin name: ", [&fileNames](const std::string& val)
+        selectedHydrographicBasinName = ReadValue<std::string>("Hydrographic basin name: ", [&fileNames, &prefix, &suffix](const std::string& val)
         {
-            if (std::find(fileNames.begin(), fileNames.end(), val) == fileNames.end())
+            if (std::find(fileNames.begin(), fileNames.end(), prefix + val + suffix) == fileNames.end())
             {
                 std::cout << "Specified hydrographic basin does not exist." << std::endl << "Please try again." << std::endl;
                 return false;
@@ -202,7 +205,7 @@ void LoadHydrographicBasin()
 
     ClearConsole();
 
-    std::unique_ptr<HydrographicNetwork> hn(std::unique_ptr<HydrographicNetwork>(Loader<HydrographicNetwork>(selectedHydrographicBasinName).Load()));
+    std::unique_ptr<HydrographicNetwork> hn(std::unique_ptr<HydrographicNetwork>(Loader<HydrographicNetwork>(prefix + selectedHydrographicBasinName + suffix).Load()));
     HydrographicNetworkMenu(hn.get());
 }
 
@@ -358,10 +361,13 @@ void ViewHydrographicBasin(HydrographicNetwork* hn)
 
 void ViewDelivery(HydrographicNetwork* hn)
 {
+    std::string prefix = ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_";
+    std::string suffix = ".txt";
+
     std::vector<std::string> fileNames;
-    File::GetFiles(".", fileNames, [hn](const std::string& str)
+    File::GetFiles(".", fileNames, [hn, &prefix](const std::string& str)
     {
-        return starts_with(str, ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_");
+        return starts_with(str, prefix);
     });
 
     if (fileNames.empty())
@@ -373,16 +379,16 @@ void ViewDelivery(HydrographicNetwork* hn)
     {
         std::cout << "Available deliveries:" << std::endl;
         for (const std::string& name : fileNames)
-            std::cout << "\t - " << name << std::endl;
+            std::cout << "\t - " << name.substr(prefix.size(), name.size() - suffix.size() - prefix.size()) << std::endl;
     }
 
     std::string selectedDeliveryName;
 
     try
     {
-        selectedDeliveryName = ReadValue<std::string>("Delivery name: ", [&fileNames](const std::string& val)
+        selectedDeliveryName = ReadValue<std::string>("Delivery name: ", [&fileNames, &prefix, &suffix](const std::string& val)
         {
-            if (std::find(fileNames.begin(), fileNames.end(), val) == fileNames.end())
+            if (std::find(fileNames.begin(), fileNames.end(), prefix + val + suffix) == fileNames.end())
             {
                 std::cout << "Specified delivery does not exist." << std::endl << "Please try again." << std::endl;
                 return false;
@@ -398,7 +404,7 @@ void ViewDelivery(HydrographicNetwork* hn)
 
     //std::thread thread([hn, selectedDeliveryName]() // ViewGraph(delivery) blocks the caller due to silly animations
     //{
-        Delivery* delivery = Loader<Delivery>(selectedDeliveryName).Load();
+        Delivery* delivery = Loader<Delivery>(prefix + selectedDeliveryName + suffix).Load();
         DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
         std::cout << "Processing... Viewer windows is being updated." << std::endl;
         hn->ViewGraph(deliveryRoute);
