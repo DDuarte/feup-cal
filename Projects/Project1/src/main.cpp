@@ -384,6 +384,7 @@ void ViewDelivery(HydrographicNetwork* hn)
     }
 
     std::string selectedDeliveryName;
+    std::string method;
 
     try
     {
@@ -392,6 +393,17 @@ void ViewDelivery(HydrographicNetwork* hn)
             if (std::find(fileNames.begin(), fileNames.end(), prefix + val + suffix) == fileNames.end())
             {
                 std::cout << "Specified delivery does not exist." << std::endl << "Please try again." << std::endl;
+                return false;
+            }
+
+            return true;
+        });
+
+        method = ReadValue<std::string>("Method [path, itinerary]: ", [](const std::string& val)
+        {
+            if (val != "path" && val != "itinerary")
+            {
+                std::cout << "Specified method not recognized." << std::endl << "Please try again." << std::endl;
                 return false;
             }
 
@@ -406,7 +418,7 @@ void ViewDelivery(HydrographicNetwork* hn)
     //std::thread thread([hn, selectedDeliveryName]() // ViewGraph(delivery) blocks the caller due to silly animations
     //{
         Delivery* delivery = Loader<Delivery>(prefix + selectedDeliveryName + suffix).Load();
-        DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
+        DeliveryRoute deliveryRoute = (method == "path" ? hn->GetDeliveryPath(*delivery) : hn->GetDeliveryItinerary(*delivery));
         std::cout << "Processing... Viewer windows is being updated." << std::endl;
         hn->ViewGraph(deliveryRoute);
 
