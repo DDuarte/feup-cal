@@ -46,39 +46,4 @@ Loadable* Loader<Loadable>::Load()
     return Loadable::Load(bb);
 }
 
-//! Saver Class
-/*!
-    The Saver class calls the Save method of a Savable class.
-*/
-template <class Savable>
-class Saver
-{
-public:
-    /**
-    *   @brief Constructor.
-    *   @param fileName std::string that contains the destination fileName.
-    */
-    Saver(const std::string& fileName) : _fileName(fileName) {}
-
-    /**
-    *   @brief Save method.
-    *   @return A boolean value that indicates whether the save was successful or not.
-    */
-    bool Save(Savable* s);
-
-private:
-    //! Destination file name.
-    std::string _fileName;
-};
-
-template <class Savable>
-bool Saver<Savable>::Save(Savable* s)
-{
-    ByteBuffer bb(100);
-    if (!s->Save(bb))
-        return false;
-
-    return File::Save(_fileName.c_str(), bb, bb.Size());
-}
-
 #endif // LOADER_H_
