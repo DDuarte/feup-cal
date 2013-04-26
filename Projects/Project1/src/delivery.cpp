@@ -7,43 +7,11 @@
 
 Menu* Delivery::_menu = Loader<Menu>("deliveryMenu.txt").Load();
 
-DeliveryRoute DeliveryRoute::Load(std::istream& source, HydrographicNetwork& hn)
-{
-    uint villageSource;
-    Delivery::OrderMap orders;
-
-    try
-    {
-        source >> villageSource;
-
-        uint orderCount;
-        source >> orderCount;
-
-        for (uint j = 0; j < orderCount; ++j)
-        {
-            uint villageDest, weight, volume;
-            source >> villageDest >> weight >> volume;
-            orders[villageDest].push_back(Order(weight, volume));
-        }
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception """ << e.what() << """ occurred when loading Delivery." << std::endl;
-        return DeliveryRoute(PathInfoMap(), Delivery::BoatMap(), Delivery::OrderMap());
-    }
-
-    Delivery del(villageSource, 100.0, 0.0, 0);
-    for (auto& or : orders)
-        for (auto& e : or.second)
-            del.AddOrder(or.first, e);
-
-    return hn.GetDeliveryPath(del);
-}
-
 bool Delivery::Save(ByteBuffer& bb) const
 {
     std::ostringstream ss;
 
+    ss << GetName() << std::endl;
     ss << GetSourceVillage() << std::endl;
     ss << GetBoatCapacity() << std::endl;
     ss << GetSupportVesselCapacity() << std::endl;
@@ -58,4 +26,37 @@ bool Delivery::Save(ByteBuffer& bb) const
     bb.WriteBuffer(str.c_str(), str.size());
 
     return true;
+}
+
+Delivery* Delivery::Load(ByteBuffer& bb)
+{
+    std::istringstream ss(bb);
+
+    std::string name;
+    uint sourceVillage;
+    double boatCapacity, supportVesselCapacity;
+    uint numberOfSupportVessels;
+    uint orderCount;
+
+    ss >> name;
+    ss >> sourceVillage;
+    ss >> boatCapacity;
+    ss >> supportVesselCapacity;
+    ss >> numberOfSupportVessels;
+    ss >> orderCount;
+
+    Delivery* delivery = new Delivery(sourceVillage, boatCapacity, supportVesselCapacity, numberOfSupportVessels);
+    delivery->SetName(name);
+
+    for (uint i = 0; i < orderCount; ++i)
+    {
+        uint id;
+        uint volume, weight;
+
+        ss >> id >> volume >> weight;
+
+        delivery->AddOrder(id, Order(volume, weight));
+    }
+
+    return delivery;
 }

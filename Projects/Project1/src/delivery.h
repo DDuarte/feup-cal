@@ -45,6 +45,7 @@ public:
     void SetName(const std::string& name) { _name = name; }
 
     bool Save(ByteBuffer& bb) const; ///< Saves Delivery data to a ByteBuffer
+    static Delivery* Load(ByteBuffer& bb); ///< Loads orders from file
 
     static Menu* GetMenu() { return _menu; } ///< Returns the menu for the Delivery class
 
@@ -76,8 +77,6 @@ struct DeliveryRoute
     PathInfoMap Path;
     Delivery::BoatMap NumberOfBoats;
     Delivery::OrderMap Unreachable;
-
-    static DeliveryRoute Load(std::istream& source, HydrographicNetwork& hn); ///< Loads orders from file
 };
 
 #endif // DELIVERY_H_

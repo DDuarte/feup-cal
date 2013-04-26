@@ -1012,14 +1012,14 @@ uint HydrographicNetwork::AddVillage(const Village& info)
     uint id = AddVertex(info);
 
     if (_graphViewer)
-        AddVillageToGraphViewer(id, info);
+        AddVillageToGraphViewer(id, info, 1.0, 1.0);
 
     return id;
 }
 
 void HydrographicNetwork::AddVillageToGraphViewer(uint id, const Village& info, double dX, double dY) const
 {
-    _graphViewer->addNode(id, static_cast<int>(info.GetX()), static_cast<int>(info.GetY()));
+    _graphViewer->addNode(id, static_cast<int>(info.GetX() * dX), static_cast<int>(info.GetY() * dY));
     _graphViewer->setVertexLabel(id, info.GetName() + " (" + std::to_string(id) + ")");
 }
 

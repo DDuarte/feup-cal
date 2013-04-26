@@ -14,18 +14,6 @@
 #define HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX "hydro_"
 #define ORDER_SAVE_FILES_PREFIX "order_"
 
-DeliveryRoute LoadOrdersFile(const std::string& fileName, HydrographicNetwork& hn)
-{
-    std::ifstream order1(fileName);
-    if (!order1.is_open())
-    {
-        std::cerr << "Could not open file " << fileName << " for reading." << std::endl;
-        return DeliveryRoute(DeliveryRoute::PathInfoMap(), Delivery::BoatMap(), Delivery::OrderMap());
-    }
-
-    return DeliveryRoute::Load(order1, hn);
-}
-
 // Main menu
 void NewHydrographicBasin();
 void LoadHydrographicBasin();
@@ -407,8 +395,12 @@ void ViewDelivery(HydrographicNetwork* hn)
         throw ActionCanceled("View Delivery");
     }
 
-    DeliveryRoute del = LoadOrdersFile(selectedDeliveryName, *hn);
-    hn->ViewGraph(del, BLACK);
+    Delivery* delivery = Loader<Delivery>(selectedDeliveryName).Load();
+    DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
+
+    hn->ViewGraph(deliveryRoute, BLACK);
+
+    delete delivery;
 
     PauseConsole();
     ClearConsole();
