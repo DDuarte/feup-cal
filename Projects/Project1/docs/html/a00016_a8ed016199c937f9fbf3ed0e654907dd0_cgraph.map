@@ -1,0 +1,7 @@
+<map id="Menu::Load" name="Menu::Load">
+<area shape="rect" id="node3" href="$a00016.html#aa769670330ffa916133ffa4517110db9" title="Constructor." alt="" coords="370,6,465,33"/>
+<area shape="rect" id="node5" href="$a00016.html#a1f22b5964dbf6f6a739c9af9544e6ea5" title="Adds an Item to this Menu." alt="" coords="145,82,287,109"/>
+<area shape="rect" id="node9" href="$a00016.html#af568f0e1bb350ee39b37978102ada4e7" title="Adds a submenu to this Menu." alt="" coords="157,31,275,58"/>
+<area shape="rect" id="node13" href="$a00012.html#a8001dddccd84dfb30fa8437bc3925f3e" title="Returns the Menu&#39;s parent. Can be null." alt="" coords="154,133,278,159"/>
+<area shape="rect" id="node7" href="$a00016.html#a153ef4fdbae2494472dfaed9020a3612" title="Ability to go to previous Menu." alt="" coords="336,69,499,95"/>
+</map>

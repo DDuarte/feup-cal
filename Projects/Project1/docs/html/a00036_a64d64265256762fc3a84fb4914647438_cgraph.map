@@ -1,0 +1,13 @@
+<map id="ViewHydrographicBasin" name="ViewHydrographicBasin">
+<area shape="rect" id="node3" href="$a00011.html#aac77ebe55b553ece1be8eb80f5d4a1f8" title="Shows the HydrographicNetwork with the GraphViewer API." alt="" coords="214,150,359,191"/>
+<area shape="rect" id="node21" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="233,216,340,243"/>
+<area shape="rect" id="node23" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="237,267,336,293"/>
+<area shape="rect" id="node5" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="409,66,589,107"/>
+<area shape="rect" id="node13" href="$a00011.html#ad867bc8fe010586e392c5cfb51bc5f59" title="HydrographicNetwork\l::AddRiverToGraphViewer" alt="" coords="414,150,583,191"/>
+<area shape="rect" id="node19" href="$a00011.html#a30fe331f59de4ca80af7093468c0d525" title="Returns the river with the specified id." alt="" coords="426,215,571,257"/>
+<area shape="rect" id="node7" href="$a00024.html#ae202df20b812a313c3db9aa9d17cdec1" title="Returns Village&#39;s x coordinate." alt="" coords="666,5,763,32"/>
+<area shape="rect" id="node9" href="$a00024.html#aa4d574ed89c20a6635e496c69486d35d" title="Returns Village&#39;s y coordinate." alt="" coords="665,56,764,83"/>
+<area shape="rect" id="node11" href="$a00024.html#ad598542160b249adcf0074f95e4eeecf" title="Returns the name of the Village." alt="" coords="653,107,777,133"/>
+<area shape="rect" id="node15" href="$a00021.html#a610549ac8f691f09d4b6863bbf30ac45" title="Returns the river capacity." alt="" coords="637,157,792,184"/>
+<area shape="rect" id="node17" href="$a00021.html#ac9b7ad1036996815f27e33974bb8911e" title="Returns the name of the river." alt="" coords="658,208,771,235"/>
+</map>

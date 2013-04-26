@@ -1,0 +1,9 @@
+<map id="HydrographicNetwork::GetGraphViewer" name="HydrographicNetwork::GetGraphViewer">
+<area shape="rect" id="node3" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="361,50,538,76"/>
+<area shape="rect" id="node12" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="214,24,298,51"/>
+<area shape="rect" id="node15" href="$a00036.html#ac7e0705593ac124f6d70dbcc22822777" title="AddRiver" alt="" coords="219,75,293,102"/>
+<area shape="rect" id="node18" href="$a00036.html#a45e0c70961f0b2098762148c63691492" title="ChangeSeason" alt="" coords="201,126,311,152"/>
+<area shape="rect" id="node5" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="589,24,745,51"/>
+<area shape="rect" id="node9" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="587,75,746,102"/>
+<area shape="rect" id="node7" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="795,50,845,76"/>
+</map>

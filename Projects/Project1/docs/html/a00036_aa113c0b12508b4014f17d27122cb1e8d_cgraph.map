@@ -1,0 +1,6 @@
+<map id="SetSourceVillage" name="SetSourceVillage">
+<area shape="rect" id="node3" href="$a00011.html#a59a21ab80d23f5b598b71c4714ae4ed4" title="Returns the Village with the specified id." alt="" coords="191,5,337,46"/>
+<area shape="rect" id="node5" href="$a00004.html#af6c347b1fc3f7d3f6b18e6c7eb1eed64" title="Sets source village id of all orders in this delivery." alt="" coords="177,71,351,97"/>
+<area shape="rect" id="node7" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="211,121,317,148"/>
+<area shape="rect" id="node9" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="215,172,313,199"/>
+</map>

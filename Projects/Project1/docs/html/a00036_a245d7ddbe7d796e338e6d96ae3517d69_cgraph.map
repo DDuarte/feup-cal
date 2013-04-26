@@ -1,0 +1,33 @@
+<map id="ViewDelivery" name="ViewDelivery">
+<area shape="rect" id="node3" href="$a00011.html#aba2abe3b37b6ea8f66475fd4c4364bc4" title="HydrographicNetwork\l::GetName" alt="" coords="150,102,295,143"/>
+<area shape="rect" id="node5" href="$a00044.html#af1d5c00162cc5d7c96d5a90155ae0315" title="Puts file names of directory into container." alt="" coords="173,168,273,195"/>
+<area shape="rect" id="node7" href="$a00041.html#a8ddc99f71f3aeb59c1680cc528fe04cc" title="Returns true if str starts with prefix." alt="" coords="180,219,265,245"/>
+<area shape="rect" id="node9" href="$a00044.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="183,269,262,296"/>
+<area shape="rect" id="node11" href="$a00011.html#a10c7002a367e2c767efe34c101994358" title="Calculates and returns one path per destination for the specified delivery." alt="" coords="150,321,295,362"/>
+<area shape="rect" id="node29" href="$a00011.html#aac77ebe55b553ece1be8eb80f5d4a1f8" title="Shows the HydrographicNetwork with the GraphViewer API." alt="" coords="150,419,295,461"/>
+<area shape="rect" id="node47" href="$a00005.html#a6537c147795dae3e8f18110cf74aaaf5" title="Saves DeliveryRoute data to a ByteBuffer." alt="" coords="154,485,291,512"/>
+<area shape="rect" id="node57" href="$a00044.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="183,536,262,563"/>
+<area shape="rect" id="node59" href="$a00002.html#a6cddc97dd235c7b3740c19ec0acdba33" title="Returns the size of the buffer." alt="" coords="165,587,281,613"/>
+<area shape="rect" id="node61" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="169,637,276,664"/>
+<area shape="rect" id="node63" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="173,688,272,715"/>
+<area shape="rect" id="node13" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="356,5,532,32"/>
+<area shape="rect" id="node15" href="$a00004.html#a7ba0647e20e4ae6ce294c820e5e22969" title="Gets the map from destination village id to a collection of Orders." alt="" coords="377,56,511,83"/>
+<area shape="rect" id="node17" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="357,107,531,133"/>
+<area shape="rect" id="node19" href="$a00004.html#af83833a229a458c3a43e47b1ad1e3792" title="Gets volume/capacity of the vessel of each boat." alt="" coords="353,158,535,199"/>
+<area shape="rect" id="node21" href="$a00004.html#a579bb62f2390766f7e5668e492476317" title="Gets number of boats with support vessels." alt="" coords="345,223,543,265"/>
+<area shape="rect" id="node23" href="$a00011.html#a13dd8cedf46cb9fbbd8f9f9f13814c6f" title="Filters the unreachable orders from the specified OrderMap." alt="" coords="371,289,517,330"/>
+<area shape="rect" id="node27" href="$a00011.html#a24e50ed1d97beb24d13e10bd1663da22" title="Returns the dijkstra shortest path from the specified source village." alt="" coords="369,354,519,395"/>
+<area shape="rect" id="node25" href="$a00011.html#a8cf76c8b0dfd7c5014a4120daadd0d17" title="Returns the visitable vertices ids from the specified source village." alt="" coords="597,282,742,323"/>
+<area shape="rect" id="node31" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="354,419,534,461"/>
+<area shape="rect" id="node39" href="$a00011.html#ad867bc8fe010586e392c5cfb51bc5f59" title="HydrographicNetwork\l::AddRiverToGraphViewer" alt="" coords="359,485,529,526"/>
+<area shape="rect" id="node45" href="$a00011.html#a30fe331f59de4ca80af7093468c0d525" title="Returns the river with the specified id." alt="" coords="371,550,517,591"/>
+<area shape="rect" id="node33" href="$a00024.html#ae202df20b812a313c3db9aa9d17cdec1" title="Returns Village&#39;s x coordinate." alt="" coords="621,348,718,375"/>
+<area shape="rect" id="node35" href="$a00024.html#aa4d574ed89c20a6635e496c69486d35d" title="Returns Village&#39;s y coordinate." alt="" coords="620,399,719,425"/>
+<area shape="rect" id="node37" href="$a00024.html#ad598542160b249adcf0074f95e4eeecf" title="Returns the name of the Village." alt="" coords="607,449,731,476"/>
+<area shape="rect" id="node41" href="$a00021.html#a610549ac8f691f09d4b6863bbf30ac45" title="Returns the river capacity." alt="" coords="592,500,747,527"/>
+<area shape="rect" id="node43" href="$a00021.html#ac9b7ad1036996815f27e33974bb8911e" title="Returns the name of the river." alt="" coords="613,551,726,577"/>
+<area shape="rect" id="node49" href="$a00017.html#af738aebc16e851f083153df5418458c0" title="Returns the order volume." alt="" coords="381,616,507,643"/>
+<area shape="rect" id="node51" href="$a00017.html#aa2d1b0f56a41946d108e4401eec444c1" title="Returns the order weight." alt="" coords="382,667,506,693"/>
+<area shape="rect" id="node53" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="367,717,521,744"/>
+<area shape="rect" id="node55" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="602,717,737,744"/>
+</map>

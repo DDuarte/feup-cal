@@ -1,0 +1,12 @@
+<map id="AddRiver" name="AddRiver">
+<area shape="rect" id="node3" href="$a00011.html#a59a21ab80d23f5b598b71c4714ae4ed4" title="Returns the Village with the specified id." alt="" coords="129,5,274,46"/>
+<area shape="rect" id="node5" href="$a00011.html#ad783919bd3555029526d544642fa6536" title="Adds a river to the HydrographicNetwork." alt="" coords="129,70,274,111"/>
+<area shape="rect" id="node17" href="$a00011.html#a902bef196f3149bfcedb700fda23f31e" title="Returns the GraphViewer class pointer." alt="" coords="129,135,274,177"/>
+<area shape="rect" id="node19" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="148,201,255,228"/>
+<area shape="rect" id="node21" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="152,252,251,279"/>
+<area shape="rect" id="node7" href="$a00010.html#a9ce93102158c9dbcf88f50bfeb1df355" title="Adds an edge to the graph with the specified source and the specified destination." alt="" coords="323,5,498,46"/>
+<area shape="rect" id="node9" href="$a00010.html#aba5300c03e921d8683a4c22f13a9c849" title="Removes the specified edge." alt="" coords="323,70,498,111"/>
+<area shape="rect" id="node11" href="$a00011.html#ad867bc8fe010586e392c5cfb51bc5f59" title="HydrographicNetwork\l::AddRiverToGraphViewer" alt="" coords="326,135,495,177"/>
+<area shape="rect" id="node13" href="$a00021.html#a610549ac8f691f09d4b6863bbf30ac45" title="Returns the river capacity." alt="" coords="547,117,701,144"/>
+<area shape="rect" id="node15" href="$a00021.html#ac9b7ad1036996815f27e33974bb8911e" title="Returns the name of the river." alt="" coords="567,168,681,195"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="HydrographicNetwork::Save" name="HydrographicNetwork::Save">
+<area shape="rect" id="node3" href="$a00011.html#aba2abe3b37b6ea8f66475fd4c4364bc4" title="HydrographicNetwork\l::GetName" alt="" coords="215,5,361,46"/>
+<area shape="rect" id="node5" href="$a00010.html#a130f1a81c7d39adf468929fa0b9c14dd" title="Returns the number of vertices." alt="" coords="201,70,375,111"/>
+<area shape="rect" id="node7" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="211,136,365,163"/>
+<area shape="rect" id="node9" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="425,136,559,163"/>
+</map>

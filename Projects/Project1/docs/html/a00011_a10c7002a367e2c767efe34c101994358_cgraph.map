@@ -1,0 +1,10 @@
+<map id="HydrographicNetwork::GetDeliveryPath" name="HydrographicNetwork::GetDeliveryPath">
+<area shape="rect" id="node3" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="212,5,388,32"/>
+<area shape="rect" id="node5" href="$a00004.html#a7ba0647e20e4ae6ce294c820e5e22969" title="Gets the map from destination village id to a collection of Orders." alt="" coords="233,56,367,83"/>
+<area shape="rect" id="node7" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="213,107,387,133"/>
+<area shape="rect" id="node9" href="$a00004.html#af83833a229a458c3a43e47b1ad1e3792" title="Gets volume/capacity of the vessel of each boat." alt="" coords="209,158,391,199"/>
+<area shape="rect" id="node11" href="$a00004.html#a579bb62f2390766f7e5668e492476317" title="Gets number of boats with support vessels." alt="" coords="201,223,399,265"/>
+<area shape="rect" id="node13" href="$a00011.html#a13dd8cedf46cb9fbbd8f9f9f13814c6f" title="Filters the unreachable orders from the specified OrderMap." alt="" coords="227,289,373,330"/>
+<area shape="rect" id="node17" href="$a00011.html#a24e50ed1d97beb24d13e10bd1663da22" title="Returns the dijkstra shortest path from the specified source village." alt="" coords="225,354,375,395"/>
+<area shape="rect" id="node15" href="$a00011.html#a8cf76c8b0dfd7c5014a4120daadd0d17" title="Returns the visitable vertices ids from the specified source village." alt="" coords="449,289,594,330"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Menu::Print" name="Menu::Print">
+<area shape="rect" id="node3" href="$a00012.html#a8001dddccd84dfb30fa8437bc3925f3e" title="Returns the Menu&#39;s parent. Can be null." alt="" coords="145,5,269,32"/>
+<area shape="rect" id="node5" href="$a00016.html#a99d6c04ebd7b6aa9b09f465b7a3402f2" title="Indexer." alt="" coords="148,56,265,83"/>
+<area shape="rect" id="node7" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="157,107,256,133"/>
+<area shape="rect" id="node9" href="$a00012.html#a6d8ca464073ead62792613526d6f3c6b" title="Prints the menu label and returns the Menu or Menu::Item chosen by the user of the menu..." alt="" coords="161,157,253,184"/>
+</map>

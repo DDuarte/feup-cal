@@ -1,0 +1,9 @@
+<map id="Delivery::Save" name="Delivery::Save">
+<area shape="rect" id="node3" href="$a00004.html#abde95438b1c17ef6d4f2bd60590b57ee" title="Delivery::GetName" alt="" coords="192,5,323,32"/>
+<area shape="rect" id="node5" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="169,56,345,83"/>
+<area shape="rect" id="node7" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="170,107,345,133"/>
+<area shape="rect" id="node9" href="$a00004.html#af83833a229a458c3a43e47b1ad1e3792" title="Gets volume/capacity of the vessel of each boat." alt="" coords="167,158,348,199"/>
+<area shape="rect" id="node11" href="$a00004.html#a579bb62f2390766f7e5668e492476317" title="Gets number of boats with support vessels." alt="" coords="158,223,357,265"/>
+<area shape="rect" id="node13" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="180,289,335,316"/>
+<area shape="rect" id="node15" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="406,289,541,316"/>
+</map>

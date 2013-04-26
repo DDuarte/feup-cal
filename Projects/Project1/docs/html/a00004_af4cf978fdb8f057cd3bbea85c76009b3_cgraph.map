@@ -1,0 +1,5 @@
+<map id="Delivery::Load" name="Delivery::Load">
+<area shape="rect" id="node3" href="$a00004.html#aed5690c7969ac5564392755f33ed4525" title="Constructor." alt="" coords="163,5,283,32"/>
+<area shape="rect" id="node5" href="$a00004.html#a895e977b3ba9823ee8f7fee81bb96d12" title="Delivery::SetName" alt="" coords="158,56,287,83"/>
+<area shape="rect" id="node7" href="$a00004.html#aebf9e7e83a74d5b08ce005a7549687c8" title="Adds an Order to this Delivery." alt="" coords="157,107,288,133"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Delivery::GetOrders" name="Delivery::GetOrders">
+<area shape="rect" id="node3" href="$a00011.html#ab365bb6e4a58555c564e3a52fb8e6da5" title="Calculates and returns one itinerary for the specified delivery." alt="" coords="190,5,335,46"/>
+<area shape="rect" id="node5" href="$a00011.html#a10c7002a367e2c767efe34c101994358" title="Calculates and returns one path per destination for the specified delivery." alt="" coords="190,70,335,111"/>
+<area shape="rect" id="node7" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="385,77,479,104"/>
+<area shape="rect" id="node9" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="529,77,706,104"/>
+<area shape="rect" id="node11" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="757,52,913,79"/>
+<area shape="rect" id="node15" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="755,103,914,129"/>
+<area shape="rect" id="node13" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="963,77,1013,104"/>
+</map>

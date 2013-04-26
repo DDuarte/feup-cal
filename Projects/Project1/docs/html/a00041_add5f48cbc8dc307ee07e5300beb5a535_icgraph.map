@@ -1,0 +1,20 @@
+<map id="ClearConsole" name="ClearConsole">
+<area shape="rect" id="node3" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1048,310,1099,337"/>
+<area shape="rect" id="node5" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="614,310,791,337"/>
+<area shape="rect" id="node7" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="842,285,998,311"/>
+<area shape="rect" id="node10" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="841,335,999,362"/>
+<area shape="rect" id="node15" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="437,107,521,134"/>
+<area shape="rect" id="node18" href="$a00036.html#ac7e0705593ac124f6d70dbcc22822777" title="AddRiver" alt="" coords="442,259,515,286"/>
+<area shape="rect" id="node21" href="$a00036.html#a45e0c70961f0b2098762148c63691492" title="ChangeSeason" alt="" coords="423,310,534,337"/>
+<area shape="rect" id="node24" href="$a00036.html#a64d64265256762fc3a84fb4914647438" title="ViewHydrographicBasin" alt="" coords="399,411,558,438"/>
+<area shape="rect" id="node27" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="431,361,526,387"/>
+<area shape="rect" id="node30" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="433,614,525,641"/>
+<area shape="rect" id="node33" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="392,158,565,185"/>
+<area shape="rect" id="node36" href="$a00036.html#a4d7330341bfa82752515f66fc1f19444" title="NewOrder" alt="" coords="209,715,287,742"/>
+<area shape="rect" id="node39" href="$a00036.html#aa113c0b12508b4014f17d27122cb1e8d" title="SetSourceVillage" alt="" coords="187,766,309,793"/>
+<area shape="rect" id="node42" href="$a00036.html#a81937f327b661809b60a8e23e5b99e5b" title="SetBoatCapacity" alt="" coords="188,462,308,489"/>
+<area shape="rect" id="node45" href="$a00036.html#a7583467aaab5a3b6cce31559dd05be12" title="SetSupportVesselCapacity" alt="" coords="159,513,337,539"/>
+<area shape="rect" id="node48" href="$a00036.html#af882d42af0f3fc91fcf01723729b1a5e" title="SetNumberOfSupportVessels" alt="" coords="152,563,344,590"/>
+<area shape="rect" id="node51" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="201,614,295,641"/>
+<area shape="rect" id="node54" href="$a00016.html#a21624102733e05d281327bdb96c885e6" title="Prints the menu label and returns the Menu or Menu::Item chosen by the user of the menu..." alt="" coords="203,817,293,843"/>
+</map>

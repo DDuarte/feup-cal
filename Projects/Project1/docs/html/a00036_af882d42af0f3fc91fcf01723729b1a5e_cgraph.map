@@ -1,0 +1,5 @@
+<map id="SetNumberOfSupportVessels" name="SetNumberOfSupportVessels">
+<area shape="rect" id="node3" href="$a00004.html#a512313f34ffa3300f429b51f98ebafe3" title="Sets number of boats with support vessels." alt="" coords="246,5,445,46"/>
+<area shape="rect" id="node5" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="292,71,399,97"/>
+<area shape="rect" id="node7" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="296,121,395,148"/>
+</map>

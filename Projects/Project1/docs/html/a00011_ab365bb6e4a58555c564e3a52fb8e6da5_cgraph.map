@@ -1,0 +1,15 @@
+<map id="HydrographicNetwork::GetDeliveryItinerary" name="HydrographicNetwork::GetDeliveryItinerary">
+<area shape="rect" id="node3" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="212,5,388,32"/>
+<area shape="rect" id="node5" href="$a00004.html#a7ba0647e20e4ae6ce294c820e5e22969" title="Gets the map from destination village id to a collection of Orders." alt="" coords="233,56,367,83"/>
+<area shape="rect" id="node7" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="213,107,387,133"/>
+<area shape="rect" id="node9" href="$a00004.html#af83833a229a458c3a43e47b1ad1e3792" title="Gets volume/capacity of the vessel of each boat." alt="" coords="209,158,391,199"/>
+<area shape="rect" id="node11" href="$a00004.html#a579bb62f2390766f7e5668e492476317" title="Gets number of boats with support vessels." alt="" coords="201,223,399,265"/>
+<area shape="rect" id="node13" href="$a00011.html#a13dd8cedf46cb9fbbd8f9f9f13814c6f" title="Filters the unreachable orders from the specified OrderMap." alt="" coords="227,289,373,330"/>
+<area shape="rect" id="node17" href="$a00017.html#aa2d1b0f56a41946d108e4401eec444c1" title="Returns the order weight." alt="" coords="238,355,362,381"/>
+<area shape="rect" id="node19" href="$a00011.html#ab7a89d04702d603b1f7b81a04f139279" title="Returns the vertices of the graph ordered topologically." alt="" coords="227,406,373,447"/>
+<area shape="rect" id="node27" href="$a00011.html#a24e50ed1d97beb24d13e10bd1663da22" title="Returns the dijkstra shortest path from the specified source village." alt="" coords="225,471,375,513"/>
+<area shape="rect" id="node15" href="$a00011.html#a8cf76c8b0dfd7c5014a4120daadd0d17" title="Returns the visitable vertices ids from the specified source village." alt="" coords="463,282,609,323"/>
+<area shape="rect" id="node21" href="$a00010.html#ab5aede193c3759be3066991c84ecb0f3" title="Checks if the graph is acyclic." alt="" coords="449,347,623,389"/>
+<area shape="rect" id="node23" href="$a00010.html#a4e8591a29c3264ce1292d0b53765b25a" title="Returns all vertices of the graph that have indegree 0." alt="" coords="449,413,623,454"/>
+<area shape="rect" id="node25" href="$a00010.html#a88231550da80a16676eb658494c31542" title="Resets the graph indegree values." alt="" coords="449,478,623,519"/>
+</map>

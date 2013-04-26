@@ -1,0 +1,7 @@
+<map id="ChangeSeason" name="ChangeSeason">
+<area shape="rect" id="node3" href="$a00041.html#a40b443ced6fb40c747991e41e12494f4" title="to_lower" alt="" coords="210,5,281,32"/>
+<area shape="rect" id="node5" href="$a00011.html#a7d8dcb76d5dbef1641de7502290673e4" title="Changes the rivers capacity multiplying all the rivers capacities by the specified factor..." alt="" coords="165,57,325,98"/>
+<area shape="rect" id="node7" href="$a00011.html#a902bef196f3149bfcedb700fda23f31e" title="Returns the GraphViewer class pointer." alt="" coords="173,122,318,163"/>
+<area shape="rect" id="node9" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="192,188,299,215"/>
+<area shape="rect" id="node11" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="196,239,295,265"/>
+</map>

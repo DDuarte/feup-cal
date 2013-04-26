@@ -1,0 +1,51 @@
+<map id="NewHydrographicBasin" name="NewHydrographicBasin">
+<area shape="rect" id="node3" href="$a00041.html#a40b443ced6fb40c747991e41e12494f4" title="to_lower" alt="" coords="719,1557,790,1584"/>
+<area shape="rect" id="node5" href="$a00044.html#a17b22680bee0116675aace4608269acb" title="Returns true if file exists." alt="" coords="711,443,799,469"/>
+<area shape="rect" id="node7" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="923,1177,1021,1204"/>
+<area shape="rect" id="node9" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="211,1355,389,1381"/>
+<area shape="rect" id="node11" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="713,1608,797,1635"/>
+<area shape="rect" id="node19" href="$a00011.html#a902bef196f3149bfcedb700fda23f31e" title="Returns the GraphViewer class pointer." alt="" coords="899,1626,1045,1667"/>
+<area shape="rect" id="node21" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="919,927,1025,953"/>
+<area shape="rect" id="node24" href="$a00036.html#ac7e0705593ac124f6d70dbcc22822777" title="AddRiver" alt="" coords="718,1507,791,1533"/>
+<area shape="rect" id="node39" href="$a00036.html#a45e0c70961f0b2098762148c63691492" title="ChangeSeason" alt="" coords="469,1531,579,1557"/>
+<area shape="rect" id="node47" href="$a00036.html#a64d64265256762fc3a84fb4914647438" title="ViewHydrographicBasin" alt="" coords="675,645,834,672"/>
+<area shape="rect" id="node57" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="707,173,802,200"/>
+<area shape="rect" id="node84" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="478,1051,570,1077"/>
+<area shape="rect" id="node125" href="$a00016.html#a21624102733e05d281327bdb96c885e6" title="Prints the menu label and returns the Menu or Menu::Item chosen by the user of the menu..." alt="" coords="710,1776,799,1803"/>
+<area shape="rect" id="node134" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="437,392,611,419"/>
+<area shape="rect" id="node144" href="$a00011.html#af7afd384337a46adbc22b0cd970b7c60" title="Returns the menu for the HydrographicNetwork class." alt="" coords="451,1457,597,1498"/>
+<area shape="rect" id="node13" href="$a00011.html#a5f82dd9a80dd8c20bf555be3026ca2a7" title="Adds a village to the HydrographicNetwork." alt="" coords="899,1482,1045,1523"/>
+<area shape="rect" id="node15" href="$a00010.html#a06b695edeffd671eb0222d0eb27b1cf4" title="Adds a vertex to the graph." alt="" coords="1097,1482,1271,1523"/>
+<area shape="rect" id="node17" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="1094,1334,1274,1375"/>
+<area shape="rect" id="node26" href="$a00011.html#a59a21ab80d23f5b598b71c4714ae4ed4" title="Returns the Village with the specified id." alt="" coords="899,1278,1045,1319"/>
+<area shape="rect" id="node28" href="$a00011.html#ad783919bd3555029526d544642fa6536" title="Adds a river to the HydrographicNetwork." alt="" coords="899,1383,1045,1425"/>
+<area shape="rect" id="node30" href="$a00010.html#a9ce93102158c9dbcf88f50bfeb1df355" title="Adds an edge to the graph with the specified source and the specified destination." alt="" coords="1097,1399,1271,1441"/>
+<area shape="rect" id="node32" href="$a00010.html#aba5300c03e921d8683a4c22f13a9c849" title="Removes the specified edge." alt="" coords="1097,1269,1271,1310"/>
+<area shape="rect" id="node34" href="$a00011.html#ad867bc8fe010586e392c5cfb51bc5f59" title="HydrographicNetwork\l::AddRiverToGraphViewer" alt="" coords="1099,1027,1269,1069"/>
+<area shape="rect" id="node42" href="$a00011.html#a7d8dcb76d5dbef1641de7502290673e4" title="Changes the rivers capacity multiplying all the rivers capacities by the specified factor..." alt="" coords="675,1710,835,1751"/>
+<area shape="rect" id="node49" href="$a00011.html#aac77ebe55b553ece1be8eb80f5d4a1f8" title="Shows the HydrographicNetwork with the GraphViewer API." alt="" coords="899,786,1045,827"/>
+<area shape="rect" id="node53" href="$a00011.html#a30fe331f59de4ca80af7093468c0d525" title="Returns the river with the specified id." alt="" coords="1111,786,1257,827"/>
+<area shape="rect" id="node59" href="$a00011.html#aba2abe3b37b6ea8f66475fd4c4364bc4" title="HydrographicNetwork\l::GetName" alt="" coords="899,385,1045,426"/>
+<area shape="rect" id="node61" href="$a00044.html#af1d5c00162cc5d7c96d5a90155ae0315" title="Puts file names of directory into container." alt="" coords="922,224,1022,251"/>
+<area shape="rect" id="node63" href="$a00041.html#a8ddc99f71f3aeb59c1680cc528fe04cc" title="Returns true if str starts with prefix." alt="" coords="929,5,1015,32"/>
+<area shape="rect" id="node65" href="$a00044.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="933,56,1011,83"/>
+<area shape="rect" id="node67" href="$a00011.html#a10c7002a367e2c767efe34c101994358" title="Calculates and returns one path per destination for the specified delivery." alt="" coords="899,107,1045,149"/>
+<area shape="rect" id="node76" href="$a00005.html#a6537c147795dae3e8f18110cf74aaaf5" title="Saves DeliveryRoute data to a ByteBuffer." alt="" coords="903,173,1041,200"/>
+<area shape="rect" id="node78" href="$a00044.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="933,275,1011,301"/>
+<area shape="rect" id="node80" href="$a00002.html#a6cddc97dd235c7b3740c19ec0acdba33" title="Returns the size of the buffer." alt="" coords="914,325,1030,352"/>
+<area shape="rect" id="node69" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="1096,64,1272,91"/>
+<area shape="rect" id="node71" href="$a00004.html#a7ba0647e20e4ae6ce294c820e5e22969" title="Gets the map from destination village id to a collection of Orders." alt="" coords="1117,115,1251,141"/>
+<area shape="rect" id="node73" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="1097,165,1271,192"/>
+<area shape="rect" id="node92" href="$a00004.html#a895e977b3ba9823ee8f7fee81bb96d12" title="Delivery::SetName" alt="" coords="690,899,819,925"/>
+<area shape="rect" id="node94" href="$a00036.html#a4d7330341bfa82752515f66fc1f19444" title="NewOrder" alt="" coords="715,1152,794,1179"/>
+<area shape="rect" id="node99" href="$a00036.html#aa113c0b12508b4014f17d27122cb1e8d" title="SetSourceVillage" alt="" coords="693,1253,816,1280"/>
+<area shape="rect" id="node104" href="$a00036.html#a81937f327b661809b60a8e23e5b99e5b" title="SetBoatCapacity" alt="" coords="695,1101,815,1128"/>
+<area shape="rect" id="node108" href="$a00036.html#a7583467aaab5a3b6cce31559dd05be12" title="SetSupportVesselCapacity" alt="" coords="665,848,844,875"/>
+<area shape="rect" id="node112" href="$a00036.html#af882d42af0f3fc91fcf01723729b1a5e" title="SetNumberOfSupportVessels" alt="" coords="659,1000,851,1027"/>
+<area shape="rect" id="node116" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="707,493,802,520"/>
+<area shape="rect" id="node123" href="$a00004.html#a38aac808880a234856a026180f115eae" title="Returns the menu for the Delivery class." alt="" coords="691,949,819,976"/>
+<area shape="rect" id="node127" href="$a00012.html#a8001dddccd84dfb30fa8437bc3925f3e" title="Returns the Menu&#39;s parent. Can be null." alt="" coords="910,1725,1034,1752"/>
+<area shape="rect" id="node129" href="$a00016.html#a99d6c04ebd7b6aa9b09f465b7a3402f2" title="Indexer." alt="" coords="913,1776,1031,1803"/>
+<area shape="rect" id="node132" href="$a00012.html#a6d8ca464073ead62792613526d6f3c6b" title="Prints the menu label and returns the Menu or Menu::Item chosen by the user of the menu..." alt="" coords="926,1827,1018,1853"/>
+<area shape="rect" id="node136" href="$a00011.html#ac07d906ce2035d7597f652fb6c82c2c2" title="HydrographicNetwork\l::Save" alt="" coords="682,326,827,367"/>
+</map>

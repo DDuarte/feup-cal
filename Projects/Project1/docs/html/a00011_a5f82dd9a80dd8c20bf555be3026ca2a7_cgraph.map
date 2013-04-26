@@ -1,0 +1,7 @@
+<map id="HydrographicNetwork::AddVillage" name="HydrographicNetwork::AddVillage">
+<area shape="rect" id="node3" href="$a00010.html#a06b695edeffd671eb0222d0eb27b1cf4" title="Adds a vertex to the graph." alt="" coords="203,5,378,46"/>
+<area shape="rect" id="node5" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="201,70,381,111"/>
+<area shape="rect" id="node7" href="$a00024.html#ae202df20b812a313c3db9aa9d17cdec1" title="Returns Village&#39;s x coordinate." alt="" coords="443,27,541,53"/>
+<area shape="rect" id="node9" href="$a00024.html#aa4d574ed89c20a6635e496c69486d35d" title="Returns Village&#39;s y coordinate." alt="" coords="443,77,541,104"/>
+<area shape="rect" id="node11" href="$a00024.html#ad598542160b249adcf0074f95e4eeecf" title="Returns the name of the Village." alt="" coords="430,128,554,155"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="Village::GetName" name="Village::GetName">
+<area shape="rect" id="node3" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="179,130,359,171"/>
+<area shape="rect" id="node5" href="$a00011.html#aac77ebe55b553ece1be8eb80f5d4a1f8" title="Shows the HydrographicNetwork with the GraphViewer API." alt="" coords="409,86,554,127"/>
+<area shape="rect" id="node23" href="$a00011.html#a5f82dd9a80dd8c20bf555be3026ca2a7" title="Adds a village to the HydrographicNetwork." alt="" coords="409,173,554,214"/>
+<area shape="rect" id="node7" href="$a00011.html#a63136d7b651f2ecad29cc8eb6c8da5bb" title="Shows the HydrographicNetwork and the specified DeliveryRoute with the GraphViewer API..." alt="" coords="610,5,755,46"/>
+<area shape="rect" id="node9" href="$a00036.html#a64d64265256762fc3a84fb4914647438" title="ViewHydrographicBasin" alt="" coords="603,71,762,97"/>
+<area shape="rect" id="node20" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="635,121,730,148"/>
+<area shape="rect" id="node11" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="811,121,989,148"/>
+<area shape="rect" id="node13" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="1039,96,1195,123"/>
+<area shape="rect" id="node17" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="1038,147,1197,173"/>
+<area shape="rect" id="node15" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1245,121,1296,148"/>
+<area shape="rect" id="node25" href="$a00011.html#a8cc70bdbe618e493f93196ada08ba7bd" title="Loads an HydrographicNetwork from the specified ByteBuffer instance." alt="" coords="610,173,755,214"/>
+<area shape="rect" id="node27" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="641,239,725,265"/>
+</map>

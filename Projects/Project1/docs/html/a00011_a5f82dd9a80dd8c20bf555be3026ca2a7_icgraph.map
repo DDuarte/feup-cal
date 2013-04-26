@@ -1,0 +1,8 @@
+<map id="HydrographicNetwork::AddVillage" name="HydrographicNetwork::AddVillage">
+<area shape="rect" id="node3" href="$a00011.html#a8cc70bdbe618e493f93196ada08ba7bd" title="Loads an HydrographicNetwork from the specified ByteBuffer instance." alt="" coords="201,5,346,46"/>
+<area shape="rect" id="node5" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="231,71,315,97"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="395,71,573,97"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="623,45,779,72"/>
+<area shape="rect" id="node13" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="622,96,781,123"/>
+<area shape="rect" id="node11" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="829,71,880,97"/>
+</map>

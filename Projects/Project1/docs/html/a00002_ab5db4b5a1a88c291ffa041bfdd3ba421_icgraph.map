@@ -1,0 +1,4 @@
+<map id="ByteBuffer::Append7BitEncodedInt" name="ByteBuffer::Append7BitEncodedInt">
+<area shape="rect" id="node3" href="$a00002.html#aca90f09678be4b305a46301312e8489d" title="Writes a variable length size (4 bytes max) then the string." alt="" coords="277,5,432,32"/>
+<area shape="rect" id="node5" href="$a00002.html#a22bf189b2222af494ba71300c6c2637a" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="481,5,634,32"/>
+</map>

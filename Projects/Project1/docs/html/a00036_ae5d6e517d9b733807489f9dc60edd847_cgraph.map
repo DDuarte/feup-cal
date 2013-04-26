@@ -1,0 +1,15 @@
+<map id="SaveDelivery" name="SaveDelivery">
+<area shape="rect" id="node3" href="$a00004.html#a5b38663203b0e0989cc94dd2d5fbc4c6" title="Saves Delivery data to a ByteBuffer." alt="" coords="171,107,274,133"/>
+<area shape="rect" id="node5" href="$a00004.html#abde95438b1c17ef6d4f2bd60590b57ee" title="Delivery::GetName" alt="" coords="379,5,509,32"/>
+<area shape="rect" id="node19" href="$a00011.html#aba2abe3b37b6ea8f66475fd4c4364bc4" title="HydrographicNetwork\l::GetName" alt="" coords="150,158,295,199"/>
+<area shape="rect" id="node22" href="$a00044.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="183,224,262,251"/>
+<area shape="rect" id="node24" href="$a00002.html#a6cddc97dd235c7b3740c19ec0acdba33" title="Returns the size of the buffer." alt="" coords="165,275,281,301"/>
+<area shape="rect" id="node26" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="169,325,276,352"/>
+<area shape="rect" id="node28" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="173,376,272,403"/>
+<area shape="rect" id="node7" href="$a00004.html#a443718692b88d737c99fe2cf6ad6a9d2" title="Gets source village id of all orders in this delivery." alt="" coords="356,56,532,83"/>
+<area shape="rect" id="node9" href="$a00004.html#a84c156c38a6ae7e9289187471c895a20" title="Gets volume/capacity of each boat." alt="" coords="357,107,531,133"/>
+<area shape="rect" id="node11" href="$a00004.html#af83833a229a458c3a43e47b1ad1e3792" title="Gets volume/capacity of the vessel of each boat." alt="" coords="353,158,535,199"/>
+<area shape="rect" id="node13" href="$a00004.html#a579bb62f2390766f7e5668e492476317" title="Gets number of boats with support vessels." alt="" coords="345,223,543,265"/>
+<area shape="rect" id="node15" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="367,289,521,316"/>
+<area shape="rect" id="node17" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="593,289,727,316"/>
+</map>

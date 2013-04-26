@@ -1,0 +1,22 @@
+<map id="ByteBuffer::Append" name="ByteBuffer::Append">
+<area shape="rect" id="node3" href="$a00002.html#a2a08b4b60e1bfd81bb93e1827e0dff4a" title="ByteBuffer::Append" alt="" coords="234,107,369,133"/>
+<area shape="rect" id="node5" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="224,157,379,184"/>
+<area shape="rect" id="node36" href="$a00002.html#aca90f09678be4b305a46301312e8489d" title="Writes a variable length size (4 bytes max) then the string." alt="" coords="461,259,616,285"/>
+<area shape="rect" id="node40" href="$a00002.html#a72934ccef728e31a6ab6b7cd0120b7d0" title="Writes a null terminated string." alt="" coords="219,309,383,336"/>
+<area shape="rect" id="node44" href="$a00002.html#ab5db4b5a1a88c291ffa041bfdd3ba421" title="Variable length value." alt="" coords="190,259,413,285"/>
+<area shape="rect" id="node7" href="$a00002.html#abccec687d841c5f53c1b5b501987e6f9" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="462,5,615,32"/>
+<area shape="rect" id="node9" href="$a00004.html#a5b38663203b0e0989cc94dd2d5fbc4c6" title="Saves Delivery data to a ByteBuffer." alt="" coords="487,56,590,83"/>
+<area shape="rect" id="node24" href="$a00005.html#a6537c147795dae3e8f18110cf74aaaf5" title="Saves DeliveryRoute data to a ByteBuffer." alt="" coords="673,107,810,133"/>
+<area shape="rect" id="node29" href="$a00011.html#ac07d906ce2035d7597f652fb6c82c2c2" title="HydrographicNetwork\l::Save" alt="" coords="669,158,814,199"/>
+<area shape="rect" id="node34" href="$a00015.html#a1937539551e140704bff1166e8542192" title="Load method." alt="" coords="490,208,587,235"/>
+<area shape="rect" id="node11" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="694,56,789,83"/>
+<area shape="rect" id="node13" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="907,56,999,83"/>
+<area shape="rect" id="node15" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="1089,107,1266,133"/>
+<area shape="rect" id="node17" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="1317,81,1473,108"/>
+<area shape="rect" id="node21" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="1315,132,1474,159"/>
+<area shape="rect" id="node19" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1523,107,1573,133"/>
+<area shape="rect" id="node26" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="906,107,1001,133"/>
+<area shape="rect" id="node31" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="867,161,1040,188"/>
+<area shape="rect" id="node38" href="$a00002.html#a22bf189b2222af494ba71300c6c2637a" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="665,259,818,285"/>
+<area shape="rect" id="node42" href="$a00002.html#aed79afc4fd02087f9cecf0fa0e895c36" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="462,309,615,336"/>
+</map>

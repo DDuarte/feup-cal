@@ -1,0 +1,11 @@
+<map id="SaveHydrographicNetwork" name="SaveHydrographicNetwork">
+<area shape="rect" id="node3" href="$a00011.html#ac07d906ce2035d7597f652fb6c82c2c2" title="HydrographicNetwork\l::Save" alt="" coords="227,67,373,109"/>
+<area shape="rect" id="node5" href="$a00011.html#aba2abe3b37b6ea8f66475fd4c4364bc4" title="HydrographicNetwork\l::GetName" alt="" coords="437,5,582,46"/>
+<area shape="rect" id="node14" href="$a00044.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="261,133,339,160"/>
+<area shape="rect" id="node16" href="$a00002.html#a6cddc97dd235c7b3740c19ec0acdba33" title="Returns the size of the buffer." alt="" coords="242,184,358,211"/>
+<area shape="rect" id="node18" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="247,235,353,261"/>
+<area shape="rect" id="node20" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="251,285,349,312"/>
+<area shape="rect" id="node7" href="$a00010.html#a130f1a81c7d39adf468929fa0b9c14dd" title="Returns the number of vertices." alt="" coords="422,70,597,111"/>
+<area shape="rect" id="node9" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="432,136,587,163"/>
+<area shape="rect" id="node11" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="646,136,781,163"/>
+</map>

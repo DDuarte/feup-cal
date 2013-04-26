@@ -1,0 +1,7 @@
+<map id="Menu::Print" name="Menu::Print">
+<area shape="rect" id="node3" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="720,34,771,60"/>
+<area shape="rect" id="node5" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="286,59,463,86"/>
+<area shape="rect" id="node13" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="145,84,237,111"/>
+<area shape="rect" id="node7" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="514,34,670,60"/>
+<area shape="rect" id="node10" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="513,84,671,111"/>
+</map>

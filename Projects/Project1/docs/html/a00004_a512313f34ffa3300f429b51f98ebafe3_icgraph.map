@@ -1,0 +1,8 @@
+<map id="Delivery::SetNumberOfSupportVessels" name="Delivery::SetNumberOfSupportVessels">
+<area shape="rect" id="node3" href="$a00036.html#af882d42af0f3fc91fcf01723729b1a5e" title="SetNumberOfSupportVessels" alt="" coords="253,31,445,57"/>
+<area shape="rect" id="node5" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="494,31,586,57"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="635,31,813,57"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="863,5,1019,32"/>
+<area shape="rect" id="node13" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="862,56,1021,83"/>
+<area shape="rect" id="node11" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1069,31,1120,57"/>
+</map>

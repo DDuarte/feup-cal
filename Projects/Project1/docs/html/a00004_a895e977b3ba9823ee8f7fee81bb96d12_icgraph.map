@@ -1,0 +1,8 @@
+<map id="Delivery::SetName" name="Delivery::SetName">
+<area shape="rect" id="node3" href="$a00004.html#af4cf978fdb8f057cd3bbea85c76009b3" title="Loads orders from file." alt="" coords="185,5,287,32"/>
+<area shape="rect" id="node5" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="190,56,282,83"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="337,56,514,83"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="565,31,721,57"/>
+<area shape="rect" id="node13" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="563,81,722,108"/>
+<area shape="rect" id="node11" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="771,56,821,83"/>
+</map>

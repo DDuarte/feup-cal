@@ -1,0 +1,5 @@
+<map id="SetSupportVesselCapacity" name="SetSupportVesselCapacity">
+<area shape="rect" id="node3" href="$a00004.html#a508a043ce5d7c3a9e98ff8c1f2a52452" title="Sets volume/capacity of the vessel of each boat." alt="" coords="233,5,413,46"/>
+<area shape="rect" id="node5" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="269,71,376,97"/>
+<area shape="rect" id="node7" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="273,121,372,148"/>
+</map>

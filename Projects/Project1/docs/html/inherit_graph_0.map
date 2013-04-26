@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title="STL class." alt="" coords="5,56,109,83"/>
+<area shape="rect" id="node3" href="$a00001.html" title="Exception thrown when a menu action was canceled." alt="" coords="171,5,285,32"/>
+<area shape="rect" id="node5" href="$a00003.html" title="Exception thrown when something bad happens in the ByteBuffer." alt="" coords="158,56,298,83"/>
+<area shape="rect" id="node7" title="STL class." alt="" coords="166,107,290,133"/>
+<area shape="rect" id="node9" href="$a00013.html" title="Exception thrown when an invalid value is read from the console." alt="" coords="348,81,439,108"/>
+<area shape="rect" id="node13" href="$a00018.html" title="Exception thrown when a menu&#39;s parent is invalid." alt="" coords="347,132,439,159"/>
+<area shape="rect" id="node11" href="$a00009.html" title="Exception thrown when Ctrl+Z (Windows) or Ctrl+D (Linux) is pressed in the console." alt="" coords="488,81,627,108"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="IMenu::Print" name="IMenu::Print">
+<area shape="rect" id="node3" href="$a00016.html#a21624102733e05d281327bdb96c885e6" title="Prints the menu label and returns the Menu or Menu::Item chosen by the user of the menu..." alt="" coords="147,34,237,60"/>
+<area shape="rect" id="node5" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="861,34,912,60"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="427,59,605,86"/>
+<area shape="rect" id="node15" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="286,84,378,111"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="655,34,811,60"/>
+<area shape="rect" id="node12" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="654,84,813,111"/>
+</map>

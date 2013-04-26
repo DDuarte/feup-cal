@@ -1,0 +1,11 @@
+<map id="HydrographicNetwork::GetName" name="HydrographicNetwork::GetName">
+<area shape="rect" id="node3" href="$a00011.html#ac07d906ce2035d7597f652fb6c82c2c2" title="HydrographicNetwork\l::Save" alt="" coords="201,5,346,46"/>
+<area shape="rect" id="node5" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="395,71,568,97"/>
+<area shape="rect" id="node16" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="434,121,529,148"/>
+<area shape="rect" id="node19" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="435,172,527,199"/>
+<area shape="rect" id="node23" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="226,223,321,249"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="617,121,794,148"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="845,96,1001,123"/>
+<area shape="rect" id="node13" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="843,147,1002,173"/>
+<area shape="rect" id="node11" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1051,121,1101,148"/>
+</map>

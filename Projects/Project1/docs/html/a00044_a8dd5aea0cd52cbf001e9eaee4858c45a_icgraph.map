@@ -1,0 +1,10 @@
+<map id="File::Save" name="File::Save">
+<area shape="rect" id="node3" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="355,5,450,32"/>
+<area shape="rect" id="node14" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="133,56,307,83"/>
+<area shape="rect" id="node17" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="173,107,267,133"/>
+<area shape="rect" id="node5" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="499,56,677,83"/>
+<area shape="rect" id="node7" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="727,31,883,57"/>
+<area shape="rect" id="node11" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="726,81,885,108"/>
+<area shape="rect" id="node9" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="933,56,984,83"/>
+<area shape="rect" id="node19" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="357,107,449,133"/>
+</map>

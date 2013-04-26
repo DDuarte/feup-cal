@@ -1,0 +1,5 @@
+<map id="reverse" name="reverse">
+<area shape="rect" id="node3" href="$a00010.html#af8f19372fabe8bbc208e7e6b588a38e7" title="Performs a depth&#45;first&#45;search on the graph and returns a std::vector&lt;uint&gt; containing the ids by the ..." alt="" coords="153,5,237,32"/>
+<area shape="rect" id="node5" href="$a00010.html#a503984c867cf509a1f4996cd38c4145e" title="Returns the number of cycles of the graph." alt="" coords="118,56,271,83"/>
+<area shape="rect" id="node7" href="$a00006.html#aa716c4356c96da7ddac9dd4babb6b1ee" title="Returns the path from the specified source to the specified destination." alt="" coords="127,107,263,149"/>
+</map>

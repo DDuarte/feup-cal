@@ -1,0 +1,8 @@
+<map id="Delivery::SetBoatCapacity" name="Delivery::SetBoatCapacity">
+<area shape="rect" id="node3" href="$a00036.html#a81937f327b661809b60a8e23e5b99e5b" title="SetBoatCapacity" alt="" coords="227,31,347,57"/>
+<area shape="rect" id="node5" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="395,31,487,57"/>
+<area shape="rect" id="node7" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="537,31,714,57"/>
+<area shape="rect" id="node9" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="765,5,921,32"/>
+<area shape="rect" id="node13" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="763,56,922,83"/>
+<area shape="rect" id="node11" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="971,31,1021,57"/>
+</map>

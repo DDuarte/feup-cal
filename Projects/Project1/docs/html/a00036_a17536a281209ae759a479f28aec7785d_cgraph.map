@@ -1,0 +1,11 @@
+<map id="AddVillage" name="AddVillage">
+<area shape="rect" id="node3" href="$a00011.html#a5f82dd9a80dd8c20bf555be3026ca2a7" title="Adds a village to the HydrographicNetwork." alt="" coords="139,37,285,78"/>
+<area shape="rect" id="node15" href="$a00011.html#a902bef196f3149bfcedb700fda23f31e" title="Returns the GraphViewer class pointer." alt="" coords="139,102,285,143"/>
+<area shape="rect" id="node17" href="$a00041.html#aab4133689fcf96ef8d3c8502de05a007" title="Prints a message and waits for a key to be pressed." alt="" coords="159,168,265,195"/>
+<area shape="rect" id="node19" href="$a00041.html#add5f48cbc8dc307ee07e5300beb5a535" title="Empties the console screen." alt="" coords="163,219,261,245"/>
+<area shape="rect" id="node5" href="$a00010.html#a06b695edeffd671eb0222d0eb27b1cf4" title="Adds a vertex to the graph." alt="" coords="337,5,511,46"/>
+<area shape="rect" id="node7" href="$a00011.html#a5e333f03554acda2da05c00461f08375" title="HydrographicNetwork\l::AddVillageToGraphViewer" alt="" coords="334,70,514,111"/>
+<area shape="rect" id="node9" href="$a00024.html#ae202df20b812a313c3db9aa9d17cdec1" title="Returns Village&#39;s x coordinate." alt="" coords="577,27,674,53"/>
+<area shape="rect" id="node11" href="$a00024.html#aa4d574ed89c20a6635e496c69486d35d" title="Returns Village&#39;s y coordinate." alt="" coords="576,77,675,104"/>
+<area shape="rect" id="node13" href="$a00024.html#ad598542160b249adcf0074f95e4eeecf" title="Returns the name of the Village." alt="" coords="563,128,687,155"/>
+</map>

@@ -1,0 +1,19 @@
+<map id="PauseConsole" name="PauseConsole">
+<area shape="rect" id="node3" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1056,152,1107,179"/>
+<area shape="rect" id="node5" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="622,203,799,229"/>
+<area shape="rect" id="node13" href="$a00036.html#a17536a281209ae759a479f28aec7785d" title="AddVillage" alt="" coords="445,101,529,128"/>
+<area shape="rect" id="node16" href="$a00036.html#ac7e0705593ac124f6d70dbcc22822777" title="AddRiver" alt="" coords="450,152,523,179"/>
+<area shape="rect" id="node19" href="$a00036.html#a45e0c70961f0b2098762148c63691492" title="ChangeSeason" alt="" coords="431,203,542,229"/>
+<area shape="rect" id="node22" href="$a00036.html#a64d64265256762fc3a84fb4914647438" title="ViewHydrographicBasin" alt="" coords="407,253,566,280"/>
+<area shape="rect" id="node25" href="$a00036.html#a245d7ddbe7d796e338e6d96ae3517d69" title="ViewDelivery" alt="" coords="439,304,534,331"/>
+<area shape="rect" id="node28" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="441,532,533,559"/>
+<area shape="rect" id="node31" href="$a00036.html#ad7fce57ac38c0d3f35022843138a7072" title="SaveHydrographicNetwork" alt="" coords="400,355,573,381"/>
+<area shape="rect" id="node34" href="$a00036.html#a4d7330341bfa82752515f66fc1f19444" title="NewOrder" alt="" coords="217,456,295,483"/>
+<area shape="rect" id="node37" href="$a00036.html#aa113c0b12508b4014f17d27122cb1e8d" title="SetSourceVillage" alt="" coords="195,507,317,533"/>
+<area shape="rect" id="node40" href="$a00036.html#a81937f327b661809b60a8e23e5b99e5b" title="SetBoatCapacity" alt="" coords="196,557,316,584"/>
+<area shape="rect" id="node43" href="$a00036.html#a7583467aaab5a3b6cce31559dd05be12" title="SetSupportVesselCapacity" alt="" coords="167,608,345,635"/>
+<area shape="rect" id="node46" href="$a00036.html#af882d42af0f3fc91fcf01723729b1a5e" title="SetNumberOfSupportVessels" alt="" coords="160,659,352,685"/>
+<area shape="rect" id="node49" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="209,709,303,736"/>
+<area shape="rect" id="node7" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="850,152,1006,179"/>
+<area shape="rect" id="node10" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="849,203,1007,229"/>
+</map>

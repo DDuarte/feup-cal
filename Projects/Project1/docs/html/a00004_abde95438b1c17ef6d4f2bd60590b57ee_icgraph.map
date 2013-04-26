@@ -1,0 +1,9 @@
+<map id="Delivery::GetName" name="Delivery::GetName">
+<area shape="rect" id="node3" href="$a00004.html#a5b38663203b0e0989cc94dd2d5fbc4c6" title="Saves Delivery data to a ByteBuffer." alt="" coords="185,5,287,32"/>
+<area shape="rect" id="node5" href="$a00036.html#ae5d6e517d9b733807489f9dc60edd847" title="SaveDelivery" alt="" coords="337,31,431,57"/>
+<area shape="rect" id="node7" href="$a00036.html#a866e4b82c882f747fd26b1ce69545138" title="NewDelivery" alt="" coords="481,31,573,57"/>
+<area shape="rect" id="node9" href="$a00036.html#aafcac47ce1c36aa1e9a3f8b4b7211079" title="HydrographicNetworkMenu" alt="" coords="622,31,799,57"/>
+<area shape="rect" id="node11" href="$a00036.html#ac46c9fc8d3dbe77eb4ddbb427ac94746" title="NewHydrographicBasin" alt="" coords="850,5,1006,32"/>
+<area shape="rect" id="node15" href="$a00036.html#a0ef1c764d44b2d28895fe2ddb4de8391" title="LoadHydrographicBasin" alt="" coords="849,56,1007,83"/>
+<area shape="rect" id="node13" href="$a00036.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1056,31,1107,57"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Loader::Load" name="Loader::Load">
+<area shape="rect" id="node3" href="$a00044.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="190,5,269,32"/>
+<area shape="rect" id="node5" href="$a00002.html#a9adc146d818c39a2fc41fb3b08c8c287" title="ByteBuffer::WriteBuffer" alt="" coords="152,56,307,83"/>
+<area shape="rect" id="node7" href="$a00002.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="355,56,490,83"/>
+</map>
