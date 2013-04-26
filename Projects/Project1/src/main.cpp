@@ -396,10 +396,11 @@ void ViewDelivery(HydrographicNetwork* hn)
         throw ActionCanceled("View Delivery");
     }
 
-    //std::thread thread([hn, selectedDeliveryName]() // ViewGraph(delivery, color) blocks the caller due to silly animations
+    //std::thread thread([hn, selectedDeliveryName]() // ViewGraph(delivery) blocks the caller due to silly animations
     //{
         Delivery* delivery = Loader<Delivery>(selectedDeliveryName).Load();
         DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
+        std::cout << "Processing... Viewer windows is being updated." << std::endl;
         hn->ViewGraph(deliveryRoute);
         delete delivery;
     //});

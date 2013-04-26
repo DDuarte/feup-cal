@@ -646,26 +646,42 @@ void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery)
     if (_graphViewer == nullptr)
         ViewGraph();
 
-    for (auto& v : _vertices)
+    for (auto& v : _vertices) // remove labels and reset previous run
+    {
         _graphViewer->setVertexLabel(v.first, WHITESPACE_GRAPHVIEWER);
+        _graphViewer->setVertexColor(v.first, DARK_GRAY);
+    }
 
-    for (auto& r : _rivers)
+    for (auto& r : _rivers) // remove labels
         _graphViewer->setEdgeLabel(r.first, WHITESPACE_GRAPHVIEWER);
 
+    // set different colors for source and all destination villages
     for (std::pair<uint, std::vector<DeliveryRoute::PathInfo>> d : delivery.Path)
     {
         _graphViewer->setVertexColor(d.second.front().villageId, GREEN); // source
         _graphViewer->setVertexColor(d.first, RED); // destination
     }
 
-    uint tempEdgeId = _nextRiverId * 2 + 1;
+    static uint tempEdgeId = _nextRiverId * 2 + 1;
+    static uint addedEdgesCount = 0;
+
+    if (addedEdgesCount != 0) // cleanup previous run
+    {
+        for (uint i = 0; i < addedEdgesCount; ++i)
+            _graphViewer->removeEdge(_nextRiverId * 2 + 1 + i);
+
+        addedEdgesCount = 0;
+        tempEdgeId = _nextRiverId * 2 + 1;
+
+        _graphViewer->rearrange();
+    }
 
     for (std::pair<uint, std::vector<DeliveryRoute::PathInfo>> d : delivery.Path)
     {
         for (size_t i = 0; i < d.second.size() - 1; ++i)
         {
             _graphViewer->addEdge(tempEdgeId, d.second[i].villageId, d.second[i + 1].villageId, EdgeType::DIRECTED);
-            _graphViewer->setEdgeColor(tempEdgeId, d.second[i].isIgarape ? WHITE : BLACK);
+            _graphViewer->setEdgeColor(tempEdgeId, d.second[i].isIgarape ? ORANGE : BLACK);
             _graphViewer->setEdgeLabel(tempEdgeId, std::to_string(i + 1));
 
             // Animation:
@@ -673,9 +689,8 @@ void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery)
             _graphViewer->rearrange();
 
             tempEdgeId += 1;
+            addedEdgesCount++;
         }
-
-        _graphViewer->rearrange();
     }
 }
 
