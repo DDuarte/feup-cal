@@ -609,25 +609,25 @@ void HydrographicNetwork::ViewGraph()
             _graphViewer->removeEdge(r.first);
     }
 
-    std::pair<std::map<uint, Vertex*>::iterator, std::map<uint, Vertex*>::iterator> minmaxVerticeX = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
-    {
-        return ver1.second->info.GetX() < ver2.second->info.GetX();
-    });
-
-    auto minmaxVerticeY = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
-    {
-        return ver1.second->info.GetY() < ver2.second->info.GetY();
-    });
-
-    double dX = static_cast<double>(WINDOW_WIDTH)  / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + WINDOW_MARGIN);
-    double dY = static_cast<double>(WINDOW_HEIGHT) / (minmaxVerticeY.second->second->info.GetY() - minmaxVerticeY.first->second->info.GetY() + WINDOW_MARGIN);
+    //std::pair<std::map<uint, Vertex*>::iterator, std::map<uint, Vertex*>::iterator> minmaxVerticeX = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
+    //{
+    //    return ver1.second->info.GetX() < ver2.second->info.GetX();
+    //});
+    //
+    //auto minmaxVerticeY = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
+    //{
+    //    return ver1.second->info.GetY() < ver2.second->info.GetY();
+    //});
+    //
+    //double dX = static_cast<double>(WINDOW_WIDTH)  / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + WINDOW_MARGIN);
+    //double dY = static_cast<double>(WINDOW_HEIGHT) / (minmaxVerticeY.second->second->info.GetY() - minmaxVerticeY.first->second->info.GetY() + WINDOW_MARGIN);
 
     _graphViewer->defineVertexColor(DARK_GRAY);
     _graphViewer->defineEdgeColor(BLUE);
 
     for (std::map<uint, Vertex*>::value_type v : _vertices)
     {
-        AddVillageToGraphViewer(v.first, Village(v.second->info), dX, dY);
+        AddVillageToGraphViewer(v.first, Village(v.second->info) /*, dX, dY */);
 
         for (Edge& e : v.second->adj)
         {
@@ -1054,14 +1054,14 @@ uint HydrographicNetwork::AddVillage(const Village& info)
     uint id = AddVertex(info);
 
     if (_graphViewer)
-        AddVillageToGraphViewer(id, info, 1.0, 1.0);
+        AddVillageToGraphViewer(id, info /*, 1.0, 1.0 */);
 
     return id;
 }
 
-void HydrographicNetwork::AddVillageToGraphViewer(uint id, const Village& info, double dX, double dY) const
+void HydrographicNetwork::AddVillageToGraphViewer(uint id, const Village& info /*, double dX, double dY*/) const
 {
-    _graphViewer->addNode(id, static_cast<int>(info.GetX() * dX), static_cast<int>(info.GetY() * dY));
+    _graphViewer->addNode(id, static_cast<int>(info.GetX() /* * dX */), static_cast<int>(info.GetY() /* * dY */));
     _graphViewer->setVertexLabel(id, info.GetName() + " (" + std::to_string(id) + ")");
 }
 

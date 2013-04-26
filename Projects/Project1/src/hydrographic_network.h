@@ -63,7 +63,7 @@ public:
     std::vector<uint> TopologicalOrder() const override; ///< Returns the vertices of the graph ordered topologically
 
     void AddRiverToGraphViewer(uint id, uint src, uint dest, const River& river) const;
-    void AddVillageToGraphViewer(uint id, const Village& info, double dX, double dY) const;
+    void AddVillageToGraphViewer(uint id, const Village& info /*, double dX, double dY */) const;
 
     uint AddVillage(const Village& info); ///< Adds a village to the HydrographicNetwork
     bool RemoveVillage(uint id); ///< Removes a village to the HydrographicNetwork
