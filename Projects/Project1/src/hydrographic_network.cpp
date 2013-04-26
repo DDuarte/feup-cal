@@ -11,6 +11,9 @@
 #include <algorithm>
 
 #define WHITESPACE_GRAPHVIEWER " \b" ///< hack to remove vertex and edge labels (empty string or only whitespace does not work)
+#define WINDOW_WIDTH 800 ///< GraphViewer width
+#define WINDOW_HEIGHT 600 ///< GraphViewer height
+#define WINDOW_MARGIN 40 ///< Used when redimensioning the graph node's position
 
 Menu* HydrographicNetwork::_menu = Loader<Menu>("hydrographicBasinMenu.txt").Load();
 
@@ -592,9 +595,9 @@ void HydrographicNetwork::ViewGraph()
     if (!_graphViewer)
     {
         // new window
-        _graphViewer = new GraphViewer(800, 600, false);
+        _graphViewer = new GraphViewer(WINDOW_WIDTH, WINDOW_HEIGHT, false);
         //_graphViewer->setBackground("water1.jpg");
-        _graphViewer->createWindow(800, 600);
+        _graphViewer->createWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
     else
     {
@@ -616,10 +619,8 @@ void HydrographicNetwork::ViewGraph()
         return ver1.second->info.GetY() < ver2.second->info.GetY();
     });
 
-    double dX = 800. / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + 40);
-
-    double dY = 600. / (minmaxVerticeY.second->second->info.GetY() - minmaxVerticeY.first->second->info.GetY() + 40);
-
+    double dX = static_cast<double>(WINDOW_WIDTH)  / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + WINDOW_MARGIN);
+    double dY = static_cast<double>(WINDOW_HEIGHT) / (minmaxVerticeY.second->second->info.GetY() - minmaxVerticeY.first->second->info.GetY() + WINDOW_MARGIN);
 
     _graphViewer->defineVertexColor(DARK_GRAY);
     _graphViewer->defineEdgeColor(BLUE);
@@ -640,7 +641,7 @@ void HydrographicNetwork::ViewGraph()
     _graphViewer->rearrange();
 }
 
-void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery, const std::string& color)
+void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery)
 {
     if (_graphViewer == nullptr)
         ViewGraph();
@@ -664,7 +665,7 @@ void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery, const std::string& 
         for (size_t i = 0; i < d.second.size() - 1; ++i)
         {
             _graphViewer->addEdge(tempEdgeId, d.second[i].villageId, d.second[i + 1].villageId, EdgeType::DIRECTED);
-            _graphViewer->setEdgeColor(tempEdgeId, color);
+            _graphViewer->setEdgeColor(tempEdgeId, d.second[i].isIgarape ? WHITE : BLACK);
             _graphViewer->setEdgeLabel(tempEdgeId, std::to_string(i + 1));
 
             // Animation:
@@ -871,7 +872,7 @@ void HydrographicNetwork::Save(ByteBuffer& bb)
     // villages
     ss << this->GetNumberOfVertices() << std::endl;
     for (auto& v : _vertices)
-        ss << v.first << v.second->info.GetX() << v.second->info.GetY() << v.second->info.GetName() << std::endl;
+        ss << v.first << ' ' << v.second->info.GetX() << ' ' << v.second->info.GetY() << ' ' << v.second->info.GetName() << std::endl;
 
     // rivers
     ss << this->_rivers.size() << std::endl;
@@ -882,8 +883,8 @@ void HydrographicNetwork::Save(ByteBuffer& bb)
             if (!e.weight.FollowsFlow)
                 continue;
 
-            ss << v.first << e.idDest
-               << _rivers.at(e.weight.RiverId).GetMaxCapacity()
+            ss << v.first << ' ' << e.idDest << ' '
+               << _rivers.at(e.weight.RiverId).GetMaxCapacity() << ' '
                << _rivers.at(e.weight.RiverId).GetName() << std::endl;
         }
     }

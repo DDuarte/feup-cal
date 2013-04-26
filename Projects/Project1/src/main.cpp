@@ -2,6 +2,7 @@
 #include <memory>
 #include <functional>
 #include <fstream>
+#include <thread>
 
 #include "utils.h"
 #include "hydrographic_network.h"
@@ -395,12 +396,14 @@ void ViewDelivery(HydrographicNetwork* hn)
         throw ActionCanceled("View Delivery");
     }
 
-    Delivery* delivery = Loader<Delivery>(selectedDeliveryName).Load();
-    DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
-
-    hn->ViewGraph(deliveryRoute, BLACK);
-
-    delete delivery;
+    //std::thread thread([hn, selectedDeliveryName]() // ViewGraph(delivery, color) blocks the caller due to silly animations
+    //{
+        Delivery* delivery = Loader<Delivery>(selectedDeliveryName).Load();
+        DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
+        hn->ViewGraph(deliveryRoute);
+        delete delivery;
+    //});
+    //thread.detach();
 
     PauseConsole();
     ClearConsole();

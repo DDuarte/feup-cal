@@ -57,7 +57,7 @@ public:
     DeliveryRoute GetDeliveryPath(Delivery& delivery); ///< Calculates and returns one path per destination for the specified delivery
 
     void ViewGraph(); ///< Shows the HydrographicNetwork with the GraphViewer API
-    void ViewGraph(DeliveryRoute& DeliveryRoute, const std::string& color); ///< Shows the HydrographicNetwork and the specified DeliveryRoute with the GraphViewer API
+    void ViewGraph(DeliveryRoute& deliveryRoute); ///< Shows the HydrographicNetwork and the specified DeliveryRoute with the GraphViewer API
 
     int GetNumCycles() const override; ///< Returns the number of cycles of the HydrographicNetwork
     std::vector<uint> TopologicalOrder() const override; ///< Returns the vertices of the graph ordered topologically
