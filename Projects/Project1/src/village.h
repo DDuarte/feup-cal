@@ -3,6 +3,9 @@
 
 #include <string>
 
+/**
+* Represents a Village with name and position
+*/
 class Village
 {
 public:

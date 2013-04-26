@@ -3,6 +3,9 @@
 
 #include <string>
 
+/**
+* Represents a river with name and capacity
+*/
 class River
 {
 public:

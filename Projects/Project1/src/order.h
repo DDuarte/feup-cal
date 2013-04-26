@@ -1,6 +1,9 @@
 #ifndef ORDER_H_
 #define ORDER_H_
 
+/**
+* Represents an order with weight and volume
+*/
 class Order
 {
 public:

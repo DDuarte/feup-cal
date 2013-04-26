@@ -13,12 +13,22 @@
 
 #undef max
 
+/**
+ * Graph Data Structure
+ *  
+ */
 template <class V, class E>
 class Graph
 {
 public:
+    /**
+    * Encapsulates information about a Dijkstra shortest path
+    */
     struct DijkstraPath
     {
+        /**
+        * Encapsulates information about a Dijkstra shortest path vertex
+        */
         struct DijkstraVertex
         {
             DijkstraVertex(uint p = std::numeric_limits<uint>::max(), double d = std::numeric_limits<double>::infinity()) : PathId(p), Dist(d) { } ///< Constructor
@@ -46,6 +56,9 @@ public:
 
     // Inner Classes Declarations
 protected:
+    /**
+    * Encapsulates information about a graph edge
+    */
     struct Edge
     {
         uint idDest;
@@ -61,6 +74,9 @@ protected:
         Edge operator=(const Edge& other) { return Edge(other); } ///< Assignment operator
     };
 
+    /**
+    * Encapsulates information about a graph vertex
+    */
     struct Vertex
     {
         V info;

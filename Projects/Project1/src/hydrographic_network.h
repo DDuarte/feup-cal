@@ -42,6 +42,10 @@ struct RiverEdge
     }
 };
 
+
+/**
+* Represents an Hydrographic Network
+*/
 class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:

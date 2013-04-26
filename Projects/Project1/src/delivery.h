@@ -60,8 +60,15 @@ private:
     static Menu* _menu; ///< Menu associated with the Delivery class
 };
 
+/**
+ * Encapsulates information about the result of a Delivery
+ */
 struct DeliveryRoute
 {
+    /**
+    * Encapsulates information about a part of the route
+    *  
+    */
     struct PathInfo
     {
         uint villageId;

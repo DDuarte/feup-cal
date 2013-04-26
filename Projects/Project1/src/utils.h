@@ -29,6 +29,9 @@ void ClearConsole(); ///< Empties the console screen
 bool starts_with(const std::string& str, const std::string& prefix); ///< Returns true if str starts with prefix
 std::string to_lower(std::string str); // Converts a string to all lower case
 
+/**
+* Utilitie structure to reverse ranges of iterators
+*/
 template<class Fwd>
 struct Reverser {
     const Fwd &fwd;
