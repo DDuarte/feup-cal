@@ -14,6 +14,7 @@
 #define MENU_SAVE_FILE "mainMenu.txt"
 #define HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX "hydro_"
 #define ORDER_SAVE_FILES_PREFIX "order_"
+#define RESULT_ORDER_SAVE_FILES_PREFIX "result_"
 
 // Main menu
 void NewHydrographicBasin();
@@ -408,6 +409,15 @@ void ViewDelivery(HydrographicNetwork* hn)
         DeliveryRoute deliveryRoute = hn->GetDeliveryPath(*delivery);
         std::cout << "Processing... Viewer windows is being updated." << std::endl;
         hn->ViewGraph(deliveryRoute);
+
+        std::string file = RESULT_ORDER_SAVE_FILES_PREFIX + prefix + selectedDeliveryName + suffix;
+
+        ByteBuffer bb(500);
+        if (deliveryRoute.Save(bb) && File::Save(file.c_str(), bb, bb.Size()))
+            std::cout << "Resulting route saved to " << file << "." << std::endl;
+        else
+            std::cout << "Could not save route results to " << file << "." << std::endl;
+
         delete delivery;
     //});
     //thread.detach();

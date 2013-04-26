@@ -77,6 +77,8 @@ struct DeliveryRoute
     PathInfoMap Path;
     Delivery::BoatMap NumberOfBoats;
     Delivery::OrderMap Unreachable;
+
+    bool Save(ByteBuffer& bb) const; ///< Saves DeliveryRoute data to a ByteBuffer
 };
 
 #endif // DELIVERY_H_

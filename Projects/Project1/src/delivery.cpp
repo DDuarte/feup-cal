@@ -60,3 +60,66 @@ Delivery* Delivery::Load(ByteBuffer& bb)
 
     return delivery;
 }
+
+bool DeliveryRoute::Save(ByteBuffer& bb) const
+{
+    std::ostringstream ss;
+
+    ss << "Path:" << std::endl;
+    if (Path.empty())
+    {
+        ss << "\tNone - no orders." << std::endl;
+    }
+    else
+    {
+        for (const std::pair<uint, std::vector<DeliveryRoute::PathInfo>>& a : Path)
+        {
+            ss << "\tVillage Destination: " << a.first << std::endl;
+            for (const DeliveryRoute::PathInfo& pi : a.second)
+            {
+                ss << "\t\t[Village Id: "         << pi.villageId         << "], ";
+                ss <<     "[Transported Weight: " << pi.transportedWeight << "], ";
+                ss <<     "[Follows Flow: "       << std::boolalpha << pi.followsFlow  << "], ";
+                ss <<     "[Is Igarape: "         << std::boolalpha << pi.isIgarape    << "]" << std::endl;
+            }
+        }
+    }
+
+    ss << "Boats:" << std::endl;
+    if (NumberOfBoats.empty())
+    {
+        ss << "\tNone - no boats." << std::endl;
+    }
+    else
+    {
+        for (const std::pair<uint, std::pair<uint, uint>>& a : NumberOfBoats)
+        {
+            ss << "\t[Village Destination: " << a.first         << "], ";
+            ss <<   "[Number of Boats: "     << a.second.first  << "], ";
+            ss <<   "[Total Weight: "        << a.second.second << "]" << std::endl;
+        }
+    }
+
+    ss << "Non delivered orders:" << std::endl;
+    if (Unreachable.empty())
+    {
+        ss << "\tNone - all sent." << std::endl;
+    }
+    else
+    {
+        for (const std::pair<uint, std::vector<Order>>& a : Unreachable)
+        {
+            ss << "\tVillage Destination: " << a.first << std::endl;
+            for (const Order& b : a.second)
+            {
+                ss << "\t\t[Volume: " << b.GetVolume() << "], ";
+                ss <<     "[Weight: " << b.GetWeight() << "]" << std::endl;
+            }
+        }
+    }
+
+    std::string str = ss.str();
+    bb.WriteBuffer(str.c_str(), str.size());
+
+    return true;
+}
