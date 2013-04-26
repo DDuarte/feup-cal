@@ -274,7 +274,7 @@ void AddRiver(HydrographicNetwork* hn)
             return true;
         });
 
-        destVillage = ReadValue<uint>("Source village id: ", [hn](uint val)
+        destVillage = ReadValue<uint>("Destination village id: ", [hn](uint val)
         {
             if (hn->GetVillage(val) == NULL)
             {
@@ -345,6 +345,9 @@ void ChangeSeason(HydrographicNetwork* hn)
 void ViewHydrographicBasin(HydrographicNetwork* hn)
 {
     hn->ViewGraph();
+
+    PauseConsole();
+    ClearConsole();
 }
 
 void ViewDelivery(HydrographicNetwork* hn)
@@ -389,6 +392,9 @@ void ViewDelivery(HydrographicNetwork* hn)
 
     DeliveryRoute del = LoadOrdersFile(selectedDeliveryName, *hn);
     hn->ViewGraph(del, BLACK);
+
+    PauseConsole();
+    ClearConsole();
 }
 
 void NewDelivery(HydrographicNetwork* hn)

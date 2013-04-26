@@ -75,7 +75,6 @@ public:
 
     void ChangeRiversCapacity(double factor);
 
-    //static bool Load(std::istream& source, HydrographicNetwork& hn);
     static HydrographicNetwork* Load(ByteBuffer& bb);
 
 private:

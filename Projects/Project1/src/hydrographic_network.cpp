@@ -526,10 +526,9 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
             pi.villageId = path.back();
             pi.followsFlow = !pathInfos.back().followsFlow;
             pi.transportedWeight = 0;
-            pi.isIgarape = pathInfos.back().followsFlow;
+            pi.isIgarape = pathInfos.back().isIgarape;
 
             pathInfos.push_back(pi);
-
 
             size_t destIndex = pathInfos.size() - 1;
 
@@ -549,8 +548,6 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
 
             deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
         }
-
-
     }
 
     return DeliveryRoute(std::move(deliveries));
