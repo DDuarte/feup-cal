@@ -51,7 +51,7 @@ public:
     typedef std::unordered_map<uint, River> RiversContainer;
 
     HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { } ///< Constructor
-    ~HydrographicNetwork(); ///< Destructor 
+    ~HydrographicNetwork(); ///< Destructor
 
     DeliveryRoute GetDeliveryItinerary(Delivery& delivery); ///< Calculates and returns one itinerary for the specified delivery.
     DeliveryRoute GetDeliveryPath(Delivery& delivery); ///< Calculates and returns one path per destination for the specified delivery
@@ -61,7 +61,7 @@ public:
 
     int GetNumCycles() const override; ///< Returns the number of cycles of the HydrographicNetwork
     std::vector<uint> TopologicalOrder() const override; ///< Returns the vertices of the graph ordered topologically
-    
+
     void AddRiverToGraphViewer(uint id, uint src, uint dest, const River& river) const;
     void AddVillageToGraphViewer(uint id, const Village& info, double dX, double dY) const;
 

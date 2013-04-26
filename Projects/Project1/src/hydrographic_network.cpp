@@ -582,12 +582,12 @@ void HydrographicNetwork::ViewGraph()
 
     std::pair<std::map<uint, Vertex*>::iterator, std::map<uint, Vertex*>::iterator> minmaxVerticeX = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
     {
-        return ver1.second->info.GetX() < ver2.second->info.GetX();    
+        return ver1.second->info.GetX() < ver2.second->info.GetX();
     });
 
     auto minmaxVerticeY = std::minmax_element(_vertices.begin(), _vertices.end(), [] (std::map<uint, Vertex*>::const_reference ver1, std::map<uint, Vertex*>::const_reference ver2)
     {
-        return ver1.second->info.GetY() < ver2.second->info.GetY();    
+        return ver1.second->info.GetY() < ver2.second->info.GetY();
     });
 
     double dX = 800. / (minmaxVerticeX.second->second->info.GetX() - minmaxVerticeX.first->second->info.GetX() + 40);

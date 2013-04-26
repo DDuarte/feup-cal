@@ -360,7 +360,7 @@ void ViewDelivery(HydrographicNetwork* hn)
     std::vector<std::string> fileNames;
     File::GetFiles(".", fileNames, [hn](const std::string& str)
     {
-        return starts_with(str, ORDER_SAVE_FILES_PREFIX + std::string("_") + hn->GetName() + "_");
+        return starts_with(str, ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_");
     });
 
     if (fileNames.empty())
@@ -529,7 +529,15 @@ void SaveHydrographicNetwork(HydrographicNetwork* hn)
     ByteBuffer bb(500);
     hn->Save(bb);
 
-    File::Save(std::string(HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX + hn->GetName() + ".txt").c_str(), bb, bb.Size());
+    std::string filename(HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX + hn->GetName() + ".txt");
+
+    if (!File::Save(filename.c_str(), bb, bb.Size()))
+        std::cout << "An error occurred while saving to file " << filename << "." << std::endl;
+    else
+        std::cout << "File " << filename << " saved with success." << std::endl;
+
+    PauseConsole();
+    ClearConsole();
 }
 
 void NewOrder(HydrographicNetwork* hn, Delivery* d)
@@ -682,5 +690,13 @@ void SaveDelivery(HydrographicNetwork* hn, Delivery* d)
     ByteBuffer bb(500);
     d->Save(bb);
 
-    File::Save(std::string(ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_" + d->GetName() + ".txt").c_str(), bb, bb.Size());
+    std::string filename = ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_" + d->GetName() + ".txt";
+
+    if (!File::Save(filename.c_str(), bb, bb.Size()))
+        std::cout << "An error occurred while saving to file " << filename << "." << std::endl;
+    else
+        std::cout << "File " << filename << " saved with success." << std::endl;
+
+    PauseConsole();
+    ClearConsole();
 }

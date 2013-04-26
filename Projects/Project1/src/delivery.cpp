@@ -20,7 +20,7 @@ bool Delivery::Save(ByteBuffer& bb) const
 
     for (auto& a : _orders)
         for (auto& b : a.second)
-            ss << a.first << b.GetVolume() << b.GetWeight() << std::endl;
+            ss << a.first <<' ' <<  b.GetVolume() <<' ' <<  b.GetWeight() << std::endl;
 
     std::string str = ss.str();
     bb.WriteBuffer(str.c_str(), str.size());
