@@ -600,19 +600,14 @@ void HydrographicNetwork::ViewGraph()
 
     for (std::map<uint, Vertex*>::value_type v : _vertices)
     {
-        _graphViewer->addNode(v.first, static_cast<int>(v.second->info.GetX() * dX) + 30, static_cast<int>(v.second->info.GetY() * dY) + 30);
-        _graphViewer->setVertexLabel(v.first, v.second->info.GetName());
+        AddVillageToGraphViewer(v.first, v.second->info, dX, dY);
 
         for (Edge& e : v.second->adj)
         {
             if (!e.weight.FollowsFlow)
                 continue;
 
-            _graphViewer->addEdge(_tempEdgeId, v.first, e.idDest, EdgeType::DIRECTED);
-            _graphViewer->setEdgeThickness(_tempEdgeId, 50 / GetRiver(e.weight.RiverId)->GetMaxCapacity());
-            _graphViewer->setEdgeLabel(_tempEdgeId, GetRiver(e.weight.RiverId)->GetName());
-
-            _tempEdgeId += 1;
+            AddRiverToGraphViewer(e.weight.RiverId, v.first, e.idDest, *GetRiver(e.weight.RiverId));
         }
     }
 
@@ -636,19 +631,21 @@ void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery, const std::string& 
         _graphViewer->setVertexColor(d.first, RED); // destination
     }
 
+    uint tempEdgeId = _nextRiverId * 2 + 1;
+
     for (std::pair<uint, std::vector<DeliveryRoute::PathInfo>> d : delivery.Path)
     {
         for (size_t i = 0; i < d.second.size() - 1; ++i)
         {
-            _graphViewer->addEdge(_tempEdgeId, d.second[i].villageId, d.second[i + 1].villageId, EdgeType::DIRECTED);
-            _graphViewer->setEdgeColor(_tempEdgeId, color);
-            _graphViewer->setEdgeLabel(_tempEdgeId, std::to_string(i + 1));
+            _graphViewer->addEdge(tempEdgeId, d.second[i].villageId, d.second[i + 1].villageId, EdgeType::DIRECTED);
+            _graphViewer->setEdgeColor(tempEdgeId, color);
+            _graphViewer->setEdgeLabel(tempEdgeId, std::to_string(i + 1));
 
             // Animation:
             Sleep(800);
             _graphViewer->rearrange();
 
-            _tempEdgeId += 1;
+            tempEdgeId += 1;
         }
 
         _graphViewer->rearrange();
@@ -759,7 +756,7 @@ int HydrographicNetwork::GetNumCycles() const
     return result;
 }
 
-uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const River& weight)
+uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const River& river)
 {
     uint riverId = _nextRiverId++;
 
@@ -780,7 +777,11 @@ uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const R
         }
     }
 
-    _rivers.insert(std::make_pair(riverId, weight));
+    _rivers.insert(std::make_pair(riverId, river));
+
+    if (_graphViewer)
+        AddRiverToGraphViewer(riverId, sourceVillage, destVillage, river);
+
     return riverId;
 }
 
@@ -792,10 +793,17 @@ HydrographicNetwork::~HydrographicNetwork()
 
 HydrographicNetwork* HydrographicNetwork::Load(ByteBuffer& bb)
 {
-    HydrographicNetwork* hn = new HydrographicNetwork("hydro"); /* Didn't knew where to get the name and needed to test sorry */
     std::istringstream source(bb);
+
+    HydrographicNetwork* hn = nullptr;
+
     try
     {
+        std::string name;
+        source >> name;
+
+        hn = new HydrographicNetwork(name);
+
         uint villageCount;
         source >> villageCount;
 
@@ -805,8 +813,6 @@ HydrographicNetwork* HydrographicNetwork::Load(ByteBuffer& bb)
             double x; double y;
             std::string name;
             source >> id >> x >> y >> name;
-            x *= 15;
-            y *= 15;
             assert(hn->AddVillage(Village(name, x, y)) == id);
         }
 
@@ -824,51 +830,41 @@ HydrographicNetwork* HydrographicNetwork::Load(ByteBuffer& bb)
     catch (std::exception& e)
     {
         std::cerr << "Exception """ << e.what() << """ occurred when loading Hydrographic Network." << std::endl;
-        return false;
+        return nullptr;
     }
 
     return hn;
 }
 
-/*
-bool HydrographicNetwork::Load(std::istream& source, HydrographicNetwork& hn)
+void HydrographicNetwork::Save(ByteBuffer& bb)
 {
-    try
+    std::ostringstream ss;
+
+    ss << GetName() << std::endl;
+
+    // villages
+    ss << this->GetNumberOfVertices() << std::endl;
+    for (auto& v : _vertices)
+        ss << v.first << v.second->info.GetX() << v.second->info.GetY() << v.second->info.GetName() << std::endl;
+
+    // rivers
+    ss << this->_rivers.size() << std::endl;
+    for (auto& v : _vertices)
     {
-        uint villageCount;
-        source >> villageCount;
-
-        for (uint i = 0; i < villageCount; ++i)
+        for (auto& e : v.second->adj)
         {
-            uint id;
-            double x, y;
-            std::string name;
-            source >> id >> x >> y >> name;
-            x *= 15;
-            y *= 15;
-            assert(hn.AddVillage(Village(name, x, y)) == id);
-        }
+            if (!e.weight.FollowsFlow)
+                continue;
 
-        uint riverCount;
-        source >> riverCount;
-
-        for (uint i = 0; i < riverCount; ++i)
-        {
-            uint idS, idD, capacity;
-            std::string name;
-            source >> idS >> idD >> capacity >> name;
-            hn.AddRiver(idS, idD, River(name, capacity));
+            ss << v.first << e.idDest
+               << _rivers.at(e.weight.RiverId).GetMaxCapacity()
+               << _rivers.at(e.weight.RiverId).GetName() << std::endl;
         }
     }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception """ << e.what() << """ occurred when loading Hydrographic Network." << std::endl;
-        return false;
-    }
 
-    return true;
+    std::string str = ss.str();
+    bb.WriteBuffer(str.c_str(), str.size());
 }
-*/
 
 Graph<Village, RiverEdge>::DijkstraPath HydrographicNetwork::DijkstraShortestPath(uint srcId) const
 {
@@ -920,7 +916,7 @@ Graph<Village, RiverEdge>::DijkstraPath HydrographicNetwork::DijkstraShortestPat
                         pq.push_back(w);
                     }
 
-                    std::make_heap (pq.begin(),pq.end());
+                    std::make_heap(pq.begin(),pq.end());
                 }
             }
         }
@@ -997,4 +993,39 @@ const River* HydrographicNetwork::GetRiver(uint id) const
         return nullptr;
     else
         return &(*it).second;
+}
+
+bool HydrographicNetwork::RemoveVillage(uint id)
+{
+    if (RemoveVertex(id))
+    {
+        if (_graphViewer)
+            _graphViewer->removeNode(id);
+        return true;
+    }
+
+    return false;
+}
+
+uint HydrographicNetwork::AddVillage(const Village& info)
+{
+    uint id = AddVertex(info);
+
+    if (_graphViewer)
+        AddVillageToGraphViewer(id, info);
+
+    return id;
+}
+
+void HydrographicNetwork::AddVillageToGraphViewer(uint id, const Village& info, double dX, double dY) const
+{
+    _graphViewer->addNode(id, static_cast<int>(info.GetX()), static_cast<int>(info.GetY()));
+    _graphViewer->setVertexLabel(id, info.GetName() + " (" + std::to_string(id) + ")");
+}
+
+void HydrographicNetwork::AddRiverToGraphViewer(uint id, uint src, uint dest, const River& river) const
+{
+    _graphViewer->addEdge(id, src, dest, EdgeType::DIRECTED);
+    _graphViewer->setEdgeThickness(id, 50 / river.GetMaxCapacity());
+    _graphViewer->setEdgeLabel(id, river.GetName() + " (" + std::to_string(id) + ")");
 }

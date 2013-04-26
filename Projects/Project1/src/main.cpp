@@ -38,6 +38,7 @@ void ChangeSeason(HydrographicNetwork* hn);
 void ViewHydrographicBasin(HydrographicNetwork* hn);
 void ViewDelivery(HydrographicNetwork* hn);
 void NewDelivery(HydrographicNetwork* hn);
+void SaveHydrographicNetwork(HydrographicNetwork* hn);
 
 // Delivery menu
 void NewOrder(HydrographicNetwork* hn, Delivery* d);
@@ -106,12 +107,19 @@ void HydrographicNetworkMenu(HydrographicNetwork* hn)
                 ViewHydrographicBasin,  // 5
                 ViewDelivery,           // 6
                 NewDelivery,            // 7
+                SaveHydrographicNetwork, // 8
             };
 
             try
             {
                 uint32 option = HydrographicNetwork::GetMenu()->Print();
                 functions[option == 0 ? 0 : option - 1](hn);
+            }
+            catch (ActionCanceled& action)
+            {
+                PauseConsole(std::string(action.what()) + " canceled...\nPress enter to continue...");
+                ClearConsole();
+                continue;
             }
             catch (std::runtime_error& e)
             {
@@ -362,9 +370,9 @@ void ViewHydrographicBasin(HydrographicNetwork* hn)
 void ViewDelivery(HydrographicNetwork* hn)
 {
     std::vector<std::string> fileNames;
-    File::GetFiles(".", fileNames, [](const std::string& str)
+    File::GetFiles(".", fileNames, [hn](const std::string& str)
     {
-        return starts_with(str, ORDER_SAVE_FILES_PREFIX);
+        return starts_with(str, ORDER_SAVE_FILES_PREFIX + std::string("_") + hn->GetName() + "_");
     });
 
     if (fileNames.empty())
@@ -411,12 +419,12 @@ void NewDelivery(HydrographicNetwork* hn)
     std::string name;
     try
     {
-        name = ReadValue<std::string>("Name (max 25 characters): ", [](const std::string& name)
+        name = ReadValue<std::string>("Name (max 25 characters): ", [hn](const std::string& name)
         {
             if (!NamePredicate(name))
                 return false;
 
-            std::string fileName = ORDER_SAVE_FILES_PREFIX + name + ".txt";
+            std::string fileName = ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_" + name + ".txt";
             fileName = to_lower(fileName);
 
             if (File::Exists(fileName.c_str()))
@@ -481,7 +489,12 @@ void NewDelivery(HydrographicNetwork* hn)
         throw ActionCanceled("New Delivery");
     }
 
+    PauseConsole("Delivery created with success. Press enter to continue...");
+    ClearConsole();
+
     Delivery delivery(sourceVillage, boatCapacity, supportVesselCapacity, numberOfSupportVessels);
+
+    delivery.SetName(name);
 
     bool success = false;
 
@@ -517,6 +530,14 @@ void NewDelivery(HydrographicNetwork* hn)
     {
         throw ActionCanceled("New Delivery");
     }
+}
+
+void SaveHydrographicNetwork(HydrographicNetwork* hn)
+{
+    ByteBuffer bb(500);
+    hn->Save(bb);
+
+    File::Save(std::string(HYDROGRAPHIC_NETWORK_SAVE_FILES_PREFIX + hn->GetName() + ".txt").c_str(), bb, bb.Size());
 }
 
 void NewOrder(HydrographicNetwork* hn, Delivery* d)
@@ -649,7 +670,7 @@ void SetNumberOfSupportVessels(HydrographicNetwork* hn, Delivery* d)
 
     try
     {
-        numberOfSupportVessels = ReadValue<uint>("Number of support vessel capacity [>=0]: ");
+        numberOfSupportVessels = ReadValue<uint>("Number of support vessel [>=0]: ");
     }
     catch (EOFCharacterValue)
     {
@@ -666,9 +687,8 @@ void SetNumberOfSupportVessels(HydrographicNetwork* hn, Delivery* d)
 
 void SaveDelivery(HydrographicNetwork* hn, Delivery* d)
 {
-    ByteBuffer bb(1500);
-
-    // ...
-
+    ByteBuffer bb(500);
     d->Save(bb);
+
+    File::Save(std::string(ORDER_SAVE_FILES_PREFIX + hn->GetName() + "_" + d->GetName() + ".txt").c_str(), bb, bb.Size());
 }

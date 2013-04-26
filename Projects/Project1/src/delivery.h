@@ -27,19 +27,22 @@ public:
         _numberOfSupportVessels(numberOfSupportVessels) { }
 
     uint GetSourceVillage() const { return _sourceVillage; } ///< Gets source village id of all orders in this delivery
-    void SetSourceVillage(uint _sourceVillage) { _sourceVillage = _sourceVillage; } ///< Sets source village id of all orders in this delivery
+    void SetSourceVillage(uint sourceVillage) { _sourceVillage = sourceVillage; } ///< Sets source village id of all orders in this delivery
 
     double GetBoatCapacity() const { return _boatCapacity; } ///< Gets volume/capacity of each boat
-    void SetBoatCapacity(double _boatCapacity) { _boatCapacity = _boatCapacity; } ///< Sets volume/capacity of each boat
+    void SetBoatCapacity(double boatCapacity) { _boatCapacity = boatCapacity; } ///< Sets volume/capacity of each boat
 
     double GetSupportVesselCapacity() const { return _supportVesselCapacity; } ///< Gets volume/capacity of the vessel of each boat
-    void SetSupportVesselCapacity(double _supportVesselCapacity) { _supportVesselCapacity = _supportVesselCapacity; } ///< Sets volume/capacity of the vessel of each boat
+    void SetSupportVesselCapacity(double supportVesselCapacity) { _supportVesselCapacity = supportVesselCapacity; } ///< Sets volume/capacity of the vessel of each boat
 
     uint GetNumberOfSupportVessels() const { return _numberOfSupportVessels; } ///< Gets number of boats with support vessels
-    void SetNumberOfSupportVessels(uint _numberOfSupportVessels) { _numberOfSupportVessels = _numberOfSupportVessels; } ///< Sets number of boats with support vessels
+    void SetNumberOfSupportVessels(uint numberOfSupportVessels) { _numberOfSupportVessels = numberOfSupportVessels; } ///< Sets number of boats with support vessels
 
     OrderMap GetOrders() const { return _orders; } ///< Gets the map from destination village id to a collection of Orders
     void AddOrder(uint destinationVillage, const Order& order) { _orders[destinationVillage].push_back(order); } ///< Adds an Order to this Delivery
+
+    const std::string& GetName() const { return _name; }
+    void SetName(const std::string& name) { _name = name; }
 
     bool Save(ByteBuffer& bb) const; ///< Saves Delivery data to a ByteBuffer
 
@@ -51,6 +54,7 @@ private:
     double _boatCapacity; ///< Volume/capacity of each boat
     double _supportVesselCapacity; ///< Volume/capacity of the vessel of each boat
     uint _numberOfSupportVessels; ///< Number of boats with support vessels
+    std::string _name; ///< File name of this delivery
 
     static Menu* _menu; ///< Menu associated with the Delivery class
 };

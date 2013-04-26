@@ -3,6 +3,8 @@
 #include "menu.h"
 #include "loader.h"
 
+#include <sstream>
+
 Menu* Delivery::_menu = Loader<Menu>("deliveryMenu.txt").Load();
 
 DeliveryRoute DeliveryRoute::Load(std::istream& source, HydrographicNetwork& hn)
@@ -40,5 +42,20 @@ DeliveryRoute DeliveryRoute::Load(std::istream& source, HydrographicNetwork& hn)
 
 bool Delivery::Save(ByteBuffer& bb) const
 {
-    return false;
+    std::ostringstream ss;
+
+    ss << GetSourceVillage() << std::endl;
+    ss << GetBoatCapacity() << std::endl;
+    ss << GetSupportVesselCapacity() << std::endl;
+    ss << GetNumberOfSupportVessels() << std::endl;
+    ss << _orders.size() << std::endl;
+
+    for (auto& a : _orders)
+        for (auto& b : a.second)
+            ss << a.first << b.GetVolume() << b.GetWeight() << std::endl;
+
+    std::string str = ss.str();
+    bb.WriteBuffer(str.c_str(), str.size());
+
+    return true;
 }

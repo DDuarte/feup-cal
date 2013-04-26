@@ -50,7 +50,7 @@ public:
     typedef std::unordered_set<uint> VertexSet;
     typedef std::unordered_map<uint, River> RiversContainer;
 
-    HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { } ///< Constructor
+    HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { } ///< Constructor
     ~HydrographicNetwork(); ///< Destructor 
 
     DeliveryRoute GetDeliveryItinerary(Delivery& delivery); ///< Calculates and returns one itinerary for the specified delivery.
@@ -61,9 +61,12 @@ public:
 
     int GetNumCycles() const override; ///< Returns the number of cycles of the HydrographicNetwork
     std::vector<uint> TopologicalOrder() const override; ///< Returns the vertices of the graph ordered topologically
+    
+    void AddRiverToGraphViewer(uint id, uint src, uint dest, const River& river) const;
+    void AddVillageToGraphViewer(uint id, const Village& info) const;
 
-    uint AddVillage(const Village& info) { return AddVertex(info); } ///< Adds a village to the HydrographicNetwork
-    bool RemoveVillage(uint id) { return RemoveVertex(id); } ///< Removes a village to the HydrographicNetwork
+    uint AddVillage(const Village& info); ///< Adds a village to the HydrographicNetwork
+    bool RemoveVillage(uint id); ///< Removes a village to the HydrographicNetwork
     const Village* GetVillage(uint id) const; ///< Returns the Village with the specified id
 
     uint AddRiver(uint sourceVillage, uint destVillage, const River& river); ///< Adds a river to the HydrographicNetwork
@@ -79,12 +82,15 @@ public:
 
     void ChangeRiversCapacity(double factor); ///< Changes the rivers capacity multiplying all the rivers capacities by the specified factor
 
+    const std::string& GetName() const { return _name; }
+
     static HydrographicNetwork* Load(ByteBuffer& bb); ///< Loads an HydrographicNetwork from the specified ByteBuffer instance
+
+    void Save(ByteBuffer& bb);
 
 private:
     RiversContainer _rivers;
     uint _nextRiverId;
-    uint _tempEdgeId;
     double _igarapeMaxCapacity;
     GraphViewer* _graphViewer;
     std::string _name;

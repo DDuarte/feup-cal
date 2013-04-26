@@ -5,4 +5,5 @@ Hydrographic Basin (CTRL-Z to cancel)
 -* W#005#View hydrographic basin
 -* D#006#View delivery
 -* N#007#New delivery
+-* A#008#Save hidrographic basin
 -* E#001#Exit
