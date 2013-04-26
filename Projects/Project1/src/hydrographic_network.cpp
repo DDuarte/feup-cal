@@ -47,18 +47,30 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
         uint ordersVolume = 0;
         uint ordersWeight = 0;
 
-        for (std::vector<Order>::iterator it = dest.second.begin(); it != dest.second.end(); it++)
+        for (std::vector<Order>::iterator it = dest.second.begin(); it != dest.second.end();)
         {
             uint orderVolume = it->GetVolume();
             if (orderVolume > boatCapacity)
             {
+                auto unreacheableIt = unreacheable.find(dest.first);
+                if (unreacheableIt == unreacheable.end())
+                {
+                    unreacheable.emplace(dest.first, std::vector<Order>());
+                    unreacheableIt = unreacheable.find(dest.first);
+                }
+
+                unreacheableIt->second.push_back(*it);
                 it = dest.second.erase(it);
-                it--;
                 continue;
             }
+            else
+            {
 
-            ordersVolume += it->GetVolume();
-            ordersWeight += it->GetWeight();
+                ordersVolume += it->GetVolume();
+                ordersWeight += it->GetWeight();
+
+                it++;
+            }
         }
 
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
@@ -363,22 +375,36 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
         uint ordersVolume = 0;
         uint ordersWeight = 0;
 
-        for (std::vector<Order>::iterator it = dest.second.begin(); it != dest.second.end(); it++)
+        for (std::vector<Order>::iterator it = dest.second.begin(); it != dest.second.end();)
         {
             uint orderVolume = it->GetVolume();
             if (orderVolume > boatCapacity)
             {
+                auto unreacheableIt = unreacheable.find(dest.first);
+                if (unreacheableIt == unreacheable.end())
+                {
+                    unreacheable.emplace(dest.first, std::vector<Order>());
+                    unreacheableIt = unreacheable.find(dest.first);
+                }
+
+                unreacheableIt->second.push_back(*it);
                 it = dest.second.erase(it);
-                it--;
                 continue;
             }
+            else
+            {
 
-            ordersVolume += it->GetVolume();
-            ordersWeight += it->GetWeight();
+                ordersVolume += it->GetVolume();
+                ordersWeight += it->GetWeight();
+
+                it++;
+            }
         }
 
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
     }
+
+    
 
     for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
     {
@@ -600,7 +626,7 @@ void HydrographicNetwork::ViewGraph()
 
     for (std::map<uint, Vertex*>::value_type v : _vertices)
     {
-        AddVillageToGraphViewer(v.first, v.second->info, dX, dY);
+        AddVillageToGraphViewer(v.first, Village(v.second->info), dX, dY);
 
         for (Edge& e : v.second->adj)
         {
