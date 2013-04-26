@@ -38,8 +38,8 @@ Loadable* Loader<Loadable>::Load()
     if (!File::Load(_fileName.c_str(), buffer, size))
         return NULL;
 
-    ByteBuffer bb(size);
-    bb.WriteBuffer(buffer, size);
+    ByteBuffer bb(static_cast<uint32>(size));
+    bb.WriteBuffer(buffer, static_cast<uint32>(size));
 
     delete[] buffer;
 

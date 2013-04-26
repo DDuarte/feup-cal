@@ -3,6 +3,7 @@
 #include "loader.h"
 #include "menu.h"
 
+#include <sstream>
 #include <numeric>
 #include <set>
 #include <cassert>
@@ -601,7 +602,7 @@ void HydrographicNetwork::ViewGraph()
 void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery, const std::string& color)
 {
     if (_graphViewer == nullptr)
-        return; // throw?
+        ViewGraph();
 
     for (auto& v : _vertices)
         _graphViewer->setVertexLabel(v.first, WHITESPACE_GRAPHVIEWER);
@@ -771,7 +772,42 @@ HydrographicNetwork::~HydrographicNetwork()
 
 HydrographicNetwork* HydrographicNetwork::Load(ByteBuffer& bb)
 {
-    return nullptr;
+    HydrographicNetwork* hn = new HydrographicNetwork("hydro"); /* Didn't knew where to get the name and needed to test sorry */
+    std::istringstream source(bb);
+    try
+    {
+        uint villageCount;
+        source >> villageCount;
+
+        for (uint i = 0; i < villageCount; ++i)
+        {
+            uint id;
+            double x; double y;
+            std::string name;
+            source >> id >> x >> y >> name;
+            x *= 15;
+            y *= 15;
+            assert(hn->AddVillage(Village(name, x, y)) == id);
+        }
+
+        uint riverCount;
+        source >> riverCount;
+
+        for (uint i = 0; i < riverCount; ++i)
+        {
+            uint idS, idD, capacity;
+            std::string name;
+            source >> idS >> idD >> capacity >> name;
+            hn->AddRiver(idS, idD, River(name, capacity));
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception """ << e.what() << """ occurred when loading Hydrographic Network." << std::endl;
+        return false;
+    }
+
+    return hn;
 }
 
 /*
