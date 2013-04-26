@@ -16,8 +16,8 @@ public:
     int GetSupportVesselCapacity() const { return _supportVesselCapacity; }
 private:
     const std::string _name;
-    const int            _capacity;
-    const int        _supportVesselCapacity;
+    const int _capacity;
+    const int _supportVesselCapacity;
 
 };
 

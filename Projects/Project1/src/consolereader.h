@@ -112,4 +112,20 @@ inline std::string ReadValue<std::string>(const std::string& prompt, std::functi
     return input;
 }
 
+static std::function<bool(std::string)> NamePredicate = [](const std::string& val)
+{
+    if (val.size() <= 0)
+    {
+        std::cout << "Name cannot be empty." << std::endl << "Please try again." << std::endl;
+        return false;
+    }
+    else if (val.size() > 25)
+    {
+        std::cout << "Name cannot have more than 25 characters." << std::endl << "Please try again." << std::endl;
+        return false;
+    }
+
+    return true;
+};
+
 #endif // CONSOLEREADER_H_

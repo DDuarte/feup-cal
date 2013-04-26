@@ -17,6 +17,8 @@
 #include <set>
 
 class GraphViewer;
+class Menu;
+class ByteBuffer;
 
 struct RiverEdge
 {
@@ -38,49 +40,55 @@ struct RiverEdge
 class HydrographicNetwork : protected Graph<Village, RiverEdge>
 {
 public:
-    typedef std::unordered_map<uint, std::vector<Order>> OrderMap;
     typedef std::unordered_map<uint, std::pair<uint, uint>> BoatMap;
     typedef std::vector<uint> Path;
     typedef std::unordered_map<uint, Path> DeliveryMap;
     typedef std::unordered_set<uint> VertexSet;
+    typedef std::unordered_map<uint, River> RiversContainer;
 
-    HydrographicNetwork() : _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
+    HydrographicNetwork(const std::string& name) : _name(name), _nextRiverId(0), _tempEdgeId(1), _igarapeMaxCapacity(0.), _graphViewer(nullptr) { }
     ~HydrographicNetwork();
 
-    static bool Load(std::istream& source, HydrographicNetwork& hn);
-
-    Delivery GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, uint numberOfSupportVessels = 0);
-    Delivery GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity = 0.0, uint numberOfSupportVessels = 0);
+    DeliveryRoute GetDeliveryItinerary(Delivery& delivery);
+    DeliveryRoute GetDeliveryPath(Delivery& delivery);
 
     void ViewGraph();
-    void ViewGraph(Delivery& delivery, const std::string& color);
+    void ViewGraph(DeliveryRoute& DeliveryRoute, const std::string& color);
 
     int getNumCycles() const override;
     std::vector<uint> topologicalOrder() const override;
 
-    const River& GetRiver(uint id) const { return _rivers.at(id); }
-
     uint AddVillage(const Village& info) { return AddVertex(info); }
     bool RemoveVillage(uint id) { return RemoveVertex(id); }
+    const Village* GetVillage(uint id) const;
 
-    uint AddRiver(uint sourceVilalge, uint destVillage, const River& weight);
+    uint AddRiver(uint sourceVillage, uint destVillage, const River& river);
     bool RemoveRiver(uint sourceId, uint destId) { return RemoveEdge(sourceId, destId); }
+    const River* GetRiver(uint id) const;
 
     DijkstraShortestPath dijkstraShortestPath(uint srcId) const override;
     std::unordered_set<uint> GetVisitable(uint srcId) const;
 
     GraphViewer* GetGraphViewer() const { return _graphViewer; }
 
+    static Menu* GetMenu() { return _menu; } ///< Returns the menu for the HydrographicNetwork class
+
     void ChangeRiversCapacity(double factor);
 
+    //static bool Load(std::istream& source, HydrographicNetwork& hn);
+    static HydrographicNetwork* Load(ByteBuffer& bb);
+
 private:
-    typedef std::unordered_map<uint, River> RiversContainer;
     RiversContainer _rivers;
     uint _nextRiverId;
     uint _tempEdgeId;
     double _igarapeMaxCapacity;
     GraphViewer* _graphViewer;
-    OrderMap FilterUnreachable(uint src, OrderMap &orders);
+    std::string _name;
+
+    Delivery::OrderMap FilterUnreachable(uint src, Delivery::OrderMap& orders);
+
+    static Menu* _menu; ///< Menu associated with the HydrographicNetwork class
 };
 
 #endif // HYDOGRAPHIC_NETWORK_H_

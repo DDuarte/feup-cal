@@ -70,7 +70,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>cute;graphviewer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>cute;graphviewer;dirent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -79,7 +79,8 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)graphviewer\GraphViewerController.jar" "$(TargetDir)"
-xcopy "$(ProjectDir)resources\*" "$(TargetDir)" /Y</Command>
+xcopy "$(ProjectDir)resources\menus\*" "$(TargetDir)" /Y
+xcopy "$(ProjectDir)resources\examples\*" "$(TargetDir)" /Y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying GraphViewerController.jar to target directory</Message>
@@ -135,9 +136,13 @@ xcopy "$(ProjectDir)resources\*" "$(TargetDir)" /Y</Command>
   <ItemGroup>
     <ClCompile Include="graphviewer\connection.cpp" />
     <ClCompile Include="graphviewer\graphviewer.cpp" />
+    <ClCompile Include="src\bytebuffer.cpp" />
     <ClCompile Include="src\delivery.cpp" />
+    <ClCompile Include="src\file.cpp" />
     <ClCompile Include="src\hydrographic_network.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cute\cute.h" />
@@ -161,17 +166,22 @@ xcopy "$(ProjectDir)resources\*" "$(TargetDir)" /Y</Command>
     <ClInclude Include="cute\ide_listener.h" />
     <ClInclude Include="cute\ostream_listener.h" />
     <ClInclude Include="cute\vstudio_listener.h" />
+    <ClInclude Include="dirent\dirent.h" />
     <ClInclude Include="graphviewer\connection.h" />
     <ClInclude Include="graphviewer\edgetype.h" />
     <ClInclude Include="graphviewer\graphviewer.h" />
-    <ClInclude Include="src\defs.h" />
+    <ClInclude Include="src\bytebuffer.h" />
+    <ClInclude Include="src\consolereader.h" />
     <ClInclude Include="src\delivery.h" />
+    <ClInclude Include="src\file.h" />
     <ClInclude Include="src\graph.h" />
     <ClInclude Include="src\hydrographic_network.h" />
+    <ClInclude Include="src\loader.h" />
+    <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\order.h" />
     <ClInclude Include="src\river.h" />
     <ClInclude Include="src\ship.h" />
-    <ClInclude Include="src\utilities.h" />
+    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\village.h" />
   </ItemGroup>
   <ItemGroup>

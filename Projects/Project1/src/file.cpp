@@ -1,11 +1,10 @@
 #include "file.h"
-#include "log.h"
+#include <iostream>
 #include <cstdio>
 #include <memory>
 
 namespace File
 {
-
     bool Load(const char* fileName, char*& buffer, size_t& size)
     {
         if (!fileName)
@@ -14,7 +13,7 @@ namespace File
         FILE* file = fopen(fileName, "rb");
         if (!file)
         {
-            sLog(Console)->Log("File::Load: Could not open file %s (fopen)", fileName);
+            std::cerr << "File::Load: Could not open file " << fileName << " (fopen)" << std::endl;
             return false;
         }
 
@@ -25,7 +24,7 @@ namespace File
 
         if (!size)
         {
-            sLog(Console)->Log("File::Load: Could not open file %s (size is 0)", fileName);
+            std::cerr << "File::Load: Could not open file " << fileName << " (size is 0)" << std::endl;
             fclose(file);
             return false;
         }
@@ -33,7 +32,7 @@ namespace File
         buffer = new char[size];
         if (!buffer)
         {
-            sLog(Console)->Log("File::Load: Failed to allocate buffer for file %s (size %u)", fileName, size);
+            std::cerr << "File::Load: Failed to allocate buffer for file " << fileName << " (size " << size << ")" << std::endl;
             fclose(file);
             return false;
         }
@@ -41,7 +40,7 @@ namespace File
         size_t result = fread(buffer, sizeof(char), size, file);
         if (result != size)
         {
-            sLog(Console)->Log("File::Load: Could not read the same number of bytes (size != result) for file %s (size %u, result %u)", fileName, size, result);
+            std::cerr << "File::Load: Could not read the same number of bytes (size != result) for file " << fileName << " (size " << size << ", result " << result << ")" << std::endl;
             delete[] buffer;
             fclose(file);
             return false;
@@ -59,7 +58,7 @@ namespace File
         FILE* file = fopen(fileName, "wb");
         if (!file)
         {
-            sLog(Console)->Log("File::Save: Could not open file %s (fopen)", fileName);
+            std::cerr << "File::Save: Could not open file " << fileName << " (fopen)" << std::endl;
             return false;
         }
 
@@ -67,7 +66,7 @@ namespace File
         if (result != size)
         {
             fclose(file);
-            sLog(Console)->Log("File::Save: Could not write the same number of bytes (size != result) for file %s (size %u, result %u)", fileName, size, result);
+            std::cerr << "File::Save: Could not write the same number of bytes (size != result) for file " << fileName << " (size " << size << ", result " << result << ")" << std::endl;
             return false;
         }
 
@@ -78,5 +77,25 @@ namespace File
     bool Remove(const char* fileName)
     {
         return !remove(fileName);
+    }
+
+    bool Exists(const char* fileName)
+    {
+        DIR *dir;
+        struct dirent *ent;
+        if ((dir = opendir(".")) != NULL)
+        {
+            while ((ent = readdir(dir)) != NULL)
+                if (ent->d_type == DT_REG) // file
+                    if (strcmp(ent->d_name, fileName) == 0)
+                    {
+                        closedir(dir);
+                        return true;
+                    }
+
+            closedir(dir);
+        }
+
+        return false;
     }
 }

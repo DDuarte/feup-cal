@@ -1,0 +1,8 @@
+Hydrographic Basin (CTRL-Z to cancel)
+-* V#002#Add village
+-* R#003#Add river
+-* S#004#Change season
+-* W#005#View hydrographic basin
+-* D#006#View delivery
+-* N#007#New delivery
+-* E#001#Exit

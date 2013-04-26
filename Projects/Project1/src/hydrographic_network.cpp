@@ -1,24 +1,32 @@
 #include "hydrographic_network.h"
-#include "utilities.h"
-
 #include "graphviewer.h"
+#include "loader.h"
+#include "menu.h"
 
 #include <numeric>
 #include <set>
 #include <cassert>
 #include <cmath>
 
-#define WHITESPACE_GRAPHVIEWER " \b" // hack to remove vertex and edge labels (empty string or only whitespace does not work)
+#define WHITESPACE_GRAPHVIEWER " \b" ///< hack to remove vertex and edge labels (empty string or only whitespace does not work)
 
-Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity, uint numberOfSupportVessels)
+Menu* HydrographicNetwork::_menu = Loader<Menu>("hydrographicBasinMenu.txt").Load();
+
+DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
 {
-    std::vector<Delivery::PathInfo> path;
+    uint src = delivery.GetSourceVillage();
+    Delivery::OrderMap& orders = delivery.GetOrders();
+    double boatCapacity = delivery.GetBoatCapacity();
+    double supportVesselCapacity = delivery.GetSupportVesselCapacity();
+    uint numberOfSupportVessels = delivery.GetNumberOfSupportVessels();
+
+    std::vector<DeliveryRoute::PathInfo> path;
 
     _igarapeMaxCapacity = boatCapacity;
 
-    OrderMap unreacheable = FilterUnreachable(src, orders);
+    Delivery::OrderMap unreacheable = FilterUnreachable(src, orders);
 
-    OrderMap reachableWithIgarapes;
+    Delivery::OrderMap reachableWithIgarapes;
 
     if (numberOfSupportVessels > 0 && !unreacheable.empty())
     {
@@ -27,12 +35,12 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
         unreacheable = FilterUnreachable(src, reachableWithIgarapes);
     }
 
-    OrderMap::iterator it = orders.find(src);
+    Delivery::OrderMap::iterator it = orders.find(src);
     if (it != orders.end())
         orders.erase(it);
 
     BoatMap numberOfBoats;
-    for (OrderMap::reference dest : orders)
+    for (Delivery::OrderMap::reference dest : orders)
     {
         uint ordersVolume = 0;
         uint ordersWeight = 0;
@@ -54,7 +62,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
     }
 
-    for (OrderMap::reference dest : reachableWithIgarapes)
+    for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
     {
         double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
@@ -65,7 +73,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
             if (orderVolume > supportVesselCapacity)
             {
                 it = dest.second.erase(it);
-                if (!dest.second.empty() && it != dest.second.begin()) 
+                if (!dest.second.empty() && it != dest.second.begin())
                     it--;
                 else if(dest.second.empty())
                     break;
@@ -78,9 +86,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
             ordersWeight += it->GetWeight();
         }
 
-        
-        
-        if (!dest.second.empty()) 
+        if (!dest.second.empty())
         {
             numberOfSupportVessels -= static_cast<uint>(ceil(numberOfBoatsForOrder));
             numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
@@ -94,21 +100,21 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
         }
     }
 
-    for (OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
+    for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
     {
-        OrderMap::iterator eraseit = it++;
+        Delivery::OrderMap::iterator eraseit = it++;
         if (eraseit->second.empty())
             reachableWithIgarapes.erase(eraseit);
     }
 
-    double totalWeight = std::accumulate(orders.begin(), orders.end(), 0.0, [] (double val, OrderMap::value_type o1)
+    double totalWeight = std::accumulate(orders.begin(), orders.end(), 0.0, [] (double val, Delivery::OrderMap::value_type o1)
     {
         for (const Order& ord : o1.second)
             val += ord.GetWeight();
         return val;
     });
 
-    totalWeight += std::accumulate(reachableWithIgarapes.begin(), reachableWithIgarapes.end(), 0.0, [] (double val, OrderMap::value_type o1)
+    totalWeight += std::accumulate(reachableWithIgarapes.begin(), reachableWithIgarapes.end(), 0.0, [] (double val, Delivery::OrderMap::value_type o1)
     {
         for (const Order& ord : o1.second)
             val += ord.GetWeight();
@@ -173,11 +179,11 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
             return i < j;
         });
 
-        OrderMap::iterator dest = reachableWithIgarapes.find(*nextElem);
+        Delivery::OrderMap::iterator dest = reachableWithIgarapes.find(*nextElem);
         Path path1;
         if (dest != reachableWithIgarapes.end())
             path1 = shrtPathWithIgarapes.GetPath(dijkstraSrc, *nextElem);
-        else   
+        else
             path1 = shrtPath.GetPath(dijkstraSrc, *nextElem);
 
         if (path1.size() > 0)
@@ -189,7 +195,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
                     Path::const_reference verId = *verIdIt;
                     Path::const_reference nextVerId = *(verIdIt + 1);
 
-                    Delivery::PathInfo pi;
+                    DeliveryRoute::PathInfo pi;
                     pi.villageId = verId;
                     pi.transportedWeight = numberOfBoats.at(path1.back()).second;
 
@@ -222,7 +228,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
                     Path::const_reference verId = *verIdIt;
                     Path::const_reference nextVerId = *(verIdIt + 1);
 
-                    Delivery::PathInfo pi;
+                    DeliveryRoute::PathInfo pi;
                     pi.villageId = verId;
 
 
@@ -255,7 +261,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
                 destIndex = path.size() - 1;
 
-                Delivery::PathInfo pi;
+                DeliveryRoute::PathInfo pi;
                 pi.villageId = path1.back();
                 pi.followsFlow = !path.back().followsFlow;
                 pi.transportedWeight = 0;
@@ -266,7 +272,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
                 size_t endIndex = path.size() - 2;
 
-                for (int i = endIndex; i > igarapeIndex; --i)
+                for (size_t i = endIndex; i > igarapeIndex; --i)
                 {
                     path.push_back(path[i]);
                     path.back().transportedWeight = 0;
@@ -275,7 +281,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
                 endIndex = path.size() - 1;
 
-                for (int i = 0; i < numberOfTravels - 1; ++i)
+                for (uint i = 0; i < numberOfTravels - 1; ++i)
                     path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex + 1);
 
                 dijkstraSrc = path[igarapeIndex].villageId;
@@ -299,7 +305,7 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
         if (path1.size() != 0 && i == (number_of_times - 1))
         {
-            Delivery::PathInfo pi;
+            DeliveryRoute::PathInfo pi;
             pi.villageId = dijkstraSrc;
             pi.transportedWeight = 0.;
             path.push_back(pi);
@@ -308,24 +314,30 @@ Delivery HydrographicNetwork::GetDeliveryItinerary(uint src, std::unordered_map<
 
     _igarapeMaxCapacity = 0.;
 
-    std::unordered_map<uint, std::vector<Delivery::PathInfo>> returnPath;
+    std::unordered_map<uint, std::vector<DeliveryRoute::PathInfo>> returnPath;
     if (!path.empty())
         returnPath.insert(std::make_pair(path.back().villageId, path));
 
     return returnPath;
 }
 
-Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint, std::vector<Order>> orders, double boatCapacity, double supportVesselCapacity /*= 0.0*/, uint numberOfSupportVessels /*= 0*/)
+DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
 {
+    uint src = delivery.GetSourceVillage();
+    Delivery::OrderMap& orders = delivery.GetOrders();
+    double boatCapacity = delivery.GetBoatCapacity();
+    double supportVesselCapacity = delivery.GetSupportVesselCapacity();
+    uint numberOfSupportVessels = delivery.GetNumberOfSupportVessels();
+
     if (_vertices.empty())
         throw std::runtime_error("No Villages found!");
 
     // Test to see which destinations are reachable without transversing igarapes
     _igarapeMaxCapacity = boatCapacity;
 
-    OrderMap unreacheable = FilterUnreachable(src, orders);
+    Delivery::OrderMap unreacheable = FilterUnreachable(src, orders);
 
-    OrderMap reachableWithIgarapes;
+    Delivery::OrderMap reachableWithIgarapes;
 
     if (numberOfSupportVessels > 0 && !unreacheable.empty())
     {
@@ -334,12 +346,12 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
         unreacheable = FilterUnreachable(src, reachableWithIgarapes);
     }
 
-    OrderMap::iterator it = orders.find(src);
+    Delivery::OrderMap::iterator it = orders.find(src);
     if (it != orders.end())
         orders.erase(it);
 
     BoatMap numberOfBoats;
-    for (OrderMap::reference dest : orders)
+    for (Delivery::OrderMap::reference dest : orders)
     {
         uint ordersVolume = 0;
         uint ordersWeight = 0;
@@ -361,7 +373,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
     }
 
-    for (OrderMap::reference dest : reachableWithIgarapes)
+    for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
     {
         double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
@@ -372,7 +384,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
             if (orderVolume > supportVesselCapacity)
             {
                 it = dest.second.erase(it);
-                if (!dest.second.empty() && it != dest.second.begin()) 
+                if (!dest.second.empty() && it != dest.second.begin())
                     it--;
                 else if(dest.second.empty())
                     break;
@@ -385,7 +397,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
             ordersWeight += it->GetWeight();
         }
 
-        if (!dest.second.empty()) 
+        if (!dest.second.empty())
         {
             numberOfSupportVessels -= static_cast<uint>(ceil(numberOfBoatsForOrder));
             numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
@@ -399,26 +411,24 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
         }
     }
 
-    for (OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
+    for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
     {
-        OrderMap::iterator eraseit = it++;
+        Delivery::OrderMap::iterator eraseit = it++;
         if(eraseit->second.empty())
         {
             reachableWithIgarapes.erase(eraseit);
         }
     }
 
-
-
     _igarapeMaxCapacity = boatCapacity;
 
-    Delivery::PathInfoMap deliveries;
+    DeliveryRoute::PathInfoMap deliveries;
     DijkstraShortestPath shrtPath = dijkstraShortestPath(src);
-    for (OrderMap::const_reference dest : orders)
+    for (Delivery::OrderMap::const_reference dest : orders)
     {
         Path path = shrtPath.GetPath(src, dest.first);
 
-        std::vector<Delivery::PathInfo> pathInfos;
+        std::vector<DeliveryRoute::PathInfo> pathInfos;
 
         if (path.size() > 0)
         {
@@ -427,7 +437,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
                 Path::const_reference verId = *verIdIt;
                 Path::const_reference nextVerId = *(verIdIt + 1);
 
-                Delivery::PathInfo pi;
+                DeliveryRoute::PathInfo pi;
                 pi.villageId = verId;
                 pi.transportedWeight = numberOfBoats.at(path.back()).second;
 
@@ -444,7 +454,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
                 pathInfos.push_back(pi);
             }
 
-            Delivery::PathInfo pi;
+            DeliveryRoute::PathInfo pi;
             pi.villageId = path.back();
             pi.followsFlow = false;
             pi.transportedWeight = 0;
@@ -456,19 +466,18 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
         deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
     }
 
-
     if (numberOfSupportVessels <= 0 || reachableWithIgarapes.empty())
-        return Delivery(std::move(deliveries));
+        return DeliveryRoute(std::move(deliveries));
 
     _igarapeMaxCapacity = supportVesselCapacity;
 
     shrtPath = dijkstraShortestPath(src);
-    for (OrderMap::const_reference dest : reachableWithIgarapes)
+    for (Delivery::OrderMap::const_reference dest : reachableWithIgarapes)
     {
         Path path = shrtPath.GetPath(src, dest.first);
         uint totalVolume = std::accumulate(dest.second.begin(), dest.second.end(), 0, [](uint val, const Order& ord) { return val + ord.GetVolume(); });
         uint numberOfTravels = static_cast<uint>(ceil(totalVolume / supportVesselCapacity));
-        std::vector<Delivery::PathInfo> pathInfos;
+        std::vector<DeliveryRoute::PathInfo> pathInfos;
 
         Path::const_iterator igarapeSrc = path.end();
         size_t igarapeIndex = -1;
@@ -481,7 +490,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
                 Path::const_reference verId = *verIdIt;
                 Path::const_reference nextVerId = *(verIdIt + 1);
 
-                Delivery::PathInfo pi;
+                DeliveryRoute::PathInfo pi;
                 pi.villageId = verId;
 
 
@@ -512,7 +521,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
                 pathInfos.push_back(pi);
             }
 
-            Delivery::PathInfo pi;
+            DeliveryRoute::PathInfo pi;
             pi.villageId = path.back();
             pi.followsFlow = !pathInfos.back().followsFlow;
             pi.transportedWeight = 0;
@@ -523,7 +532,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
 
             size_t destIndex = pathInfos.size() - 1;
 
-            for (int i = destIndex - 1; i > igarapeIndex; --i)
+            for (size_t i = destIndex - 1; i > igarapeIndex; --i)
             {
                 pathInfos.push_back(pathInfos[i]);
                 pathInfos.back().transportedWeight = 0;
@@ -532,7 +541,7 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
 
             size_t endIndex = pathInfos.size() - 1;
 
-            for (int i = 0; i < numberOfTravels - 2; ++i)
+            for (uint i = 0; i < numberOfTravels - 2; ++i)
                 pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
 
             pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
@@ -540,15 +549,15 @@ Delivery HydrographicNetwork::GetDeliveryPath(uint src, std::unordered_map<uint,
             deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
         }
 
-        
+
     }
 
-    return Delivery(std::move(deliveries));
+    return DeliveryRoute(std::move(deliveries));
 }
 
 void HydrographicNetwork::ViewGraph()
 {
-    if (_graphViewer == nullptr)
+    if (!_graphViewer)
     {
         // new window
         _graphViewer = new GraphViewer(800, 600, false);
@@ -579,8 +588,8 @@ void HydrographicNetwork::ViewGraph()
                 continue;
 
             _graphViewer->addEdge(_tempEdgeId, v.first, e.idDest, EdgeType::DIRECTED);
-            _graphViewer->setEdgeThickness(_tempEdgeId, 50 / GetRiver(e.weight.RiverId).GetMaxCapacity());
-            _graphViewer->setEdgeLabel(_tempEdgeId, GetRiver(e.weight.RiverId).GetName());
+            _graphViewer->setEdgeThickness(_tempEdgeId, 50 / GetRiver(e.weight.RiverId)->GetMaxCapacity());
+            _graphViewer->setEdgeLabel(_tempEdgeId, GetRiver(e.weight.RiverId)->GetName());
 
             _tempEdgeId += 1;
         }
@@ -589,7 +598,7 @@ void HydrographicNetwork::ViewGraph()
     _graphViewer->rearrange();
 }
 
-void HydrographicNetwork::ViewGraph(Delivery& delivery, const std::string& color)
+void HydrographicNetwork::ViewGraph(DeliveryRoute& delivery, const std::string& color)
 {
     if (_graphViewer == nullptr)
         return; // throw?
@@ -600,13 +609,13 @@ void HydrographicNetwork::ViewGraph(Delivery& delivery, const std::string& color
     for (auto& r : _rivers)
         _graphViewer->setEdgeLabel(r.first, WHITESPACE_GRAPHVIEWER);
 
-    for (std::pair<uint, std::vector<Delivery::PathInfo>> d : delivery.Path)
+    for (std::pair<uint, std::vector<DeliveryRoute::PathInfo>> d : delivery.Path)
     {
         _graphViewer->setVertexColor(d.second.front().villageId, GREEN); // source
         _graphViewer->setVertexColor(d.first, RED); // destination
     }
 
-    for (std::pair<uint, std::vector<Delivery::PathInfo>> d : delivery.Path)
+    for (std::pair<uint, std::vector<DeliveryRoute::PathInfo>> d : delivery.Path)
     {
         for (size_t i = 0; i < d.second.size() - 1; ++i)
         {
@@ -756,10 +765,16 @@ uint HydrographicNetwork::AddRiver(uint sourceVillage, uint destVillage, const R
 
 HydrographicNetwork::~HydrographicNetwork()
 {
-    if (_graphViewer != nullptr)
+    if (_graphViewer)
         delete _graphViewer;
 }
 
+HydrographicNetwork* HydrographicNetwork::Load(ByteBuffer& bb)
+{
+    return nullptr;
+}
+
+/*
 bool HydrographicNetwork::Load(std::istream& source, HydrographicNetwork& hn)
 {
     try
@@ -797,6 +812,7 @@ bool HydrographicNetwork::Load(std::istream& source, HydrographicNetwork& hn)
 
     return true;
 }
+*/
 
 Graph<Village, RiverEdge>::DijkstraShortestPath HydrographicNetwork::dijkstraShortestPath(uint srcId) const
 {
@@ -889,16 +905,16 @@ void HydrographicNetwork::ChangeRiversCapacity(double factor)
             rit->second.MultiplyMaxCapacity(factor);
 }
 
-HydrographicNetwork::OrderMap HydrographicNetwork::FilterUnreachable(uint src, OrderMap &orders)
+Delivery::OrderMap HydrographicNetwork::FilterUnreachable(uint src, Delivery::OrderMap& orders)
 {
     VertexSet visitable = GetVisitable(src);
 
-    OrderMap unreacheable;
+    Delivery::OrderMap unreacheable;
 
     std::swap(unreacheable, orders);
     for (VertexSet::value_type verId : visitable)
     {
-        OrderMap::iterator val = unreacheable.find(verId);
+        Delivery::OrderMap::iterator val = unreacheable.find(verId);
         if (val != unreacheable.end())
         {
             orders.insert(std::make_pair(verId, std::move(unreacheable[verId])));
@@ -907,4 +923,22 @@ HydrographicNetwork::OrderMap HydrographicNetwork::FilterUnreachable(uint src, O
     }
 
     return std::move(unreacheable);
+}
+
+const Village* HydrographicNetwork::GetVillage(uint id) const
+{
+    auto it = _vertices.find(id);
+    if (it == _vertices.end())
+        return nullptr;
+    else
+        return &(*it).second->info;
+}
+
+const River* HydrographicNetwork::GetRiver(uint id) const
+{
+    auto it = _rivers.find(id);
+    if (it == _rivers.end())
+        return nullptr;
+    else
+        return &(*it).second;
 }

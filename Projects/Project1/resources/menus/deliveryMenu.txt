@@ -1,0 +1,8 @@
+Delivery (CTRL-Z to cancel)
+-* N#002#New order
+-* O#003#Set source village
+-* B#004#Set boat capacity
+-* V#005#Set support vessel capacity
+-* U#006#Set number of support vessels
+-* S#007#Save delivery
+-* E#001#Exit

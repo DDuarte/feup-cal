@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <algorithm>
 
 uint64 GetCurrentTime()
 {
@@ -34,4 +35,15 @@ void PauseConsole(const std::string& message/* = "Press enter to continue..."*/)
 
     if (std::cin.rdbuf()->in_avail() != 0)
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+bool starts_with(const std::string& str, const std::string& prefix)
+{
+    return !str.compare(0, prefix.size(), prefix);
+}
+
+std::string to_lower(std::string str)
+{
+    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
 }

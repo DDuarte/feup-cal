@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "consolereader.h"
+#include "bytebuffer.h"
 #include <sstream>
 #include <iostream>
 #include <iomanip>
@@ -12,7 +13,7 @@ IMenu::IMenu(const std::string& label, Menu* parent /*= NULL*/) : _parent(parent
     _label.erase(std::remove(_label.begin(), _label.end(), '\r'), _label.end());
 }
 
-uint32 Menu::Print() const
+uint Menu::Print() const
 {
     Menu* parent = this->GetParent();
     std::cout << _label << ":" << std::endl;
@@ -54,7 +55,7 @@ inline IMenu* Menu::AddMenu(char indexer, const std::string& label)
     return GetLastSubMenu();
 }
 
-inline IMenu* Menu::AddMenuItem(char indexer, const std::string& label, uint32 val)
+inline IMenu* Menu::AddMenuItem(char indexer, const std::string& label, uint val)
 {
     _subMenus.push_back(std::make_pair(indexer, new Menu::Item(label, val, this)));
     return GetLastSubMenu();

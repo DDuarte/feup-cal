@@ -1,8 +1,7 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
-#include "defs.h"
-#include "utilities.h"
+#include "utils.h"
 #include "graphviewer.h"
 
 #include <vector>

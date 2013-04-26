@@ -19,6 +19,9 @@
     <Filter Include="graphviewer">
       <UniqueIdentifier>{31c0338a-9e8a-41c1-8a70-d461ed1c6dab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dirent">
+      <UniqueIdentifier>{bfbc77ec-6069-43d2-918b-edd2f9c9ff3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graphviewer\connection.cpp">
@@ -34,6 +37,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bytebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,9 +116,6 @@
     <ClInclude Include="cute\eclipse_listener.h">
       <Filter>cute</Filter>
     </ClInclude>
-    <ClInclude Include="src\defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\order.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="graphviewer\connection.h">
@@ -136,6 +145,27 @@
     </ClInclude>
     <ClInclude Include="src\hydrographic_network.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\consolereader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bytebuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dirent\dirent.h">
+      <Filter>dirent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

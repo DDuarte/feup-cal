@@ -1,10 +1,14 @@
 #include "delivery.h"
 #include "hydrographic_network.h"
+#include "menu.h"
+#include "loader.h"
 
-Delivery Delivery::Load(std::istream& source, HydrographicNetwork& hn)
+Menu* Delivery::_menu = Loader<Menu>("deliveryMenu.txt").Load();
+
+DeliveryRoute DeliveryRoute::Load(std::istream& source, HydrographicNetwork& hn)
 {
     uint villageSource;
-    std::unordered_map<uint, std::vector<Order>> orders;
+    Delivery::OrderMap orders;
 
     try
     {
@@ -23,8 +27,18 @@ Delivery Delivery::Load(std::istream& source, HydrographicNetwork& hn)
     catch (std::exception& e)
     {
         std::cerr << "Exception """ << e.what() << """ occurred when loading Delivery." << std::endl;
-        return Delivery(std::unordered_map<uint, std::vector<PathInfo>>());
+        return DeliveryRoute(std::unordered_map<uint, std::vector<PathInfo>>());
     }
 
-    return hn.GetDeliveryPath(villageSource, orders, 100.0);
+    Delivery del(villageSource, 100.0, 0.0, 0);
+    for (auto& or : orders)
+        for (auto& e : or.second)
+            del.AddOrder(or.first, e);
+
+    return hn.GetDeliveryPath(del);
+}
+
+bool Delivery::Save(ByteBuffer& bb) const
+{
+    return false;
 }
