@@ -351,6 +351,18 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
 					{
 						path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex1 + 1);
 					}
+				} 
+				else
+				{
+					size_t endIndex = path.size() - 2;
+
+					for (size_t j = endIndex; j > igarapeIndex; --j)
+					{
+						path.push_back(path[j]);
+						path.back().transportedWeight = 0;
+						path.back().followsFlow = !path[j].followsFlow;
+						path.back().isIgarape = path[j].isIgarape;
+					}
 				}
 
 
