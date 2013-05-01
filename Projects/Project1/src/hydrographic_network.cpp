@@ -439,12 +439,17 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
             numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
         }
 
-        if (numberOfSupportVessels == 0)
+		if (numberOfSupportVessels == 0)
         {
             auto it = reachableWithIgarapes.find(dest.first);
-            unreacheable.insert(it, reachableWithIgarapes.end());
-            reachableWithIgarapes.erase(it, reachableWithIgarapes.end());
-            break;
+			auto itcopy = it;
+			itcopy++;
+			if (itcopy != reachableWithIgarapes.end())
+			{
+				unreacheable.insert(it, reachableWithIgarapes.end());
+				reachableWithIgarapes.erase(it, reachableWithIgarapes.end());
+				break;
+			}
         }
     }
 
@@ -504,7 +509,7 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
         deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
     }
 
-    if (numberOfSupportVessels <= 0 || reachableWithIgarapes.empty())
+	if (delivery.GetNumberOfSupportVessels() <= 0 || reachableWithIgarapes.empty())
         return DeliveryRoute(std::move(deliveries), std::move(numberOfBoats), std::move(unreacheable));
 
     _igarapeMaxCapacity = supportVesselCapacity;
@@ -578,10 +583,11 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
 
             size_t endIndex = pathInfos.size() - 1;
 
-            for (uint i = 0; i < numberOfTravels - 2; ++i)
-                pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
-
-            pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
+			if (numberOfTravels >= 2)
+				for (uint i = 0; i < numberOfTravels - 2; ++i)
+				    pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
+			if (numberOfTravels > 1)
+				pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
 
             deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
         }
