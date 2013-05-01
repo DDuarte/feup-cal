@@ -16,7 +16,13 @@ bool Delivery::Save(ByteBuffer& bb) const
     ss << GetBoatCapacity() << std::endl;
     ss << GetSupportVesselCapacity() << std::endl;
     ss << GetNumberOfSupportVessels() << std::endl;
-    ss << _orders.size() << std::endl;
+
+    int totalOrders = 0;
+    for (auto& a : _orders)
+        for (auto& b : a.second)
+            totalOrders++;
+
+    ss << totalOrders << std::endl;
 
     for (auto& a : _orders)
         for (auto& b : a.second)
@@ -55,7 +61,7 @@ Delivery* Delivery::Load(ByteBuffer& bb)
 
         ss >> id >> volume >> weight;
 
-        delivery->AddOrder(id, Order(volume, weight));
+        delivery->AddOrder(id, Order(weight, volume));
     }
 
     return delivery;
