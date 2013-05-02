@@ -80,8 +80,8 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
     }
 
 
-        for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
-    {
+    for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
+    {   
         double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
 
@@ -142,6 +142,9 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
             if (numberOfSupportVessels == 0)
                 break;
         }
+
+        if (numberOfSupportVessels == 0)
+                break;
     }
 
     for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
@@ -462,7 +465,7 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
 
 
     for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
-    {
+    {   
         double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
 
@@ -523,6 +526,9 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
             if (numberOfSupportVessels == 0)
                 break;
         }
+
+        if (numberOfSupportVessels == 0)
+            break;
     }
 
     for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
@@ -662,7 +668,7 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
                         pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
 
                 pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
-                }
+            }
             deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
         }
     }
@@ -979,8 +985,8 @@ void HydrographicNetwork::Save(ByteBuffer& bb)
                 continue;
 
             ss << v.first << ' ' << e.idDest << ' '
-               << _rivers.at(e.weight.RiverId).GetMaxCapacity() << ' '
-               << _rivers.at(e.weight.RiverId).GetName() << std::endl;
+                << _rivers.at(e.weight.RiverId).GetMaxCapacity() << ' '
+                << _rivers.at(e.weight.RiverId).GetName() << std::endl;
         }
     }
 
