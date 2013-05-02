@@ -15,7 +15,7 @@
 
 /**
  * Graph Data Structure
- *  
+ *
  */
 template <class V, class E>
 class Graph
@@ -122,7 +122,7 @@ public:
      */
     bool GetElementInDegree(uint id, int& elem);
 
-    bool IsDag() const; ///< Checks if the graph is acyclic 
+    bool IsDag() const; ///< Checks if the graph is acyclic
     virtual int GetNumCycles() const; ///< Returns the number of cycles of the graph
 
     /**

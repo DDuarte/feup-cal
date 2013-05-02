@@ -79,69 +79,69 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
     }
 
-    
+
         for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
-    {   
-		double numberOfBoatsForOrder = 0.;
+    {
+        double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
-		
-		std::vector<Order>::iterator it = dest.second.begin();
-		while (!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0)
-		{
-			double numberOfBoatsForOrderTemp = 0.;
-			for (; it != dest.second.end() && numberOfBoatsForOrderTemp < 1.0; it++)
-			{
-				uint orderVolume = it->GetVolume();
-				if (orderVolume > supportVesselCapacity)
-				{
-					it = dest.second.erase(it);
-					if (!dest.second.empty() && it != dest.second.begin())
-						it--;
-					else if(dest.second.empty())
-						break;
-					continue;
-				}
 
-				double inc = orderVolume / static_cast<double>(boatCapacity);
+        std::vector<Order>::iterator it = dest.second.begin();
+        while (!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0)
+        {
+            double numberOfBoatsForOrderTemp = 0.;
+            for (; it != dest.second.end() && numberOfBoatsForOrderTemp < 1.0; it++)
+            {
+                uint orderVolume = it->GetVolume();
+                if (orderVolume > supportVesselCapacity)
+                {
+                    it = dest.second.erase(it);
+                    if (!dest.second.empty() && it != dest.second.begin())
+                        it--;
+                    else if(dest.second.empty())
+                        break;
+                    continue;
+                }
 
-				if (numberOfBoatsForOrderTemp + inc > 1.)
-					break;
+                double inc = orderVolume / static_cast<double>(boatCapacity);
 
-				numberOfBoatsForOrderTemp += inc;
-				ordersWeight += it->GetWeight();
-			}
+                if (numberOfBoatsForOrderTemp + inc > 1.)
+                    break;
 
-			if (!dest.second.empty())
-			{
-				numberOfSupportVessels -= (static_cast<uint>(ceil(numberOfBoatsForOrderTemp)));
+                numberOfBoatsForOrderTemp += inc;
+                ordersWeight += it->GetWeight();
+            }
 
-				numberOfBoatsForOrder += numberOfBoatsForOrderTemp;
-			}
+            if (!dest.second.empty())
+            {
+                numberOfSupportVessels -= (static_cast<uint>(ceil(numberOfBoatsForOrderTemp)));
 
-			if (numberOfSupportVessels == 0)
-			{
-				if (it != dest.second.end())
-				{
-					unreacheable[dest.first].insert(unreacheable[dest.first].end(), it, dest.second.end());
-					dest.second.erase(it, dest.second.end());
-				}
+                numberOfBoatsForOrder += numberOfBoatsForOrderTemp;
+            }
 
-				auto it1 = reachableWithIgarapes.find(dest.first);
-				auto itcopy = it1;
-				itcopy++;
-				if (itcopy != reachableWithIgarapes.end())
-				{
-					unreacheable.insert(it1, reachableWithIgarapes.end());
-					reachableWithIgarapes.erase(it1, reachableWithIgarapes.end());
-				}
-			}
+            if (numberOfSupportVessels == 0)
+            {
+                if (it != dest.second.end())
+                {
+                    unreacheable[dest.first].insert(unreacheable[dest.first].end(), it, dest.second.end());
+                    dest.second.erase(it, dest.second.end());
+                }
 
-			if (numberOfSupportVessels == 0 || !(!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0))
-				numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
+                auto it1 = reachableWithIgarapes.find(dest.first);
+                auto itcopy = it1;
+                itcopy++;
+                if (itcopy != reachableWithIgarapes.end())
+                {
+                    unreacheable.insert(it1, reachableWithIgarapes.end());
+                    reachableWithIgarapes.erase(it1, reachableWithIgarapes.end());
+                }
+            }
 
-			if (numberOfSupportVessels == 0)
-				break;
-		}
+            if (numberOfSupportVessels == 0 || !(!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0))
+                numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
+
+            if (numberOfSupportVessels == 0)
+                break;
+        }
     }
 
     for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
@@ -170,7 +170,7 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
 
     const bool needsSupportVessel = !reachableWithIgarapes.empty();
 
-	_igarapeMaxCapacity = delivery.GetNumberOfSupportVessels() > 0 ? supportVesselCapacity : boatCapacity;
+    _igarapeMaxCapacity = delivery.GetNumberOfSupportVessels() > 0 ? supportVesselCapacity : boatCapacity;
     std::vector<uint> topoOrder = TopologicalOrder();
     size_t number_of_times = orders.size() + reachableWithIgarapes.size();
     uint dijkstraSrc = src;
@@ -261,14 +261,14 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
 
                 dijkstraSrc = *nextElem;
 
-				
-				if (i == (number_of_times - 1))
-				{
-					DeliveryRoute::PathInfo pi;
-					pi.villageId = dijkstraSrc;
-					pi.transportedWeight = 0.;
-					path.push_back(pi);
-				}
+
+                if (i == (number_of_times - 1))
+                {
+                    DeliveryRoute::PathInfo pi;
+                    pi.villageId = dijkstraSrc;
+                    pi.transportedWeight = 0.;
+                    path.push_back(pi);
+                }
             }
             else
             {
@@ -325,45 +325,45 @@ DeliveryRoute HydrographicNetwork::GetDeliveryItinerary(Delivery& delivery)
 
                 path.push_back(pi);
 
-				if (numberOfTravels > 1)
-				{
-					size_t endIndex = path.size() - 2;
+                if (numberOfTravels > 1)
+                {
+                    size_t endIndex = path.size() - 2;
 
-					for (size_t j = endIndex; j > igarapeIndex; --j)
-					{
-						path.push_back(path[j]);
-						path.back().transportedWeight = 0;
-						path.back().followsFlow = !path[j].followsFlow;
-						path.back().isIgarape = path[j].isIgarape;
-					}
+                    for (size_t j = endIndex; j > igarapeIndex; --j)
+                    {
+                        path.push_back(path[j]);
+                        path.back().transportedWeight = 0;
+                        path.back().followsFlow = !path[j].followsFlow;
+                        path.back().isIgarape = path[j].isIgarape;
+                    }
 
-					size_t endIndex1 = path.size() - 1;
+                    size_t endIndex1 = path.size() - 1;
 
-					if (numberOfTravels > 2)
-						for (uint i = 0; i < numberOfTravels - 2; ++i)
-							path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex1 + 1);
+                    if (numberOfTravels > 2)
+                        for (uint i = 0; i < numberOfTravels - 2; ++i)
+                            path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex1 + 1);
 
-					if (i == number_of_times - 1)
-					{
-						path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex + 2);
-					}
-					else
-					{
-						path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex1 + 1);
-					}
-				} 
-				else
-				{
-					size_t endIndex = path.size() - 2;
+                    if (i == number_of_times - 1)
+                    {
+                        path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex + 2);
+                    }
+                    else
+                    {
+                        path.insert(path.end(), path.begin() + igarapeIndex, path.begin() + endIndex1 + 1);
+                    }
+                }
+                else
+                {
+                    size_t endIndex = path.size() - 2;
 
-					for (size_t j = endIndex; j > igarapeIndex; --j)
-					{
-						path.push_back(path[j]);
-						path.back().transportedWeight = 0;
-						path.back().followsFlow = !path[j].followsFlow;
-						path.back().isIgarape = path[j].isIgarape;
-					}
-				}
+                    for (size_t j = endIndex; j > igarapeIndex; --j)
+                    {
+                        path.push_back(path[j]);
+                        path.back().transportedWeight = 0;
+                        path.back().followsFlow = !path[j].followsFlow;
+                        path.back().isIgarape = path[j].isIgarape;
+                    }
+                }
 
 
                 dijkstraSrc = path[igarapeIndex].villageId;
@@ -459,70 +459,70 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
         numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(ordersVolume / static_cast<double>(boatCapacity))), ordersWeight));
     }
 
-    
+
 
     for (Delivery::OrderMap::reference dest : reachableWithIgarapes)
-    {   
-		double numberOfBoatsForOrder = 0.;
+    {
+        double numberOfBoatsForOrder = 0.;
         uint ordersWeight = 0;
-		
-		std::vector<Order>::iterator it = dest.second.begin();
-		while (!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0)
-		{
-			double numberOfBoatsForOrderTemp = 0.;
-			for (; it != dest.second.end() && numberOfBoatsForOrderTemp < 1.0; it++)
-			{
-				uint orderVolume = it->GetVolume();
-				if (orderVolume > supportVesselCapacity)
-				{
-					it = dest.second.erase(it);
-					if (!dest.second.empty() && it != dest.second.begin())
-						it--;
-					else if(dest.second.empty())
-						break;
-					continue;
-				}
 
-				double inc = orderVolume / static_cast<double>(boatCapacity);
+        std::vector<Order>::iterator it = dest.second.begin();
+        while (!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0)
+        {
+            double numberOfBoatsForOrderTemp = 0.;
+            for (; it != dest.second.end() && numberOfBoatsForOrderTemp < 1.0; it++)
+            {
+                uint orderVolume = it->GetVolume();
+                if (orderVolume > supportVesselCapacity)
+                {
+                    it = dest.second.erase(it);
+                    if (!dest.second.empty() && it != dest.second.begin())
+                        it--;
+                    else if(dest.second.empty())
+                        break;
+                    continue;
+                }
 
-				if (numberOfBoatsForOrderTemp + inc > 1.)
-					break;
+                double inc = orderVolume / static_cast<double>(boatCapacity);
 
-				numberOfBoatsForOrderTemp += inc;
-				ordersWeight += it->GetWeight();
-			}
+                if (numberOfBoatsForOrderTemp + inc > 1.)
+                    break;
 
-			if (!dest.second.empty())
-			{
-				numberOfSupportVessels -= (static_cast<uint>(ceil(numberOfBoatsForOrderTemp)));
+                numberOfBoatsForOrderTemp += inc;
+                ordersWeight += it->GetWeight();
+            }
 
-				numberOfBoatsForOrder += numberOfBoatsForOrderTemp;
-			}
+            if (!dest.second.empty())
+            {
+                numberOfSupportVessels -= (static_cast<uint>(ceil(numberOfBoatsForOrderTemp)));
 
-			if (numberOfSupportVessels == 0)
-			{
-				if (it != dest.second.end())
-				{
-					unreacheable[dest.first].insert(unreacheable[dest.first].end(), it, dest.second.end());
-					dest.second.erase(it, dest.second.end());
-				}
+                numberOfBoatsForOrder += numberOfBoatsForOrderTemp;
+            }
 
-				auto it1 = reachableWithIgarapes.find(dest.first);
-				auto itcopy = it1;
-				itcopy++;
-				if (itcopy != reachableWithIgarapes.end())
-				{
-					unreacheable.insert(it1, reachableWithIgarapes.end());
-					reachableWithIgarapes.erase(it1, reachableWithIgarapes.end());
-				}
-			}
+            if (numberOfSupportVessels == 0)
+            {
+                if (it != dest.second.end())
+                {
+                    unreacheable[dest.first].insert(unreacheable[dest.first].end(), it, dest.second.end());
+                    dest.second.erase(it, dest.second.end());
+                }
 
-			if (numberOfSupportVessels == 0 || !(!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0))
-				numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
+                auto it1 = reachableWithIgarapes.find(dest.first);
+                auto itcopy = it1;
+                itcopy++;
+                if (itcopy != reachableWithIgarapes.end())
+                {
+                    unreacheable.insert(it1, reachableWithIgarapes.end());
+                    reachableWithIgarapes.erase(it1, reachableWithIgarapes.end());
+                }
+            }
 
-			if (numberOfSupportVessels == 0)
-				break;
-		}
+            if (numberOfSupportVessels == 0 || !(!dest.second.empty() && it != dest.second.end() && numberOfSupportVessels > 0))
+                numberOfBoats.emplace(dest.first, std::make_pair(static_cast<uint>(ceil(numberOfBoatsForOrder)), ordersWeight));
+
+            if (numberOfSupportVessels == 0)
+                break;
+        }
     }
 
     for (Delivery::OrderMap::iterator it = reachableWithIgarapes.begin(); it != reachableWithIgarapes.end();)
@@ -581,7 +581,7 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
         deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
     }
 
-	if (delivery.GetNumberOfSupportVessels() <= 0 || reachableWithIgarapes.empty())
+    if (delivery.GetNumberOfSupportVessels() <= 0 || reachableWithIgarapes.empty())
         return DeliveryRoute(std::move(deliveries), std::move(numberOfBoats), std::move(unreacheable));
 
     _igarapeMaxCapacity = supportVesselCapacity;
@@ -643,26 +643,26 @@ DeliveryRoute HydrographicNetwork::GetDeliveryPath(Delivery& delivery)
             pi.isIgarape = pathInfos.back().isIgarape;
 
             pathInfos.push_back(pi);
-			
-			if (numberOfTravels > 1)
-			{
-				size_t destIndex = pathInfos.size() - 1;
 
-				for (size_t i = destIndex - 1; i > igarapeIndex; --i)
-				{
-					pathInfos.push_back(pathInfos[i]);
-					pathInfos.back().transportedWeight = 0;
-					pathInfos.back().followsFlow = !pathInfos[i].followsFlow;
-				}
+            if (numberOfTravels > 1)
+            {
+                size_t destIndex = pathInfos.size() - 1;
 
-				size_t endIndex = pathInfos.size() - 1;
+                for (size_t i = destIndex - 1; i > igarapeIndex; --i)
+                {
+                    pathInfos.push_back(pathInfos[i]);
+                    pathInfos.back().transportedWeight = 0;
+                    pathInfos.back().followsFlow = !pathInfos[i].followsFlow;
+                }
 
-				if (numberOfTravels > 2)
-					for (uint i = 0; i < numberOfTravels - 2; ++i)
-						pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
-				
-				pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
-				}
+                size_t endIndex = pathInfos.size() - 1;
+
+                if (numberOfTravels > 2)
+                    for (uint i = 0; i < numberOfTravels - 2; ++i)
+                        pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + endIndex + 1);
+
+                pathInfos.insert(pathInfos.end(), pathInfos.begin() + igarapeIndex, pathInfos.begin() + destIndex + 1);
+                }
             deliveries.insert(std::make_pair(dest.first, std::move(pathInfos)));
         }
     }

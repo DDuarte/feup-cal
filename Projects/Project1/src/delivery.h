@@ -67,7 +67,7 @@ struct DeliveryRoute
 {
     /**
     * Encapsulates information about a part of the route
-    *  
+    *
     */
     struct PathInfo
     {
