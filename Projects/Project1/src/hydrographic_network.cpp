@@ -714,7 +714,10 @@ void HydrographicNetwork::ViewGraph()
     for (std::map<uint, Vertex*>::value_type v : _vertices)
     {
         AddVillageToGraphViewer(v.first, Village(v.second->info) /*, dX, dY */);
+    }
 
+    for (std::map<uint, Vertex*>::value_type v : _vertices)
+    {
         for (Edge& e : v.second->adj)
         {
             if (!e.weight.FollowsFlow)
