@@ -158,6 +158,33 @@ void NewHydrographicBasin()
     ClearConsole();
 
     std::unique_ptr<HydrographicNetwork> hn(new HydrographicNetwork(name));
+
+/*  Squared matrix map
+
+    const int n = 8;
+    for (int i = 0; i < (n * n); ++i)
+        hn->AddVillage(Village("V" + std::to_string(i), i % n, i / n));
+
+    for (int i = 0; i < n * (n - 1); ++i)
+        hn->AddRiver(i, i + n, River("RV" + std::to_string(i) + "-" + std::to_string(i + n), 100));
+
+    for (int i = 0; i < (n * n - 1); ++i)
+    {
+        if ((i + 1) % n != 0)
+            hn->AddRiver(i, i + 1, River("RH" + std::to_string(i) + "-" + std::to_string(i + 1), 100));
+    }
+
+
+    Delivery del(63, 100, 0, 100);
+    for (int i = 1; i < (n * n); ++i)
+        del.AddOrder(i, Order(1, 1));
+
+    DeliveryRoute delR = hn->GetDeliveryItinerary(del);
+
+    hn->ViewGraph(delR);
+    
+*/
+
     HydrographicNetworkMenu(hn.get());
 }
 
