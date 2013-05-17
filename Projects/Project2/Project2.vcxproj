@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="dirent\dirent.h" />
     <ClInclude Include="src\bytebuffer.h" />
+    <ClInclude Include="src\bytebuffer_comparator.h" />
     <ClInclude Include="src\compression_algorithm.h" />
     <ClInclude Include="src\compress_huffman_adaptive.h" />
     <ClInclude Include="src\compress_keyword_encoding.h" />
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bytebuffer.cpp" />
+    <ClCompile Include="src\bytebuffer_comparator.cpp" />
     <ClCompile Include="src\compression_algorithm.cpp" />
     <ClCompile Include="src\compress_huffman_adaptive.cpp" />
     <ClCompile Include="src\compress_keyword_encoding.cpp" />
