@@ -2,12 +2,12 @@
 
 #include <stdexcept>
 
-bool CompressLZW::CompressImpl(ByteBuffer& source, ByteBuffer& output)
+bool CompressLZW::CompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }
 
-bool CompressLZW::DecompressIml(ByteBuffer& input, ByteBuffer& result)
+bool CompressLZW::DecompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }

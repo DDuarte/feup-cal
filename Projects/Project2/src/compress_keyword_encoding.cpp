@@ -2,12 +2,12 @@
 
 #include <stdexcept>
 
-bool CompressKeywordEncoding::CompressImpl(ByteBuffer& source, ByteBuffer& output)
+bool CompressKeywordEncoding::CompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }
 
-bool CompressKeywordEncoding::DecompressIml(ByteBuffer& input, ByteBuffer& result)
+bool CompressKeywordEncoding::DecompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }

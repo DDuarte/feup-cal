@@ -7,12 +7,12 @@ class ByteBuffer;
 class CompressionAlgorithm
 {
 public:
-    bool Compress(ByteBuffer& source, ByteBuffer& output, Benchmark& benchmark) { return false; }
-    bool Decompress(ByteBuffer& input, ByteBuffer& result, Benchmark& benchmark) { return false; }
+    /* virtual */ bool Compress(ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark) /* final */;
+    /* virtual */ bool Decompress(ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark) /* final */;
 
 protected:
-    virtual bool CompressImpl(ByteBuffer& source, ByteBuffer& output) = 0;
-    virtual bool DecompressIml(ByteBuffer& input, ByteBuffer& result) = 0;
+    virtual bool CompressImpl(ByteBuffer& input, ByteBuffer& output) = 0;
+    virtual bool DecompressImpl(ByteBuffer& input, ByteBuffer& output) = 0;
 };
 
 #endif // COMPRESSION_ALGORITHM_H_

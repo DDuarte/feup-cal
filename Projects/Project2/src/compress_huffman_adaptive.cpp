@@ -2,12 +2,12 @@
 
 #include <stdexcept>
 
-bool CompressHuffmanAdaptive::CompressImpl(ByteBuffer& source, ByteBuffer& output)
+bool CompressHuffmanAdaptive::CompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }
 
-bool CompressHuffmanAdaptive::DecompressIml(ByteBuffer& input, ByteBuffer& result)
+bool CompressHuffmanAdaptive::DecompressImpl(ByteBuffer& input, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }

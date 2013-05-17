@@ -5,8 +5,8 @@
 
 class CompressHuffmanStatic : public CompressionAlgorithm
 {
-    virtual bool CompressImpl(ByteBuffer& source, ByteBuffer& output) override;
-    virtual bool DecompressIml(ByteBuffer& input, ByteBuffer& result) override;
+    virtual bool CompressImpl(ByteBuffer& input, ByteBuffer& output) override;
+    virtual bool DecompressImpl(ByteBuffer& input, ByteBuffer& output) override;
 };
 
 #endif // COMPRESS_HUFFMAN_STATIC_H_

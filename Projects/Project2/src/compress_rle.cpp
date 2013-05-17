@@ -7,7 +7,7 @@ bool CompressRLE::CompressImpl(ByteBuffer& source, ByteBuffer& output)
     throw std::exception("The method or operation is not implemented.");
 }
 
-bool CompressRLE::DecompressIml(ByteBuffer& input, ByteBuffer& result)
+bool CompressRLE::DecompressImpl(ByteBuffer& input, ByteBuffer& result)
 {
     throw std::exception("The method or operation is not implemented.");
 }

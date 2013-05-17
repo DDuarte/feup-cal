@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bytebuffer.cpp" />
+    <ClCompile Include="src\compression_algorithm.cpp" />
     <ClCompile Include="src\compress_huffman_adaptive.cpp" />
     <ClCompile Include="src\compress_keyword_encoding.cpp" />
     <ClCompile Include="src\compress_lzw.cpp" />
