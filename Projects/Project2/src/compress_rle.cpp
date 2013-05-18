@@ -2,12 +2,12 @@
 
 #include <stdexcept>
 
-bool CompressRLE::CompressImpl(ByteBuffer& source, ByteBuffer& output)
+bool CompressRLE::CompressImpl(const ByteBuffer& source, ByteBuffer& output)
 {
     throw std::exception("The method or operation is not implemented.");
 }
 
-bool CompressRLE::DecompressImpl(ByteBuffer& input, ByteBuffer& result)
+bool CompressRLE::DecompressImpl(const ByteBuffer& input, ByteBuffer& result)
 {
     throw std::exception("The method or operation is not implemented.");
 }

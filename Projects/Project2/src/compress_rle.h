@@ -5,8 +5,8 @@
 
 class CompressRLE : public CompressionAlgorithm
 {
-    virtual bool CompressImpl(ByteBuffer& input, ByteBuffer& output) override;
-    virtual bool DecompressImpl(ByteBuffer& input, ByteBuffer& output) override;
+    virtual bool CompressImpl(const ByteBuffer& input, ByteBuffer& output) override;
+    virtual bool DecompressImpl(const ByteBuffer& input, ByteBuffer& output) override;
 };
 
 #endif // COMPRESS_RLE_H_
