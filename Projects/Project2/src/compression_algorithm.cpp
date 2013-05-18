@@ -1,5 +1,6 @@
 #include "compression_algorithm.h"
 #include "benchmark.h"
+#include "bytebuffer.h"
 
 #include <ctime>
 
@@ -7,17 +8,19 @@ bool CompressionAlgorithm::Compress(const ByteBuffer& input, ByteBuffer& output,
 {
     // init stats
 
-    clock_t t;
-
-    t = clock();
+    benchmark.SetCompression(true);
+    benchmark.SetOriginalSize(input.Size());
+    benchmark.SetStartTime(clock() / (double) CLOCKS_PER_SEC);
 
     // compute
 
     bool result = CompressImpl(input, output);
 
+
     // end stats
 
-    double secs = t / (double) CLOCKS_PER_SEC;
+    benchmark.SetEndTime(clock() / (double) CLOCKS_PER_SEC);
+    benchmark.SetResultSize(output.Size());
 
     return result;
 }
@@ -26,9 +29,9 @@ bool CompressionAlgorithm::Decompress(const ByteBuffer& input, ByteBuffer& outpu
 {
     // init stats
 
-    clock_t t;
-
-    t = clock();
+    benchmark.SetCompression(false);
+    benchmark.SetOriginalSize(input.Size());
+    benchmark.SetStartTime(clock() / (double) CLOCKS_PER_SEC);
 
     // compute
 
@@ -36,7 +39,8 @@ bool CompressionAlgorithm::Decompress(const ByteBuffer& input, ByteBuffer& outpu
 
     // end stats
 
-    double secs = t / (double) CLOCKS_PER_SEC;
+    benchmark.SetEndTime(clock() / (double) CLOCKS_PER_SEC);
+    benchmark.SetResultSize(output.Size());
 
     return result;
 }
