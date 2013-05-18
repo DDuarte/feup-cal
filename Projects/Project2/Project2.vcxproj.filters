@@ -60,6 +60,18 @@
     <ClInclude Include="src\bytebuffer_comparator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\benchmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\data_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generator_file_read.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\generator_random_words.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bytebuffer.cpp">
@@ -96,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\bytebuffer_comparator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generator_file_read.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\generator_random_words.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
