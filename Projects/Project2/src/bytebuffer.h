@@ -23,6 +23,7 @@ class ByteBuffer
 public:
     ByteBuffer(size_t capacity); ///< Constructor. capacity is a raw guess for the initial size of the buffer
     ByteBuffer(const ByteBuffer& other); ///< Copy constructor
+    ByteBuffer(ByteBuffer&& other);
 
     const Byte* Data() const; ///< Underlying Byte array
 
@@ -67,6 +68,7 @@ public:
     void WriteCString(const std::string& value) { WriteCString(value.c_str()); }
     void WriteBuffer(const ByteBuffer& other);
     void WriteBuffer(const char* src, size_t count) { Append(src, count); }
+    void WriteDynInt(size_t val) { Append7BitEncodedInt(val); }
 
     bool   ReadBool();
     uint8  ReadUInt8();
@@ -81,6 +83,7 @@ public:
     double ReadDouble();
     std::string ReadString(); ///< Reads a string prefixed with a variable length size (4 bytes max)
     std::string ReadCString(); ///< Reads a string until the null terminator is found
+    size_t ReadDynInt() { return Read7BitEncodedInt(); }
 
     ByteBuffer& operator <<(bool value) { WriteBool(value); return *this; }
     ByteBuffer& operator <<(uint8 value) { WriteUInt8(value); return *this; }
@@ -130,7 +133,7 @@ protected:
 
 private:
     void Append7BitEncodedInt(size_t value); ///< Variable length value
-    uint32 Read7BitEncodedInt(); ///< Variable length value
+    size_t Read7BitEncodedInt(); ///< Variable length value
 };
 
 template <typename T>

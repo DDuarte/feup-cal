@@ -21,6 +21,10 @@ ByteBuffer::ByteBuffer(size_t capacity) : _readPos(0), _writePos(0)
 ByteBuffer::ByteBuffer(const ByteBuffer& other)
     : _readPos(other._readPos), _writePos(other._writePos), _buffer(other._buffer) {}
 
+ByteBuffer::ByteBuffer(ByteBuffer&& other)
+    : _readPos(other._readPos), _writePos(other._writePos), _buffer(std::move(other._buffer)) { }
+
+
 const Byte* ByteBuffer::Data() const
 {
     return &_buffer[0];
@@ -281,9 +285,9 @@ void ByteBuffer::Append7BitEncodedInt(size_t value)
     Append((Byte)value);
 }
 
-uint32 ByteBuffer::Read7BitEncodedInt()
+size_t ByteBuffer::Read7BitEncodedInt()
 {
-    uint32 result = 0;
+    size_t result = 0;
     for (uint8 i = 0, shift = 0; i < 4; ++i, shift += 7) // read max 4 bytes (max value 0xFFFFFFF)
     {
         Byte val = Read<Byte>();
