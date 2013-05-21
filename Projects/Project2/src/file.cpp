@@ -10,7 +10,8 @@ namespace File
         if (!fileName)
             return false;
 
-        FILE* file = fopen(fileName, "rb");
+        FILE* file;
+        fopen_s(&file, fileName, "rb");
         if (!file)
         {
             std::cerr << "File::Load: Could not open file " << fileName << " (fopen)" << std::endl;
@@ -55,7 +56,8 @@ namespace File
         if (!fileName || !buffer || !size)
             return false;
 
-        FILE* file = fopen(fileName, "wb");
+        FILE* file;
+        fopen_s(&file, fileName, "wb");
         if (!file)
         {
             std::cerr << "File::Save: Could not open file " << fileName << " (fopen)" << std::endl;
