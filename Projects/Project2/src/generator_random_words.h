@@ -7,10 +7,10 @@
 #include <string>
 #include <vector>
 
-class GeneatorRandomWords : public DataInput
+class GeneratorRandomWords : public DataInput
 {
 public:
-    GeneatorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount);
+    GeneratorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount);
 
     virtual ByteBuffer GenerateData() const override;
 

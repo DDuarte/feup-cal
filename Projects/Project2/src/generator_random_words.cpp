@@ -8,7 +8,7 @@
 #include <random>
 #include <ctime>
 
-GeneatorRandomWords::GeneatorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount) : DataInput((int)wordCount)
+GeneratorRandomWords::GeneratorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount) : DataInput((int)wordCount)
 {
     assert(!dictionaryFileName.empty());
 
@@ -37,7 +37,7 @@ GeneatorRandomWords::GeneatorRandomWords(const std::string& dictionaryFileName, 
     dictionary.close();
 }
 
-ByteBuffer GeneatorRandomWords::GenerateData() const 
+ByteBuffer GeneratorRandomWords::GenerateData() const 
 {
     std::random_device generator;
     std::uniform_int_distribution<int> distribution(0, _words.size() - 1);
@@ -55,7 +55,7 @@ ByteBuffer GeneatorRandomWords::GenerateData() const
 
     ByteBuffer bb((uint32) str.length());
 
-    bb.WriteBuffer(ss.str().c_str(), (uint32) str.length());
+    bb.WriteBuffer(ss.str().c_str(), (uint64) str.length());
     bb.WriteUInt8(0);
 
     return bb;
