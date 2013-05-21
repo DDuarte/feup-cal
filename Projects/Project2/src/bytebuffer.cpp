@@ -13,7 +13,7 @@
 #define snprintf sprintf_s
 #endif
 
-ByteBuffer::ByteBuffer(uint32 capacity) : _readPos(0), _writePos(0)
+ByteBuffer::ByteBuffer(size_t capacity) : _readPos(0), _writePos(0)
 {
     _buffer.reserve(capacity);
 }
@@ -33,27 +33,27 @@ void ByteBuffer::Clear()
     _writePos = 0;
 }
 
-Byte ByteBuffer::operator[](uint32 pos) const
+Byte ByteBuffer::operator[](size_t pos) const
 {
     return Read<Byte>(pos);
 }
 
-uint32 ByteBuffer::GetReadPos() const
+size_t ByteBuffer::GetReadPos() const
 {
     return _readPos;
 }
 
-void ByteBuffer::SetReadPos(uint32 readPos)
+void ByteBuffer::SetReadPos(size_t readPos)
 {
     _readPos = readPos;
 }
 
-uint32 ByteBuffer::GetWritePos() const
+size_t ByteBuffer::GetWritePos() const
 {
     return _writePos;
 }
 
-void ByteBuffer::SetWritePos(uint32 writePos)
+void ByteBuffer::SetWritePos(size_t writePos)
 {
     _writePos = writePos;
 }
@@ -63,7 +63,7 @@ void ByteBuffer::FinishRead()
     _readPos = _writePos;
 }
 
-void ByteBuffer::ReadSkip(uint32 size)
+void ByteBuffer::ReadSkip(size_t size)
 {
     // assert(_readPos + size <= Size());
 
@@ -73,7 +73,7 @@ void ByteBuffer::ReadSkip(uint32 size)
     _readPos += size;
 }
 
-void ByteBuffer::Read(Byte* dest, uint32 count)
+void ByteBuffer::Read(Byte* dest, size_t count)
 {
     // assert(_readPos + count <= Size());
 
@@ -90,13 +90,13 @@ void ByteBuffer::Append(const ByteBuffer& other)
         Append(other.Data(), other._writePos);
 }
 
-void ByteBuffer::Append(const Byte* src, uint32 count)
+void ByteBuffer::Append(const Byte* src, size_t count)
 {
     // assert(count);
     // assert(src);
     // assert(Size() < 100000);
 
-    if (!count || !src || Size() >= 100000)
+    if (!count || !src)
         throw ByteBufferException();
 
     if (Size() < _writePos + count)
@@ -105,7 +105,7 @@ void ByteBuffer::Append(const Byte* src, uint32 count)
     _writePos += count;
 }
 
-void ByteBuffer::Put(uint32 pos, const Byte* src, uint32 count)
+void ByteBuffer::Put(size_t pos, const Byte* src, size_t count)
 {
     // assert(pos + count <= Size());
     // assert(src);
@@ -116,7 +116,7 @@ void ByteBuffer::Put(uint32 pos, const Byte* src, uint32 count)
     memcpy(&_buffer[pos], src, count);
 }
 
-uint32 ByteBuffer::Size() const
+size_t ByteBuffer::Size() const
 {
     return _buffer.size();
 }
@@ -126,14 +126,14 @@ bool ByteBuffer::IsEmpty() const
     return _buffer.empty();
 }
 
-void ByteBuffer::Resize(uint32 newSize)
+void ByteBuffer::Resize(size_t newSize)
 {
     _buffer.resize(newSize, 0);
     _readPos = 0;
     _writePos = Size();
 }
 
-void ByteBuffer::Reserve(uint32 size)
+void ByteBuffer::Reserve(size_t size)
 {
     if (size > Size())
         _buffer.reserve(size);
@@ -150,8 +150,8 @@ void ByteBuffer::Print(std::ostream& stream) const
     std::stringstream text;
     std::stringstream hex;
 
-    uint32 length = Size();
-    for (uint32 i = 0; i < length; i += 16) // 16 bytes per line
+    size_t length = Size();
+    for (size_t i = 0; i < length; i += 16) // 16 bytes per line
     {
         hex << "| ";
 
@@ -206,7 +206,7 @@ void ByteBuffer::WriteDouble(double value) { Append<double>(value); }
 void ByteBuffer::WriteBuffer(const ByteBuffer& value) { Append(value); }
 void ByteBuffer::WriteString(const std::string& value)
 {
-    if (uint32 length = value.length())
+    if (size_t length = value.length())
     {
         Append7BitEncodedInt(length);
         Append((Byte const*)value.c_str(), length);
@@ -266,7 +266,7 @@ std::string ByteBuffer::ReadCString()
     return value;
 }
 
-void ByteBuffer::Append7BitEncodedInt(uint32 value)
+void ByteBuffer::Append7BitEncodedInt(size_t value)
 {
     // assert(value <= 0xFFFFFFF); // 8*4 - 4*1 bits
 

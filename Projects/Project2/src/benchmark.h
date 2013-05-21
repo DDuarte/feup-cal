@@ -7,8 +7,8 @@ public:
         : _originalSize(originalSize), _resultSize(resultSize), _startTime(startTime), _endTime(endTime), _compression(isCompression) { }
     Benchmark() : _originalSize(0), _resultSize(0), _startTime(0), _endTime(0), _compression(false) { }
 
-    void SetOriginalSize(uint size) { _originalSize = size; }
-    void SetResultSize(uint size) { _resultSize = size; }
+    void SetOriginalSize(size_t size) { _originalSize = size; }
+    void SetResultSize(size_t size) { _resultSize = size; }
     void SetStartTime(double time) { _startTime = time; }
     void SetEndTime(double time) { _endTime = time; }
 
@@ -21,7 +21,7 @@ public:
 private:
     double _startTime;
     double _endTime;
-    uint _originalSize;
-    uint _resultSize;
+    size_t _originalSize;
+    size_t _resultSize;
     bool _compression;
 };

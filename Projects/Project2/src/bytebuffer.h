@@ -21,32 +21,32 @@ class ByteBufferException : public std::exception {};
 class ByteBuffer
 {
 public:
-    ByteBuffer(uint32 capacity); ///< Constructor. capacity is a raw guess for the initial size of the buffer
+    ByteBuffer(size_t capacity); ///< Constructor. capacity is a raw guess for the initial size of the buffer
     ByteBuffer(const ByteBuffer& other); ///< Copy constructor
 
     const Byte* Data() const; ///< Underlying Byte array
 
     void Clear(); ///< Empties the buffer
 
-    Byte operator[](uint32 pos) const; ///< Indexer
-    template <typename T> T Read(uint32 position) const; ///< Read a value of type T at a given position
+    Byte operator[](size_t pos) const; ///< Indexer
+    template <typename T> T Read(size_t position) const; ///< Read a value of type T at a given position
 
-    uint32 GetReadPos() const; ///< Returns the current read position
-    void SetReadPos(uint32 readPos); ///< Updates the current read position
+    size_t GetReadPos() const; ///< Returns the current read position
+    void SetReadPos(size_t readPos); ///< Updates the current read position
 
-    uint32 GetWritePos() const; ///< Returns the current write position
-    void SetWritePos(uint32 writePos); ///< Updates the current write position
+    size_t GetWritePos() const; ///< Returns the current write position
+    void SetWritePos(size_t writePos); ///< Updates the current write position
 
     void FinishRead(); ///< Advances read position to end of buffer, ignoring all its content
 
     template <typename T> void ReadSkip(); ///< Advances read position by sizeof(T), ignoring those Bytes
-    void ReadSkip(uint32 size); ///< Advances read position by the given size (in Bytes), ignoring those Bytes
+    void ReadSkip(size_t size); ///< Advances read position by the given size (in Bytes), ignoring those Bytes
 
-    uint32 Size() const; ///< Returns the size of the buffer
+    size_t Size() const; ///< Returns the size of the buffer
     bool IsEmpty() const; ///< True if buffer is currently empty
 
-    void Resize(uint32 newSize); ///< Resizes the underlying buffer to a new size (adding (nulls) or removing content)
-    void Reserve(uint32 size); ///< Reserves space for the underlying buffer (see std::vector<T>::reserve)
+    void Resize(size_t newSize); ///< Resizes the underlying buffer to a new size (adding (nulls) or removing content)
+    void Reserve(size_t size); ///< Reserves space for the underlying buffer (see std::vector<T>::reserve)
 
     void Print(std::ostream& stream) const; ///< Prints the buffer content in an user friendly way (both ascii and hex)
 
@@ -66,7 +66,7 @@ public:
     void WriteCString(const char* value); ///< Writes a null terminated string
     void WriteCString(const std::string& value) { WriteCString(value.c_str()); }
     void WriteBuffer(const ByteBuffer& other);
-    void WriteBuffer(const char* src, uint32 count) { Append(src, count); }
+    void WriteBuffer(const char* src, size_t count) { Append(src, count); }
 
     bool   ReadBool();
     uint8  ReadUInt8();
@@ -115,21 +115,21 @@ public:
 
 protected:
     std::vector<Byte> _buffer; ///< Underlying buffer of Bytes
-    uint32 _readPos; ///< Current read position
-    uint32 _writePos; ///< Current write position
+    size_t _readPos; ///< Current read position
+    size_t _writePos; ///< Current write position
 
     // Use stream operators to read and write
     template <typename T> T Read();
-    void Read(Byte* dest, uint32 count);
+    void Read(Byte* dest, size_t count);
     template <typename T> void Append(T val);
-    template <typename T> void Append(const T* src, uint32 count);
+    template <typename T> void Append(const T* src, size_t count);
     void Append(const ByteBuffer& other);
-    void Append(const Byte* src, uint32 count);
-    template <typename T> void Put(uint32 pos, T val);
-    void Put(uint32 pos, const Byte* src, uint32 count);
+    void Append(const Byte* src, size_t count);
+    template <typename T> void Put(size_t pos, T val);
+    void Put(size_t pos, const Byte* src, size_t count);
 
 private:
-    void Append7BitEncodedInt(uint32 value); ///< Variable length value
+    void Append7BitEncodedInt(size_t value); ///< Variable length value
     uint32 Read7BitEncodedInt(); ///< Variable length value
 };
 
@@ -140,7 +140,7 @@ void ByteBuffer::ReadSkip()
 }
 
 template <typename T>
-T ByteBuffer::Read(uint32 position) const
+T ByteBuffer::Read(size_t position) const
 {
     //assert(position + sizeof(T) <= Size());
 
@@ -166,13 +166,13 @@ void ByteBuffer::Append(T val)
 }
 
 template <typename T>
-void ByteBuffer::Put(uint32 pos, T val)
+void ByteBuffer::Put(size_t pos, T val)
 {
     Put(pos, (Byte*)&val, sizeof(T));
 }
 
 template <typename T>
-void ByteBuffer::Append(const T* src, uint32 count)
+void ByteBuffer::Append(const T* src, size_t count)
 {
     return Append((const Byte*)src, count * sizeof(T));
 }
