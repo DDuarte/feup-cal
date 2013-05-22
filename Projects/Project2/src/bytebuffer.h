@@ -173,8 +173,8 @@ void ByteBuffer::PutBits(size_t pos, T value, uint32 bitCount)
 template <typename T>
 void ByteBuffer::WriteBits(T value, size_t bits)
 {
-    for (int32 i = bits - 1; i >= 0; --i)
-        WriteBit((value) & 1 << i);
+    for (ssize_t i = bits - 1; i >= 0; --i)
+        WriteBit((value >> i) & 1);
 }
 
 template <typename T>

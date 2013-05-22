@@ -276,7 +276,7 @@ bool ByteBuffer::ReadBit()
 size_t ByteBuffer::ReadBits(size_t bits)
 {
     size_t value = 0;
-    for (size_t i = bits - 1; i >= 0; --i)
+    for (ssize_t i = bits - 1; i >= 0; --i)
         if (ReadBit())
             value |= (1 << i);
 

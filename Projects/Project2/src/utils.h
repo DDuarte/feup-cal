@@ -20,6 +20,17 @@ typedef unsigned int uint; ///< (System) Unsigned int
 typedef unsigned short ushort; ///< (System) Unsigned short
 typedef unsigned char uchar; ///< (System) Unsigned char
 
+#ifdef WIN32
+#ifndef _SSIZE_T_DEFINED
+#ifdef  _WIN64
+typedef __int64    ssize_t;
+#else
+typedef _W64 int   ssize_t;
+#endif
+#define _SSIZE_T_DEFINED
+#endif
+#endif
+
 uint64 GetCurrentTime(); ///< Number of milliseconds representing time
 uint32 GetTimeDiff(uint64 curTime, uint64 prevTime); ///< The time difference between 2 times, in milliseconds
 
