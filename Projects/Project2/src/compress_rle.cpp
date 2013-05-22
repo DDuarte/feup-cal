@@ -6,7 +6,7 @@
 #include <cctype>
 #include <stdexcept>
 
-#define MARKER_CHAR '*'
+#define MARKER_CHAR 21 // NAK
 #define MIN_REPEATED 4
 
 bool ValidateInput(const ByteBuffer& source)
@@ -41,10 +41,7 @@ bool CompressRLE::CompressImpl(const ByteBuffer& input, ByteBuffer& output)
             if (count >= MIN_REPEATED)
             {
                 output.WriteUInt8(MARKER_CHAR); // especial marker
-
-                char numStr[11];
-                _itoa_s(count, numStr, 10);
-                output.WriteBuffer(numStr, strlen(numStr)); // number of repeated 
+                output.WriteDynInt(count);
 
                 i += count - 1;
             }
@@ -59,20 +56,18 @@ bool CompressRLE::CompressImpl(const ByteBuffer& input, ByteBuffer& output)
 bool CompressRLE::DecompressImpl(const ByteBuffer& input, ByteBuffer& output)
 {
     const char* in = (const char*)input.Data();
+    ByteBuffer* hack = const_cast<ByteBuffer*>(&input);
 
     for (size_t i = 0; i < input.Size(); ++i)
     {
-        if (in[i] == MARKER_CHAR)
+        if (in[i] == MARKER_CHAR && (i < input.Size() - 1))
         {
-            size_t digitCount = 0, j = i + 1;
-            while (isdigit(in[j++]))
-                digitCount++;
-
-            int count = atoi(&in[i + 1]);
+            hack->SetReadPos(i + 1);
+            int count = hack->ReadDynInt();
             for (int k = 0; k < count; ++k)
-                output.WriteUInt8(in[i + 1 + digitCount]);
+                output.WriteUInt8(in[i + 1 + hack->GetReadPos() - (i + 1)]);
 
-            i += digitCount + 1;
+            i += hack->GetReadPos() - (i + 1) + 1;
         }
         else
             output.WriteUInt8(in[i]);
