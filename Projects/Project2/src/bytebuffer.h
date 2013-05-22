@@ -174,7 +174,7 @@ template <typename T>
 void ByteBuffer::WriteBits(T value, size_t bits)
 {
     for (int32 i = bits - 1; i >= 0; --i)
-        WriteBit((value >> i) & 1);
+        WriteBit((value) & 1 << i);
 }
 
 template <typename T>

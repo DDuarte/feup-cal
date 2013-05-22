@@ -53,6 +53,7 @@
     <ClInclude Include="src\generator_random_words.h" />
     <ClInclude Include="src\loader.h" />
     <ClInclude Include="src\menu.h" />
+    <ClInclude Include="src\tree.h" />
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32</PreprocessorDefinitions>
+      <Optimization>Full</Optimization>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
