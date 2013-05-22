@@ -16,6 +16,36 @@
     <Filter Include="dirent">
       <UniqueIdentifier>{6d6c1539-cc56-4ea4-8222-c10f3598a179}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sparsehash">
+      <UniqueIdentifier>{8ab31d7c-a090-42ba-a85d-a2a4bb3abff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\google">
+      <UniqueIdentifier>{e0d78b9a-ba2f-4844-bac9-db745d6597ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\google\sparsehash">
+      <UniqueIdentifier>{f29126d7-65a1-4431-b37a-d7f685df3c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\sparsehash">
+      <UniqueIdentifier>{5f0cb580-43a8-41ce-8c0f-e38976e579e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\sparsehash\internal">
+      <UniqueIdentifier>{9c0015ff-011f-46fe-a8ad-b382115c3545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\windows">
+      <UniqueIdentifier>{e4164ad0-4e8b-45fb-9c78-d4833c89f0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\windows\google">
+      <UniqueIdentifier>{df7f78bf-51f8-4996-ae24-36162fe95ebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\windows\google\sparsehash">
+      <UniqueIdentifier>{f8cc22f0-01a0-4c22-9caa-fd351056edb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\windows\sparsehash">
+      <UniqueIdentifier>{9713cf2f-b41c-4f35-895b-4022ada4dc75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sparsehash\windows\sparsehash\internal">
+      <UniqueIdentifier>{4f36967c-75bd-43e8-92ab-8360934cc2d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bytebuffer.h">
@@ -75,6 +105,54 @@
     <ClInclude Include="src\generator_random_chars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sparsehash\google\template_util.h">
+      <Filter>sparsehash\google</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\google\type_traits.h">
+      <Filter>sparsehash\google</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\google\sparsehash\densehashtable.h">
+      <Filter>sparsehash\google\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\google\sparsehash\hashtable-common.h">
+      <Filter>sparsehash\google\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\google\sparsehash\libc_allocator_with_realloc.h">
+      <Filter>sparsehash\google\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\google\sparsehash\sparsehashtable.h">
+      <Filter>sparsehash\google\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\template_util.h">
+      <Filter>sparsehash\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\type_traits.h">
+      <Filter>sparsehash\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\internal\densehashtable.h">
+      <Filter>sparsehash\sparsehash\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\internal\hashtable-common.h">
+      <Filter>sparsehash\sparsehash\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\internal\libc_allocator_with_realloc.h">
+      <Filter>sparsehash\sparsehash\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\sparsehash\internal\sparsehashtable.h">
+      <Filter>sparsehash\sparsehash\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\windows\config.h">
+      <Filter>sparsehash\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\windows\port.h">
+      <Filter>sparsehash\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\windows\google\sparsehash\sparseconfig.h">
+      <Filter>sparsehash\windows\google\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="sparsehash\windows\sparsehash\internal\sparseconfig.h">
+      <Filter>sparsehash\windows\sparsehash\internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bytebuffer.cpp">
@@ -121,6 +199,12 @@
     </ClCompile>
     <ClCompile Include="src\generator_random_chars.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sparsehash\time_hash_map.cc">
+      <Filter>sparsehash</Filter>
+    </ClCompile>
+    <ClCompile Include="sparsehash\windows\port.cc">
+      <Filter>sparsehash\windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

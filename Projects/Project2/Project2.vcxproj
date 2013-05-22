@@ -20,6 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dirent\dirent.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\densehashtable.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\hashtable-common.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\libc_allocator_with_realloc.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\sparsehashtable.h" />
+    <ClInclude Include="sparsehash\google\template_util.h" />
+    <ClInclude Include="sparsehash\google\type_traits.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\densehashtable.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\hashtable-common.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\libc_allocator_with_realloc.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\sparsehashtable.h" />
+    <ClInclude Include="sparsehash\sparsehash\template_util.h" />
+    <ClInclude Include="sparsehash\sparsehash\type_traits.h" />
+    <ClInclude Include="sparsehash\windows\config.h" />
+    <ClInclude Include="sparsehash\windows\google\sparsehash\sparseconfig.h" />
+    <ClInclude Include="sparsehash\windows\port.h" />
+    <ClInclude Include="sparsehash\windows\sparsehash\internal\sparseconfig.h" />
     <ClInclude Include="src\benchmark.h" />
     <ClInclude Include="src\bytebuffer.h" />
     <ClInclude Include="src\bytebuffer_comparator.h" />
@@ -40,6 +56,8 @@
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sparsehash\time_hash_map.cc" />
+    <ClCompile Include="sparsehash\windows\port.cc" />
     <ClCompile Include="src\bytebuffer.cpp" />
     <ClCompile Include="src\bytebuffer_comparator.cpp" />
     <ClCompile Include="src\compression_algorithm.cpp" />
@@ -105,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>dirent</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>dirent</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,11 +151,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>dirent</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -149,7 +167,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>dirent</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
