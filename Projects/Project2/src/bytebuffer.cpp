@@ -13,58 +13,24 @@
 #define snprintf sprintf_s
 #endif
 
-ByteBuffer::ByteBuffer(size_t capacity) : _readPos(0), _writePos(0)
+ByteBuffer::ByteBuffer(size_t capacity) : _readPos(0), _writePos(0), _bitPos(8), _curBitVal(0)
 {
     _buffer.reserve(capacity);
 }
 
 ByteBuffer::ByteBuffer(const ByteBuffer& other)
-    : _readPos(other._readPos), _writePos(other._writePos), _buffer(other._buffer) {}
+    : _readPos(other._readPos), _writePos(other._writePos), _buffer(other._buffer), _bitPos(other._bitPos), _curBitVal(other._curBitVal) {}
 
 ByteBuffer::ByteBuffer(ByteBuffer&& other)
-    : _readPos(other._readPos), _writePos(other._writePos), _buffer(std::move(other._buffer)) { }
-
-
-const Byte* ByteBuffer::Data() const
-{
-    return &_buffer[0];
-}
+    : _readPos(other._readPos), _writePos(other._writePos), _buffer(std::move(other._buffer)), _bitPos(other._bitPos), _curBitVal(other._curBitVal) { }
 
 void ByteBuffer::Clear()
 {
     _buffer.clear();
     _readPos = 0;
     _writePos = 0;
-}
-
-Byte ByteBuffer::operator[](size_t pos) const
-{
-    return Read<Byte>(pos);
-}
-
-size_t ByteBuffer::GetReadPos() const
-{
-    return _readPos;
-}
-
-void ByteBuffer::SetReadPos(size_t readPos)
-{
-    _readPos = readPos;
-}
-
-size_t ByteBuffer::GetWritePos() const
-{
-    return _writePos;
-}
-
-void ByteBuffer::SetWritePos(size_t writePos)
-{
-    _writePos = writePos;
-}
-
-void ByteBuffer::FinishRead()
-{
-    _readPos = _writePos;
+    _bitPos = 8;
+    _curBitVal = 0;
 }
 
 void ByteBuffer::ReadSkip(size_t size)
@@ -118,16 +84,6 @@ void ByteBuffer::Put(size_t pos, const Byte* src, size_t count)
         throw ByteBufferException();
 
     memcpy(&_buffer[pos], src, count);
-}
-
-size_t ByteBuffer::Size() const
-{
-    return _buffer.size();
-}
-
-bool ByteBuffer::IsEmpty() const
-{
-    return _buffer.empty();
 }
 
 void ByteBuffer::Resize(size_t newSize)
@@ -196,18 +152,6 @@ void ByteBuffer::Print(std::ostream& stream) const
     stream << "|-------------------------------------------------|---------------------------------|\n";
 }
 
-void ByteBuffer::WriteBool(bool value) { Append<bool>(value); }
-void ByteBuffer::WriteUInt8(uint8 value) { Append<uint8>(value); }
-void ByteBuffer::WriteUInt16(uint16 value) { Append<uint16>(value); }
-void ByteBuffer::WriteUInt32(uint32 value) { Append<uint32>(value); }
-void ByteBuffer::WriteUInt64(uint64 value) { Append<uint64>(value); }
-void ByteBuffer::WriteInt8(int8 value) { Append<int8>(value); }
-void ByteBuffer::WriteInt16(int16 value) { Append<int16>(value); }
-void ByteBuffer::WriteInt32(int32 value) { Append<int32>(value); }
-void ByteBuffer::WriteInt64(int64 value) { Append<int64>(value); }
-void ByteBuffer::WriteFloat(float value) { Append<float>(value); }
-void ByteBuffer::WriteDouble(double value) { Append<double>(value); }
-void ByteBuffer::WriteBuffer(const ByteBuffer& value) { Append(value); }
 void ByteBuffer::WriteString(const std::string& value)
 {
     if (size_t length = value.length())
@@ -226,17 +170,6 @@ void ByteBuffer::WriteCString(const char* str)
     Append<char>(0); // null terminator
 }
 
-bool ByteBuffer::ReadBool() { return Read<uint8>() > 0 ? true : false; }
-uint8 ByteBuffer::ReadUInt8() { return Read<uint8>(); }
-uint16 ByteBuffer::ReadUInt16() { return Read<uint16>(); }
-uint32 ByteBuffer::ReadUInt32() { return Read<uint32>(); }
-uint64 ByteBuffer::ReadUInt64() { return Read<uint64>(); }
-int8 ByteBuffer::ReadInt8() { return Read<int8>(); }
-int16 ByteBuffer::ReadInt16() { return Read<int16>(); }
-int32 ByteBuffer::ReadInt32() { return Read<int32>(); }
-int64 ByteBuffer::ReadInt64() { return Read<int64>(); }
-float ByteBuffer::ReadFloat() { return Read<float>(); }
-double ByteBuffer::ReadDouble() { return Read<double>(); }
 std::string ByteBuffer::ReadString()
 {
     uint32 length = Read7BitEncodedInt();
@@ -297,4 +230,55 @@ size_t ByteBuffer::Read7BitEncodedInt()
             break;
     }
     return result;
+}
+
+size_t ByteBuffer::SetBitWritePos(size_t newPos)
+{
+    _writePos = newPos / 8;
+    _bitPos = 8 - (newPos % 8);
+    return _writePos * 8 + 8 - _bitPos;
+}
+
+void ByteBuffer::FlushBits()
+{
+    if (_bitPos == 8)
+        return;
+
+    Append((Byte*)&_curBitVal, sizeof(Byte));
+    _curBitVal = 0;
+    _bitPos = 8;
+}
+
+bool ByteBuffer::WriteBit(uint32 bit)
+{
+    --_bitPos;
+    if (bit)
+        _curBitVal |= (1 << (_bitPos));
+
+    if (_bitPos == 0)
+        FlushBits();
+
+    return bit != 0;
+}
+
+bool ByteBuffer::ReadBit()
+{
+    ++_bitPos;
+    if (_bitPos > 7)
+    {
+        _bitPos = 0;
+        _curBitVal = Read<Byte>();
+    }
+
+    return ((_curBitVal >> (7 - _bitPos)) & 1) != 0;
+}
+
+size_t ByteBuffer::ReadBits(size_t bits)
+{
+    size_t value = 0;
+    for (size_t i = bits - 1; i >= 0; --i)
+        if (ReadBit())
+            value |= (1 << (i));
+
+    return value;
 }
