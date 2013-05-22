@@ -82,23 +82,15 @@ bool CompressHuffmanStatic::DecompressImpl(const ByteBuffer& input1, ByteBuffer&
     CharVec characters(numberOfCharacters);
 
     for (int i = 0; i < numberOfCharacters; ++i)
-        characters[i] = (input.ReadInt8());
+        characters[i] = input.ReadInt8();
 
     size_t numberOfBitsPerChar = ceil(log2(static_cast<double>(numberOfCharacters)));
     size_t numberOfCharactersToRead = input.ReadDynInt();
     size_t totalNumberOfBits = numberOfBitsPerChar * numberOfCharactersToRead;
 
-    for (int i = 0; i < numberOfCharactersToRead && input.CanRead(); ++i)
+    for (int i = 0; i < numberOfCharactersToRead; ++i)
     {
-        uint32 coded = 0;
-
-        for (int i = numberOfBitsPerChar - 1; i >= 0; --i)
-        {
-            bool b = input.ReadBit();
-            if(input.ReadBit())
-                coded = coded | (1 << i);
-        }
-
+        size_t coded = input.ReadBits(numberOfBitsPerChar);
         output.WriteInt8(characters[coded]);
     }
 
