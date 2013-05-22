@@ -1,6 +1,7 @@
 #include "compress_huffman_adaptive.h"
 #include "bytebuffer.h"
 #include "tree.h"
+#include "utils.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -11,27 +12,26 @@
 class TreeWeightComparator
 {
 public:
-    bool operator()(const Tree& val1, const Tree & val2) const
+    bool operator()(const Tree& val1, const Tree& val2) const
     {
         return val1.CalcWeight() > val2.CalcWeight();
     }
 };
 
-
 bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer& output)
 {
-    typedef std::unordered_map<char, uint32> CharacterMap;
-    typedef std::unordered_map<char, std::deque<bool>> CodeMap;
-    typedef std::priority_queue<Tree, std::vector<Tree>, TreeWeightComparator> TreeMinHeap; 
+    typedef dict<char, uint32>::type_unordered_map CharacterMap;
+    typedef dict<char, std::deque<bool>>::type_unordered_map CodeMap;
+    typedef std::priority_queue<Tree, std::vector<Tree>, TreeWeightComparator> TreeMinHeap;
 
     CharacterMap charMap;
+    dict<char, uint32>::init(charMap, -1);
     ByteBuffer& input = const_cast<ByteBuffer&>(input1);
 
     uint readCharacters = 0;
-    char c;
 
     CharacterMap::iterator itr;
-
+    char c;
     while (input.CanRead())
     {
         c = input.ReadInt8();
@@ -66,11 +66,10 @@ bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer&
     Tree bt = treeHeap.top();
 
     CodeMap codes;
+    dict<char, std::deque<bool>>::init(codes, -1);
 
     for (CharacterMap::const_reference elem : charMap)
-    {
         codes[elem.first] = bt.Find(elem.first);
-    }
 
     output.WriteDynInt(charMap.size());
     for (const auto& elem: charMap)
@@ -87,13 +86,12 @@ bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer&
     {
         c = input.ReadInt8();
 
-        for (const bool& b : codes[c]) 
+        for (const bool& b : codes[c])
         {
             output.WriteBit(b);
             numBitsWritten++;
         }
     }
-
 
     output.FlushBits();
 
@@ -109,7 +107,7 @@ bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer&
 
 bool CompressHuffmanAdaptive::DecompressImpl(const ByteBuffer& input1, ByteBuffer& output)
 {
-    typedef std::priority_queue<Tree, std::vector<Tree>, TreeWeightComparator> TreeMinHeap; 
+    typedef std::priority_queue<Tree, std::vector<Tree>, TreeWeightComparator> TreeMinHeap;
 
     TreeMinHeap treeHeap;
 
@@ -129,7 +127,7 @@ bool CompressHuffmanAdaptive::DecompressImpl(const ByteBuffer& input1, ByteBuffe
 
     while (treeHeap.size() > 1)
     {
-        Tree z (new Tree::Node());
+        Tree z(new Tree::Node());
         z.Root->LeftChild = treeHeap.top().Root;
         treeHeap.pop();
         z.Root->RightChild = treeHeap.top().Root;

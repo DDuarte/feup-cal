@@ -46,38 +46,29 @@ Reverser<Fwd> reverse(const Fwd& fwd) { return Reverser<Fwd>(fwd); }
 #define USE_SPARSE_HASH 1
 
 #if USE_SPARSE_HASH
-#include <sparsehash/dense_hash_map>
-template <typename K, typename T>
-class dictionary
-{
-public:
-    typedef google::dense_hash_map<K, T> type;
-};
-#define DICTIONARY_INIT(dict, val) (dict).set_empty_key((val))
+  #include <sparsehash/dense_hash_map>
+  #include <unordered_map>
+  template <typename K, typename T>
+  class dict
+  {
+  public:
+      typedef google::dense_hash_map<K, T> type_dense_hash_map;
+      typedef std::unordered_map<K, T> type_unordered_map;
 
-
-typedef google::dense_hash_map<std::string, int> map_string_int;
-typedef google::dense_hash_map<int, std::string> map_int_string;
-typedef google::dense_hash_map<int, std::string> map_int_string;
-typedef google::dense_hash_map<int, std::string> map_int_string;
-#define MAP_STRING_INT_INIT(dict) dict.set_empty_key("")
-#define MAP_INT_STRING_INIT(dict) dict.set_empty_key(-1)
+      static void init(type_dense_hash_map& d, K k) { d.set_empty_key(k); }
+      static void init(type_unordered_map& d, K k) { }
+  };
 #else
-#include <unordered_map>
-template <typename K, typename T>
-class dictionary
-{
-public:
-    typedef std::unordered_map<K, T> type;
-};
-
-#define DICTIONARY_INIT(dict, val)
-
-typedef std::unordered_map<std::string, int>        map_string_int;
-typedef std::unordered_map<int, std::string>        map_int_string;
-typedef std::unordered_map<char, uint32>            map_char_uint;
-#define MAP_STRING_INT_INIT(dict)
-#define MAP_INT_STRING_INIT(dict)
+  #include <unordered_map>
+  template <typename K, typename T>
+  class dict
+  {
+  public:
+      typedef std::unordered_map<K, T> type_dense_hash_map;
+      typedef std::unordered_map<K, T> type_unordered_map;
+      static void init(type_dense_hash_map& d, K k) { }
+      static void init(type_unordered_map& d, K k) { }
+  };
 #endif
 
 #endif // UTILS_H_

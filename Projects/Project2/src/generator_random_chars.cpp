@@ -5,7 +5,7 @@
 
 GeneratorRandomChars::GeneratorRandomChars(uint charCount) : DataInput((int)charCount) { }
 
-ByteBuffer GeneratorRandomChars::GenerateData() const 
+ByteBuffer GeneratorRandomChars::GenerateData() const
 {
     std::random_device generator;
     std::uniform_int_distribution<int> distribution(' ', '~'); // between 32 and 126

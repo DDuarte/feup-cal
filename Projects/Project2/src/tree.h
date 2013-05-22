@@ -21,12 +21,12 @@ struct Tree
         bool IsLeaf;
         union
         {
-            struct  
+            struct
             {
                 NodePtr LeftChild;
                 NodePtr RightChild;
-            };         
-            struct 
+            };
+            struct
             {
                 char Value;
                 uint Frequency;
@@ -51,7 +51,7 @@ struct Tree
         {
             NodePtr node = stk.top();
             stk.pop();
-            
+
             if (!node) continue;
 
             if (node->IsLeaf)
@@ -64,7 +64,7 @@ struct Tree
                 stk.push(node->RightChild);
             }
         }
-        
+
         return result;
     }
 
@@ -78,15 +78,15 @@ struct Tree
         {
             AuxElem aux = stk.top();
             NodePtr node = std::get<2>(aux);
-            
 
-            if (!node) 
+
+            if (!node)
             {
                 stk.pop();
                 continue;
             }
 
-            if (std::get<1>(aux)) 
+            if (std::get<1>(aux))
             {
                 stk.pop();
                 continue;
@@ -94,7 +94,7 @@ struct Tree
 
             if (node->IsLeaf)
             {
-                if (node->Value == val) 
+                if (node->Value == val)
                 {
                     stk.pop();
                     stk.push(std::make_tuple(std::get<0>(aux), true, node));
@@ -129,7 +129,7 @@ struct Tree
     {
         typedef std::pair<bool, NodePtr> AuxPair;
         std::stack<AuxPair> stk;
-        
+
         stk.push(std::make_pair(false, Root));
 
         while(!stk.empty())
@@ -162,7 +162,7 @@ std::ostream& operator << (std::ostream& out, const Tree& t)
     typedef Tree::NodePtr NodePtr;
     typedef std::pair<uint, NodePtr> QElem;
     std::queue<QElem> q;
-    
+
     q.push(std::make_pair(0, t.Root));
     uint level = 0;
     while(!q.empty())
