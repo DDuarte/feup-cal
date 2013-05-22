@@ -59,7 +59,7 @@ public:
     void Resize(size_t newSize); ///< Resizes the underlying buffer to a new size (adding (nulls) or removing content)
     void Reserve(size_t size); ///< Reserves space for the underlying buffer (see std::vector<T>::reserve)
 
-    bool CanRead() const { return _readPos != (_buffer.size() - 1); }
+    bool CanRead() const { return _readPos < (_buffer.size()); }
 
     void Print(std::ostream& stream) const; ///< Prints the buffer content in an user friendly way (both ascii and hex)
 

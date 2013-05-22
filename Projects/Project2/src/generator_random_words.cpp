@@ -40,7 +40,7 @@ GeneratorRandomWords::GeneratorRandomWords(const std::string& dictionaryFileName
 ByteBuffer GeneratorRandomWords::GenerateData() const 
 {
     std::random_device generator;
-    std::uniform_int_distribution<int> distribution(0, _words.size() - 1);
+    std::uniform_int_distribution<int> distribution(0, (int)_words.size() - 1);
 
     std::stringstream ss;
 

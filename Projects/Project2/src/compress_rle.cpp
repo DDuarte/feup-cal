@@ -63,8 +63,8 @@ bool CompressRLE::DecompressImpl(const ByteBuffer& input, ByteBuffer& output)
         if (in[i] == MARKER_CHAR && (i < input.Size() - 1))
         {
             hack->SetReadPos(i + 1);
-            int count = hack->ReadDynInt();
-            for (int k = 0; k < count; ++k)
+            size_t count = hack->ReadDynInt();
+            for (size_t k = 0; k < count; ++k)
                 output.WriteUInt8(in[i + 1 + hack->GetReadPos() - (i + 1)]);
 
             i += hack->GetReadPos() - (i + 1) + 1;

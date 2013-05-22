@@ -43,5 +43,20 @@ struct Reverser {
 template<class Fwd>
 Reverser<Fwd> reverse(const Fwd& fwd) { return Reverser<Fwd>(fwd); }
 
+#define USE_SPARSE_HASH 1
+
+#if USE_SPARSE_HASH
+#include <sparsehash/dense_hash_map>
+typedef google::dense_hash_map<std::string, int> map_string_int;
+typedef google::dense_hash_map<int, std::string> map_int_string;
+#define MAP_STRING_INT_INIT(dict) dict.set_empty_key("")
+#define MAP_INT_STRING_INIT(dict) dict.set_empty_key(-1)
+#else
+#include <unordered_map>
+typedef std::unordered_map<std::string, int> map_string_int;
+typedef std::unordered_map<int, std::string> map_int_string;
+#define MAP_STRING_INT_INIT(dict)
+#define MAP_INT_STRING_INIT(dict)
+#endif
 
 #endif // UTILS_H_
