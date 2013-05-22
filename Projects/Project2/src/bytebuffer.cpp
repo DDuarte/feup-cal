@@ -172,7 +172,7 @@ void ByteBuffer::WriteCString(const char* str)
 
 std::string ByteBuffer::ReadString()
 {
-    uint32 length = Read7BitEncodedInt();
+    size_t length = Read7BitEncodedInt();
     // assert(length < 250000); // alloca is dangerous when allocating many bytes
 
     if (length >= 250000)

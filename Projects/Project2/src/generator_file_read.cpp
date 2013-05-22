@@ -19,7 +19,6 @@ GeneratorFileRead::GeneratorFileRead(const std::string& fileName, int maxBytes /
         throw DataInputException(ss.str());
     }
 
-    //ByteBuffer bb(HasMaxLimit() ? GetMaxSize() : size);
     _bb.WriteBuffer(buffer, HasMaxLimit() ? GetMaxSize() : size);
-    //_bb = bb;
+    delete[] buffer;
 }

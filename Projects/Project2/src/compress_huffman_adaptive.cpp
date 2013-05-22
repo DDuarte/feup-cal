@@ -118,7 +118,7 @@ bool CompressHuffmanAdaptive::DecompressImpl(const ByteBuffer& input1, ByteBuffe
     for (int i = 0; i < numOfChars; ++i)
     {
         char c = input.ReadInt8();
-        uint32 num = input.ReadDynInt();
+        uint32 num = (uint32)input.ReadDynInt();
 
         treeHeap.push(Tree(new Tree::Node(c, num)));
     }

@@ -54,7 +54,6 @@ Reverser<Fwd> reverse(const Fwd& fwd) { return Reverser<Fwd>(fwd); }
   public:
       typedef google::dense_hash_map<K, T> type_dense_hash_map;
       typedef std::unordered_map<K, T> type_unordered_map;
-
       static void init(type_dense_hash_map& d, K k) { d.set_empty_key(k); }
       static void init(type_unordered_map& d, K k) { }
   };

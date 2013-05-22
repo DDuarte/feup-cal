@@ -26,6 +26,7 @@ struct Tree
                 NodePtr LeftChild;
                 NodePtr RightChild;
             };
+
             struct
             {
                 char Value;
@@ -55,9 +56,7 @@ struct Tree
             if (!node) continue;
 
             if (node->IsLeaf)
-            {
                 result += node->Frequency;
-            }
             else
             {
                 stk.push(node->LeftChild);
@@ -157,7 +156,7 @@ struct Tree
     }
 };
 
-std::ostream& operator << (std::ostream& out, const Tree& t)
+std::ostream& operator <<(std::ostream& out, const Tree& t)
 {
     typedef Tree::NodePtr NodePtr;
     typedef std::pair<uint, NodePtr> QElem;

@@ -58,13 +58,13 @@ bool CompressLZW::DecompressImpl(const ByteBuffer& input, ByteBuffer& output)
     ByteBuffer* hack = const_cast<ByteBuffer*>(&input);
     std::stringstream out;
 
-    std::string w(1, hack->ReadDynInt());
+    std::string w(1, (char)hack->ReadDynInt());
     std::stringstream result;
     result << w;
     std::string entry;
     while (hack->CanRead())
     {
-        int k = hack->ReadDynInt();
+        int k = (int)hack->ReadDynInt();
         if (dictionary.count(k))
             entry = dictionary[k];
         else if (k == dictSize)
