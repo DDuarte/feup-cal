@@ -8,12 +8,6 @@
 #include <algorithm>
 #include <vector>
 
-template<typename T>
-T log2(T val)
-{
-    return std::log(val) / std::log(2);
-}
-
 bool CompressHuffmanStatic::CompressImpl(const ByteBuffer& input1, ByteBuffer& output)
 {
     typedef std::unordered_set<char> CharSet;
@@ -35,7 +29,7 @@ bool CompressHuffmanStatic::CompressImpl(const ByteBuffer& input1, ByteBuffer& o
     input.SetReadPos(input.GetReadPos() - numberOfCharactersRead);
 
     size_t numberOfCharacters = chars.size();
-    size_t numberOfBits = ceil(log2(static_cast<double>(numberOfCharacters)));
+    size_t numberOfBits = (size_t)ceil(log<2>(static_cast<double>(numberOfCharacters)));
 
     CharMap charsIndex;
     CharVec charsOrdered(numberOfCharacters);
@@ -56,13 +50,7 @@ bool CompressHuffmanStatic::CompressImpl(const ByteBuffer& input1, ByteBuffer& o
     while (input.CanRead())
     {
         char c = input.ReadInt8();
-        uint32 valToWrite = charsIndex[c];
-
-        for (int i = numberOfBits - 1; i >= 0; --i)
-        {
-            int bit = valToWrite & (1 << i);
-            output.WriteBit(bit);
-        }
+        output.WriteBits(charsIndex[c], numberOfBits);
     }
 
     output.FlushBits();
@@ -81,10 +69,10 @@ bool CompressHuffmanStatic::DecompressImpl(const ByteBuffer& input1, ByteBuffer&
 
     CharVec characters(numberOfCharacters);
 
-    for (int i = 0; i < numberOfCharacters; ++i)
+    for (size_t i = 0; i < numberOfCharacters; ++i)
         characters[i] = input.ReadInt8();
 
-    size_t numberOfBitsPerChar = ceil(log2(static_cast<double>(numberOfCharacters)));
+    size_t numberOfBitsPerChar = (size_t)ceil(log<2>(static_cast<double>(numberOfCharacters)));
     size_t numberOfCharactersToRead = input.ReadDynInt();
     size_t totalNumberOfBits = numberOfBitsPerChar * numberOfCharactersToRead;
 
@@ -95,5 +83,4 @@ bool CompressHuffmanStatic::DecompressImpl(const ByteBuffer& input1, ByteBuffer&
     }
 
     return true;
-
 }

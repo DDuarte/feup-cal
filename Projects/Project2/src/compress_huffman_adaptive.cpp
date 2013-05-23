@@ -107,11 +107,11 @@ bool CompressHuffmanAdaptive::DecompressImpl(const ByteBuffer& input1, ByteBuffe
     Tree bt = Tree::Load(input);
 
     Tree::NodePtr node = bt.Root;
-    size_t numOfBits = input.ReadUInt64();
+    uint64 numOfBits = input.ReadUInt64();
 
     input.FlushBits();
 
-    for (int i = 0; i < numOfBits; ++i)
+    for (uint64 i = 0; i < numOfBits; ++i)
     {
         bool b = input.ReadBit();
         if (node->IsLeaf)

@@ -81,4 +81,10 @@ Reverser<Fwd> reverse(const Fwd& fwd) { return Reverser<Fwd>(fwd); }
   };
 #endif
 
+template <int B, typename T>
+T log(T val)
+{
+    return std::log(val) / std::log(B);
+}
+
 #endif // UTILS_H_

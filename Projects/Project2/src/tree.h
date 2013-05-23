@@ -242,7 +242,7 @@ struct Tree
                 q.pop();
             }
             else break;
-         
+
         }
 
         while (!q.empty()) q.pop();
@@ -266,7 +266,7 @@ struct Tree
         }
 
         return t;
-        
+
     }
 };
 
