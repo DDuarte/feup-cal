@@ -128,9 +128,9 @@ void ByteBuffer::Print(std::ostream& stream) const
                 if (std::isgraph(val))
                     text << (char)val;
                 else
-                    text << ".";
+                    text << '.';
 
-                text << " ";
+                text << ' ';
             }
             else
             {
@@ -154,11 +154,9 @@ void ByteBuffer::Print(std::ostream& stream) const
 
 void ByteBuffer::WriteString(const std::string& value)
 {
-    if (size_t length = value.length())
-    {
-        Append7BitEncodedInt(length);
+    Append7BitEncodedInt(length);
+    if (length)
         Append((Byte const*)value.c_str(), length);
-    }
 }
 
 void ByteBuffer::WriteCString(const char* str)
@@ -278,7 +276,7 @@ size_t ByteBuffer::ReadBits(size_t bits)
     size_t value = 0;
     for (ssize_t i = bits - 1; i >= 0; --i)
         if (ReadBit())
-            value |= (1 << i);
+            value |= ((ssize_t)1 << i);
 
     return value;
 }
