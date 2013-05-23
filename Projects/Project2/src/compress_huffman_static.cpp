@@ -67,7 +67,7 @@ bool CompressHuffmanStatic::CompressImpl(const ByteBuffer& input1, ByteBuffer& o
 
     output.FlushBits();
 
-    return false;
+    return true;
 }
 
 bool CompressHuffmanStatic::DecompressImpl(const ByteBuffer& input1, ByteBuffer& output)

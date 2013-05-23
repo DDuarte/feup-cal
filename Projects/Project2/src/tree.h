@@ -8,6 +8,11 @@
 #include <ostream>
 #include <sstream>
 #include <tuple>
+#include <iostream>
+
+struct Tree;
+
+std::ostream& operator <<(std::ostream& out, const Tree& t);
 
 struct Tree
 {
@@ -15,10 +20,11 @@ struct Tree
     {
         typedef Node* NodePtr;
 
-        Node(char val, uint freq) : Value(val), Frequency(freq), IsLeaf(true) { }
-        Node() : IsLeaf(false), LeftChild(nullptr), RightChild(nullptr) { }
+        Node(char val, uint freq) : Value(val), Frequency(freq), IsLeaf(true), Parent(nullptr) { }
+        Node() : IsLeaf(false), LeftChild(nullptr), RightChild(nullptr), Parent(nullptr) { }
 
         bool IsLeaf;
+        NodePtr Parent;
         union
         {
             struct
@@ -69,56 +75,51 @@ struct Tree
 
     std::deque<bool> Find(char val) const
     {
-        typedef std::tuple<char, bool, NodePtr> AuxElem;
-        std::stack<AuxElem> stk;
-        stk.push(std::make_tuple(' ', false, Root));
+        std::stack<NodePtr> np;
 
-        while(!stk.empty())
+        np.push(Root);
+
+        while (!np.empty())
         {
-            AuxElem aux = stk.top();
-            NodePtr node = std::get<2>(aux);
+            NodePtr node = np.top(); np.pop();
 
+            if (!node->IsLeaf)
+            {
+                node->RightChild->Parent = node;
+                node->LeftChild->Parent = node;
 
-            if (!node)
-            {
-                stk.pop();
-                continue;
-            }
-
-            if (std::get<1>(aux))
-            {
-                stk.pop();
-                continue;
-            }
-
-            if (node->IsLeaf)
-            {
-                if (node->Value == val)
-                {
-                    stk.pop();
-                    stk.push(std::make_tuple(std::get<0>(aux), true, node));
-                    break;
-                }
-                else
-                    stk.pop();
-            }
-            else
-            {
-                stk.pop();
-                stk.push(std::make_tuple(std::get<0>(aux), true, node));
-                stk.push(std::make_tuple('0', false, node->LeftChild));
-                stk.push(std::make_tuple('1', false, node->RightChild));
+                np.push(node->RightChild);
+                np.push(node->LeftChild);
             }
         }
 
+        std::stack<NodePtr> stk;
         std::deque<bool> result;
+        stk.push(Root);
 
-        while (!stk.empty())
+        NodePtr node = Root;
+
+        while(!stk.empty())
         {
-            AuxElem aux = stk.top();
-            stk.pop();
-            if (std::get<1>(aux) && std::get<0>(aux) != ' ')
-                result.push_front(std::get<0>(aux) == '1');
+            node = stk.top(); stk.pop();
+
+
+            if (!node) continue;
+
+            if (node->IsLeaf && node->Value == val)
+                break;
+            else if (!node->IsLeaf)
+            {
+                stk.push(node->LeftChild);
+                stk.push(node->RightChild);
+            }
+        }
+
+        while (node != Root)
+        {
+            NodePtr parent = node->Parent;
+            result.push_front(node == parent->RightChild);
+            node = parent;
         }
 
         return result;
@@ -153,6 +154,119 @@ struct Tree
         }
 
         Root = nullptr;
+    }
+
+    void Save(ByteBuffer& output)
+    {
+        std::queue<NodePtr> q;
+
+        size_t pos = output.GetWritePos();
+        size_t numberOfNodes = 0;
+
+        output.WriteUInt64(0);
+
+        q.push(Root);
+
+        while (!q.empty())
+        {
+            NodePtr node = q.front(); q.pop();
+
+            output.WriteBit(node->IsLeaf);
+            numberOfNodes++;
+
+            if (!node->IsLeaf)
+            {
+                q.push(node->LeftChild);
+                q.push(node->RightChild);
+            }
+        }
+
+
+        output.FlushBits();
+
+        size_t pos2 = output.GetWritePos();
+        output.SetWritePos(pos);
+        output.WriteUInt64(numberOfNodes);
+        output.SetWritePos(pos2);
+
+        q.push(Root);
+
+        while (!q.empty())
+        {
+            NodePtr node = q.front(); q.pop();
+
+            if (node->IsLeaf)
+            {
+                output.WriteInt8(node->Value);
+            }
+            else
+            {
+                q.push(node->LeftChild);
+                q.push(node->RightChild);
+            }
+        }
+
+    }
+
+    static Tree Load(ByteBuffer& input)
+    {
+        Tree t;
+        size_t numberOfNodes = input.ReadUInt64();
+
+        {
+            bool b = input.ReadBit();
+            if (b)
+                t.Root = new Node(0, 0);
+            else
+                t.Root = new Node();
+        }
+
+        std::queue<NodePtr> q;
+        NodePtr node = t.Root;
+
+        for (size_t i = 1; i < numberOfNodes; ++i)
+        {
+            bool left = input.ReadBit();
+            bool right = input.ReadBit();
+
+            node->LeftChild = left ? new Node(0, 0) : new Node();
+            if (!left) q.push(node->LeftChild);
+
+            node->RightChild = right ? new Node(0, 0) : new Node();
+            if (!right) q.push(node->RightChild);
+
+
+            if (!q.empty())
+            {
+                node = q.front();
+                q.pop();
+            }
+            else break;
+         
+        }
+
+        while (!q.empty()) q.pop();
+
+        q.push(t.Root);
+
+        while (!q.empty())
+        {
+            NodePtr n = q.front();
+            q.pop();
+
+            if (n->IsLeaf)
+            {
+                n->Value = input.ReadInt8();
+            }
+            else
+            {
+                q.push(n->LeftChild);
+                q.push(n->RightChild);
+            }
+        }
+
+        return t;
+        
     }
 };
 

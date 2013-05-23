@@ -71,12 +71,7 @@ bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer&
     for (CharacterMap::const_reference elem : charMap)
         codes[elem.first] = bt.Find(elem.first);
 
-    output.WriteDynInt(charMap.size());
-    for (const auto& elem: charMap)
-    {
-        output.WriteInt8(elem.first);
-        output.WriteDynInt(elem.second);
-    }
+    bt.Save(output);
 
     size_t numberPos = output.GetWritePos();
     output.WriteUInt64(0);
@@ -107,37 +102,14 @@ bool CompressHuffmanAdaptive::CompressImpl(const ByteBuffer& input1, ByteBuffer&
 
 bool CompressHuffmanAdaptive::DecompressImpl(const ByteBuffer& input1, ByteBuffer& output)
 {
-    typedef std::priority_queue<Tree, std::vector<Tree>, TreeWeightComparator> TreeMinHeap;
-
-    TreeMinHeap treeHeap;
-
     ByteBuffer& input = const_cast<ByteBuffer&>(input1);
 
-    size_t numOfChars = input.ReadDynInt();
-
-    for (int i = 0; i < numOfChars; ++i)
-    {
-        char c = input.ReadInt8();
-        uint32 num = (uint32)input.ReadDynInt();
-
-        treeHeap.push(Tree(new Tree::Node(c, num)));
-    }
-
-    size_t numOfBits = input.ReadUInt64();
-
-    while (treeHeap.size() > 1)
-    {
-        Tree z(new Tree::Node());
-        z.Root->LeftChild = treeHeap.top().Root;
-        treeHeap.pop();
-        z.Root->RightChild = treeHeap.top().Root;
-        treeHeap.pop();
-        treeHeap.push(z);
-    }
-
-    Tree bt = treeHeap.top();
+    Tree bt = Tree::Load(input);
 
     Tree::NodePtr node = bt.Root;
+    size_t numOfBits = input.ReadUInt64();
+
+    input.FlushBits();
 
     for (int i = 0; i < numOfBits; ++i)
     {
