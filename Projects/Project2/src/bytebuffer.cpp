@@ -125,7 +125,7 @@ void ByteBuffer::Print(std::ostream& stream) const
                 hex << std::setfill('0') << std::setw(2) << h << " ";
 
                 // print all printable characters in the text side
-                if (std::isgraph(val))
+                if (std::isprint(val))
                     text << (char)val;
                 else
                     text << '.';
@@ -154,6 +154,7 @@ void ByteBuffer::Print(std::ostream& stream) const
 
 void ByteBuffer::WriteString(const std::string& value)
 {
+    size_t length = value.length();
     Append7BitEncodedInt(length);
     if (length)
         Append((Byte const*)value.c_str(), length);
