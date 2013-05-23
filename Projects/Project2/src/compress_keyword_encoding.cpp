@@ -7,47 +7,53 @@
 #include <unordered_map>
 
 #include <iostream>
+#include <regex>
+#include <cctype>
+#include <algorithm>
 
-std::string initializeSymbols()
+#include "utils.h"
+
+std::vector<uint8> InitializeSymbols()
 {
-    std::string s;
-    for(int i = 1; i < 255; ++i)
-        s += i;
+    std::vector<uint8> vec;
+    for (uint8 i = 0; i < 255; ++i)
+        if (std::isprint(i) && i != '$') // $ is used by regex replace
+            vec.push_back(i);
 
-    return s;
+    return vec;
 }
 
 bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& output)
 {
-    std::string symbols = initializeSymbols();
 
-    const char * inChars = (const char *)input.Data();
+    // regex is used to match words and build frequency map
 
-    size_t symIndex;
-    char c;
-    for (size_t i=0; i < input.Size(); ++i)
+    std::cmatch sm;
+    std::regex e("\\b\\S+\\b"); // word
+
+    dict<std::string, unsigned int>::type_unordered_map stringFrequencies;
+    dict<std::string, unsigned int>::init(stringFrequencies, "");
+
     {
-        c = inChars[i];
-
-        if ((symIndex = symbols.find(c)) != std::string::npos)
-            symbols.erase(symbols.begin() + symIndex);
+        std::string str((const char*)input.Data(), input.Size());
+        while (std::regex_search(str.c_str(), sm, e))
+        {
+            for (auto x : sm)
+                stringFrequencies[x.str()]++;
+            str = sm.suffix().str();
+        }
     }
 
-    std::map<std::string, unsigned int>::iterator it;
-    std::map<std::string, unsigned int> stringFrequencies;
+    // remove used symbols
 
-    std::istringstream in((char *)input.Data());
-    std::string temp;
-    while (in.good())
-    {
-        in >> temp;
-        it = stringFrequencies.find(temp);
+    std::vector<uint8> symbols = InitializeSymbols();
+    for (size_t i = 0; i < input.Size(); ++i)
+        std::remove(symbols.begin(), symbols.end(), input.Data()[i]);
 
-        if (it != stringFrequencies.end())
-            ++it->second;
-        else
-            stringFrequencies.insert(it, std::make_pair(temp, 1));
-    }
+    if (symbols.empty())
+        std::cerr << "Empty symbols!!" << std::endl;
+
+    // invert frequency map, key by frequency
 
     std::map<unsigned int, std::vector<std::string>> reverseStringFrequencies;
     std::map<unsigned int, std::vector<std::string>>::iterator it1;
@@ -61,52 +67,44 @@ bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& 
         it1->second.push_back(elem.first);
     }
 
-    std::unordered_map<std::string, char> encodedStrings;
-    std::unordered_map<std::string, char>::iterator encodedStringsIt;
+    // pick symbols for common words
 
+    std::unordered_map<std::string, uint8> encodedStrings;
+    std::unordered_map<std::string, uint8>::iterator encodedStringsIt;
     std::map<unsigned int, std::vector<std::string>>::reverse_iterator it2 = reverseStringFrequencies.rbegin();
     for (size_t i = 0; i < symbols.size() && it2 != reverseStringFrequencies.rend(); ++it2)
     {
         for (size_t j = 0; j < it2->second.size() && i < symbols.size(); ++j)
         {
-            if ((it2->second[j].size() > 2 /* min word size */ && it2->first > 1 /* min freq */) ||
-                (it2->second[j].size() > 1 /* min word size */ && it2->first > 2 /* min freq */))
+            //if ((it2->second[j].size() > 2 /* min word size */ && it2->first > 1 /* min freq */) ||
+            //    (it2->second[j].size() > 1 /* min word size */ && it2->first > 2 /* min freq */))
             {
                 encodedStrings.insert(std::make_pair(it2->second[j], symbols[i++]));
-                std::cout << it2->second[j] << std::endl;
             }
         }
     }
 
+    // write symbol - word map
+
     output.WriteDynInt(encodedStrings.size());
-    for(encodedStringsIt = encodedStrings.begin(); encodedStringsIt != encodedStrings.end(); ++encodedStringsIt)
+    for (encodedStringsIt = encodedStrings.begin(); encodedStringsIt != encodedStrings.end(); ++encodedStringsIt)
     {
         output.WriteUInt8(encodedStringsIt->second);
         output.WriteString(encodedStringsIt->first);
     }
 
-    in = std::istringstream(std::string((const char *)input.Data(), input.Size()));
+    // modify and write text
 
-    std::string str = in.str();
-
-    std::ostringstream out;
-
-    while (in.good())
     {
-        std::streamoff prev = in.tellg();
-        in >> temp;
-        std::streamoff after = in.tellg();
+        std::string str((const char*)input.Data(), input.Size());
 
-        if ((encodedStringsIt = encodedStrings.find(temp)) != encodedStrings.end())
-            output.WriteString(std::string(1, encodedStringsIt->second));
-        else
-            output.WriteString(temp);
+        for (std::unordered_map<std::string, uint8>::value_type p : encodedStrings)
+        {
+            std::regex rx("\\b" + p.first + "\\b");
+            str = std::regex_replace(str, rx, std::string(1, p.second));
+        }
 
-        std::string str2;
-        if (after != -1)
-            output.WriteString((str2 = str.substr(prev, after - prev - temp.size())));
-        else
-            output.WriteString(str.substr(prev, input.Size() - prev - str2.size()));
+        output.WriteBuffer(str.data(), str.size());
     }
 
     return true;
@@ -116,38 +114,29 @@ bool CompressKeywordEncoding::DecompressImpl(const ByteBuffer& input, ByteBuffer
 {
     ByteBuffer* hack = const_cast<ByteBuffer*>(&input);
 
-    std::unordered_map<char, std::string> encodedSymbols;
-    std::unordered_map<char, std::string>::iterator encodedSymbolsIt;
+    std::unordered_map<uint8, std::string> encodedSymbols; // symbol -> word
 
     size_t numTableEntries = hack->ReadDynInt();
     for(; numTableEntries > 0; --numTableEntries)
-        encodedSymbols.insert(std::make_pair((char)hack->ReadUInt8(), hack->ReadString()));
+    {
+        uint8 c = hack->ReadUInt8();
+        std::string str = hack->ReadString();
+        encodedSymbols[c] = str;
+    }
 
-    std::stringstream ss;
+    std::string str(&(*((const char *)input.Data() + hack->GetReadPos())), input.Size() - hack->GetReadPos());
 
-    std::string temp, spaces;
+    std::unordered_map<uint8, std::string>::const_iterator itr;
     while (hack->CanRead())
     {
-        temp = hack->ReadString();
-        spaces = hack->ReadString();
+        uint8 c = hack->ReadUInt8();
 
-        if (hack->CanRead())
-        {
-            ss << spaces;
-
-            if (temp.size() > 0 && (encodedSymbolsIt = encodedSymbols.find(temp[0])) != encodedSymbols.end())
-                ss << encodedSymbolsIt->second;
-            else
-                ss << temp;
-        }
-
-        if (!hack->CanRead()) // last iter
-            ss << spaces;
-    };
-
-    std::string r = ss.str();
-    output.WriteBuffer(r.c_str(), r.size());
-    //output.WriteUInt8(0);
+        itr = encodedSymbols.find(c);
+        if (itr != encodedSymbols.end())
+            output.WriteBuffer(itr->second.data(), itr->second.size());
+        else
+            output.WriteUInt8(c);
+    }
 
     return true;
 }
