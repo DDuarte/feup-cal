@@ -6,6 +6,8 @@
 #include <map>
 #include <unordered_map>
 
+#include <iostream>
+
 std::string  initializeSymbols()
 {
 	std::string s;
@@ -15,10 +17,10 @@ std::string  initializeSymbols()
 	return s;
 }
 
-static std::string symbols = initializeSymbols();
-
 bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& output)
 {
+    std::string symbols = initializeSymbols();
+
 	const char * inChars = (const char *)input.Data();
 
 	size_t symIndex;
@@ -67,34 +69,48 @@ bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& 
 	std::unordered_map<std::string, char> encodedStrings;
 	std::unordered_map<std::string, char>::iterator encodedStringsIt;
 
-	it1 = reverseStringFrequencies.begin();
-	for(std::string::iterator it_s = symbols.begin(); it_s != symbols.end() && it1 != reverseStringFrequencies.end(); ++it_s, ++it1)
-		for(size_t i=0; i < it1->second.size(); ++i, ++it_s)
-		{
-			encodedStrings.insert(std::make_pair(it1->second[i], *it_s));
-			if(it_s == symbols.end())
-				break;
-		}
+	std::map<unsigned int, std::vector<std::string>>::reverse_iterator it2 = reverseStringFrequencies.rbegin();
+    for (size_t i = 0; i < symbols.size() && it2 != reverseStringFrequencies.rend(); ++i, ++it2)
+    {
+        for (size_t j = 0; j < it2->second.size(); ++j, ++i)
+        {
+            if (i < symbols.size())
+                encodedStrings.insert(std::make_pair(it2->second[j], symbols[i]));
+        }
+    }
 
-		output.WriteDynInt(encodedStrings.size());
-		for(encodedStringsIt = encodedStrings.begin(); encodedStringsIt != encodedStrings.end(); ++encodedStringsIt)
-		{
-			output.WriteUInt8(encodedStringsIt->second);
-			output.WriteString(encodedStringsIt->first);
-		}
+    output.WriteDynInt(encodedStrings.size());
+    for(encodedStringsIt = encodedStrings.begin(); encodedStringsIt != encodedStrings.end(); ++encodedStringsIt)
+    {
+    	output.WriteUInt8(encodedStringsIt->second);
+    	output.WriteString(encodedStringsIt->first);
+    }
+    
+    in = std::istringstream((char *)input.Data());
 
-		in = std::istringstream((char *)input.Data());
-		std::ostringstream out;
-		while(in.good())
-		{
-			in >> temp;
-			if((encodedStringsIt = encodedStrings.find(temp)) != encodedStrings.end())
-				output.WriteString(std::string(1,encodedStringsIt->second));
-			else
-				output.WriteString(temp); 
-		}
+    std::string str = in.str();
 
-		return true;
+    std::ostringstream out;
+    //int end = input.Data()[input.Size() - 1];
+
+    while (in.good())
+    {
+        std::streamoff prev = in.tellg();
+    	in >> temp;
+        std::streamoff after = in.tellg();
+
+    	if ((encodedStringsIt = encodedStrings.find(temp)) != encodedStrings.end())
+    		output.WriteString(std::string(1,encodedStringsIt->second));
+    	else
+    		output.WriteString(temp); 
+
+        if (after != -1)
+            output.WriteDynInt(after - prev - temp.size());
+        else
+            output.WriteDynInt(input.Size() - prev - temp.size() - 1);
+    }
+
+    return true;
 }
 
 bool CompressKeywordEncoding::DecompressImpl(const ByteBuffer& input, ByteBuffer& output)
@@ -104,27 +120,29 @@ bool CompressKeywordEncoding::DecompressImpl(const ByteBuffer& input, ByteBuffer
 	std::unordered_map<char, std::string> encodedSymbols;
 	std::unordered_map<char, std::string>::iterator encodedSymbolsIt;
 
-	int numTableEntries;
-	numTableEntries = hack->ReadDynInt();
-
-	char symbol; 
-	std::string expression;
+	size_t numTableEntries = hack->ReadDynInt();
 	for(; numTableEntries > 0; --numTableEntries)
-	{
-		symbol = (char)hack->ReadUInt8();
-		expression = hack->ReadString();
-		encodedSymbols.insert(std::make_pair(symbol, expression));
-	}
+		encodedSymbols.insert(std::make_pair((char)hack->ReadUInt8(), hack->ReadString()));
+
+    std::stringstream str;
 
 	std::string temp;
-	do
+	while (hack->CanRead())
 	{
-		temp = hack->ReadString();
+        temp = hack->ReadString();
+        size_t spaceCount = hack->ReadDynInt();
 
-		if(temp.size() > 0 && (encodedSymbolsIt = encodedSymbols.find(temp.at(0))) != encodedSymbols.end())
-			output.WriteString(encodedSymbolsIt->second);
+        for (size_t i = 0; i < spaceCount; ++i)
+            str << ' ';
+
+		if (temp.size() > 0 && (encodedSymbolsIt = encodedSymbols.find(temp.at(0))) != encodedSymbols.end())
+			str << encodedSymbolsIt->second;
 		else
-			output.WriteString(temp);
-	} while(hack->CanRead());
+			str << temp;
+	};
+
+    std::string r = str.str();
+    output.WriteBuffer(r.c_str(), r.size());
+
 	return true;
 }
