@@ -73,6 +73,7 @@
     <ClCompile Include="src\generator_random_words.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\menu.cpp" />
+    <ClCompile Include="src\tree.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
