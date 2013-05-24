@@ -7,7 +7,6 @@
 #include <unordered_map>
 
 #include <iostream>
-#include <regex>
 #include <cctype>
 #include <algorithm>
 
@@ -25,22 +24,23 @@ std::vector<uint8> InitializeSymbols()
 
 bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& output)
 {
-
-    // regex is used to match words and build frequency map
-
-    std::cmatch sm;
-    std::regex e("\\b\\S+\\b"); // word
-
-    dict<std::string, unsigned int>::type_unordered_map stringFrequencies;
-    dict<std::string, unsigned int>::init(stringFrequencies, "");
+    dict<std::string, std::pair<unsigned int, std::vector<size_t>>>::type_unordered_map stringFrequencies;
+    dict<std::string, std::pair<unsigned int, std::vector<size_t>>>::init(stringFrequencies, "");
 
     {
-        std::string str((const char*)input.Data(), input.Size());
-        while (std::regex_search(str.c_str(), sm, e))
+        std::stringstream ss(std::string((const char*)input.Data(), input.Size()));
+
+        std::string str;
+        while (ss.good())
         {
-            for (auto x : sm)
-                stringFrequencies[x.str()]++;
-            str = sm.suffix().str();
+            size_t p = ss.tellg();
+            ss >> str;
+            size_t pp = ss.tellg();
+            stringFrequencies[str].first++;
+            if (pp == -1)
+                stringFrequencies[str].second.push_back(input.Size() - str.size());
+            else
+                stringFrequencies[str].second.push_back(pp - str.size());
         }
     }
 
@@ -60,9 +60,9 @@ bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& 
 
     for (const auto& elem: stringFrequencies)
     {
-        it1 = reverseStringFrequencies.find(elem.second);
+        it1 = reverseStringFrequencies.find(elem.second.first);
         if (it1 == reverseStringFrequencies.end())
-            it1 = reverseStringFrequencies.insert(it1, std::make_pair(elem.second, std::vector<std::string>()));
+            it1 = reverseStringFrequencies.insert(it1, std::make_pair(elem.second.first, std::vector<std::string>()));
 
         it1->second.push_back(elem.first);
     }
@@ -76,8 +76,7 @@ bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& 
     {
         for (size_t j = 0; j < it2->second.size() && i < symbols.size(); ++j)
         {
-            //if ((it2->second[j].size() > 2 /* min word size */ && it2->first > 1 /* min freq */) ||
-            //    (it2->second[j].size() > 1 /* min word size */ && it2->first > 2 /* min freq */))
+            if ((it2->second[j].size() > 2 /* min word size */ && it2->first > 2 /* min freq */))
             {
                 encodedStrings.insert(std::make_pair(it2->second[j], symbols[i++]));
             }
@@ -100,8 +99,15 @@ bool CompressKeywordEncoding::CompressImpl(const ByteBuffer& input, ByteBuffer& 
 
         for (std::unordered_map<std::string, uint8>::value_type p : encodedStrings)
         {
-            std::regex rx("\\b" + p.first + "\\b");
-            str = std::regex_replace(str, rx, std::string(1, p.second));
+            auto& t = stringFrequencies[p.first];
+            for (auto& size : t.second)
+            {
+                str.replace(size, p.first.size(), std::string(1, p.second));
+                for (auto& p : encodedStrings)
+                    for (auto& b : stringFrequencies[p.first].second)
+                        if (b > size)
+                            b -= p.first.size() - 1;
+            }
         }
 
         output.WriteBuffer(str.data(), str.size());
