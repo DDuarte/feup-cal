@@ -3,10 +3,14 @@
 
 #include "compression_algorithm.h"
 
+///! CompressLZW class
+/*!
+    Lempel–Ziv–Welch (LZW) Compression algorithm implementation
+*/
 class CompressLZW : public CompressionAlgorithm
 {
-    virtual bool CompressImpl(const ByteBuffer& input, ByteBuffer& output) override;
-    virtual bool DecompressImpl(const ByteBuffer& input, ByteBuffer& output) override;
+    virtual bool CompressImpl(const ByteBuffer& input, ByteBuffer& output) override; ///< Compress implementation
+    virtual bool DecompressImpl(const ByteBuffer& input, ByteBuffer& output) override; ///< Decompress implementation
 };
 
 #endif // COMPRESS_LZW_H_

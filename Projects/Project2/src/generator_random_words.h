@@ -7,12 +7,16 @@
 #include <string>
 #include <vector>
 
+//! GeneratorRandomWords class
+/*!
+    A DataInput implementation that returns random words from a given dictionary file
+*/
 class GeneratorRandomWords : public DataInput
 {
 public:
-    GeneratorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount);
+    GeneratorRandomWords(const std::string& dictionaryFileName, int maxDictionaryWords, uint wordCount); ///< Constructor
 
-    virtual ByteBuffer GenerateData() const override;
+    virtual ByteBuffer GenerateData() const override; ///< Returns a ByteBuffer instance with random words from the dictionary
 
 private:
     std::vector<std::string> _words;
