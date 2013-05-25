@@ -1,6 +1,8 @@
 #ifndef COMPRESSION_ALGORITHM_H_
 #define COMPRESSION_ALGORITHM_H_
 
+#include <string>
+
 class Benchmark;
 class ByteBuffer;
 
@@ -17,6 +19,7 @@ public:
 protected:
     virtual bool CompressImpl(const ByteBuffer& input, ByteBuffer& output) = 0; ///< Implementation of the compress function (to be overridden by subclasses)
     virtual bool DecompressImpl(const ByteBuffer& input, ByteBuffer& output) = 0; ///< Implementation of the decompress function (to be overridden by subclasses)
+    virtual const std::string& GetAlgorithm() const = 0; ///< Identification of the algorithm (to be overridden by subclasses)
 };
 
 #endif // COMPRESSION_ALGORITHM_H_

@@ -31,13 +31,15 @@ typedef _W64 int   ssize_t;
 #endif
 #endif
 
-uint64 GetCurrentTime(); ///< Number of milliseconds representing time
-uint32 GetTimeDiff(uint64 curTime, uint64 prevTime); ///< The time difference between 2 times, in milliseconds
+// uint64 GetCurrentTime(); ///< Number of milliseconds representing time
+// uint32 GetTimeDiff(uint64 curTime, uint64 prevTime); ///< The time difference between 2 times, in milliseconds
 
 void PauseConsole(const std::string& message = "Press enter to continue..."); ///< Prints a message and waits for a key to be pressed
 void ClearConsole(); ///< Empties the console screen
 
 bool starts_with(const std::string& str, const std::string& prefix); ///< Returns true if str starts with prefix
+bool ends_with(const std::string& str, const std::string& suffix); ///< Returns true if str ends with suffix
+bool contains(const std::string& str, const std::string fix); ///< Returns true if str contains fix
 std::string to_lower(std::string str); // Converts a string to all lower case
 
 /**

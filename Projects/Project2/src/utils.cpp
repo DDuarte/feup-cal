@@ -6,16 +6,16 @@
 #include <limits>
 #include <algorithm>
 
-uint64 GetCurrentTime()
-{
-    return (uint64)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-}
-
-uint32 GetTimeDiff(uint64 curTime, uint64 prevTime)
-{
-    assert(curTime >= prevTime);
-    return uint32(curTime - prevTime);
-}
+// uint64 GetCurrentTime()
+// {
+//     return (uint64)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+// }
+//
+// uint32 GetTimeDiff(uint64 curTime, uint64 prevTime)
+// {
+//     assert(curTime >= prevTime);
+//     return uint32(curTime - prevTime);
+// }
 
 void ClearConsole()
 {
@@ -40,6 +40,17 @@ void PauseConsole(const std::string& message/* = "Press enter to continue..."*/)
 bool starts_with(const std::string& str, const std::string& prefix)
 {
     return !str.compare(0, prefix.size(), prefix);
+}
+
+bool ends_with(const std::string& str, const std::string& suffix)
+{
+    std::cout << "str: " << str << " suffix: " << suffix << std::endl;
+    return !str.compare(str.size() - suffix.size(), suffix.size(), suffix);
+}
+
+bool contains(const std::string& str, const std::string fix)
+{
+    return str.find(fix) != std::string::npos;
 }
 
 std::string to_lower(std::string str)

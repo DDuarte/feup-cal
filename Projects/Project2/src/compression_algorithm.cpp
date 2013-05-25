@@ -9,6 +9,7 @@ bool CompressionAlgorithm::Compress(const ByteBuffer& input, ByteBuffer& output,
     // init stats
 
     benchmark.SetCompression(true);
+    benchmark.SetAlgorithm(GetAlgorithm());
     benchmark.SetOriginalSize(input.Size());
     benchmark.SetStartTime(clock() / (double) CLOCKS_PER_SEC);
 
@@ -30,6 +31,7 @@ bool CompressionAlgorithm::Decompress(const ByteBuffer& input, ByteBuffer& outpu
     // init stats
 
     benchmark.SetCompression(false);
+    benchmark.SetAlgorithm(GetAlgorithm());
     benchmark.SetOriginalSize(input.Size());
     benchmark.SetStartTime(clock() / (double) CLOCKS_PER_SEC);
 

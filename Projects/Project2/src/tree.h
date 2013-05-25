@@ -22,7 +22,7 @@ struct Tree
 
         Node(); ///< Constructor used to create a none leaf node
         Node(char val, uint freq); ///< Constructor used to create a leaf node of the tree
-        
+
 
         bool IsLeaf;
         NodePtr Parent;
@@ -42,7 +42,7 @@ struct Tree
         };
     };
 
-    typedef Node::NodePtr NodePtr; 
+    typedef Node::NodePtr NodePtr;
 
     Tree(); ///< Default Constructor
     Tree(Node* n); ///< Constructor
