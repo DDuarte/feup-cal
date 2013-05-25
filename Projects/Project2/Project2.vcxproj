@@ -36,7 +36,7 @@
     <ClInclude Include="sparsehash\windows\google\sparsehash\sparseconfig.h" />
     <ClInclude Include="sparsehash\windows\port.h" />
     <ClInclude Include="sparsehash\windows\sparsehash\internal\sparseconfig.h" />
-    <ClInclude Include="src\benchmark.h" />
+    <ClInclude Include="src\benchmark_data.h" />
     <ClInclude Include="src\bytebuffer.h" />
     <ClInclude Include="src\bytebuffer_comparator.h" />
     <ClInclude Include="src\compression_algorithm.h" />

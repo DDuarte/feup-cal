@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Benchmark;
+class BenchmarkData;
 class ByteBuffer;
 
 ///! Abstract CompressionAlgorithm class
@@ -13,8 +13,8 @@ class ByteBuffer;
 class CompressionAlgorithm
 {
 public:
-    /* virtual */ bool Compress(const ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark) /* final */; ///< Compress Function that calls the CompressImpl method
-    /* virtual */ bool Decompress(const ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark) /* final */; ///< Decompress Function that calls the DecompressImpl method
+    /* virtual */ bool Compress(const ByteBuffer& input, ByteBuffer& output, BenchmarkData& benchmark) /* final */; ///< Compress Function that calls the CompressImpl method
+    /* virtual */ bool Decompress(const ByteBuffer& input, ByteBuffer& output, BenchmarkData& benchmark) /* final */; ///< Decompress Function that calls the DecompressImpl method
 
 protected:
     virtual bool CompressImpl(const ByteBuffer& input, ByteBuffer& output) = 0; ///< Implementation of the compress function (to be overridden by subclasses)

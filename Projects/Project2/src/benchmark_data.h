@@ -1,15 +1,15 @@
 #include "utils.h"
 
-//! Benchmark class
+//! Benchmark Data class
 /*!
     Encapsulates information about a benchmark
 */
-class Benchmark
+class BenchmarkData
 {
 public:
-    Benchmark(uint originalSize, uint resultSize, double startTime, double endTime, bool isCompression, const std::string& alg)
+    BenchmarkData(uint originalSize, uint resultSize, double startTime, double endTime, bool isCompression, const std::string& alg)
         : _originalSize(originalSize), _resultSize(resultSize), _startTime(startTime), _endTime(endTime), _compression(isCompression), _algorithm(alg) { } ///< Constructor
-    Benchmark() : _originalSize(0), _resultSize(0), _startTime(0), _endTime(0), _compression(false) { } ///< Default Constructor
+    BenchmarkData() : _originalSize(0), _resultSize(0), _startTime(0), _endTime(0), _compression(false) { } ///< Default Constructor
 
     void SetOriginalSize(size_t size) { _originalSize = size; }
     void SetResultSize(size_t size) { _resultSize = size; }

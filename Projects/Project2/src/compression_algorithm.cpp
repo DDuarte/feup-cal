@@ -1,10 +1,10 @@
 #include "compression_algorithm.h"
-#include "benchmark.h"
+#include "benchmark_data.h"
 #include "bytebuffer.h"
 
 #include <ctime>
 
-bool CompressionAlgorithm::Compress(const ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark)
+bool CompressionAlgorithm::Compress(const ByteBuffer& input, ByteBuffer& output, BenchmarkData& benchmark)
 {
     // init stats
 
@@ -26,7 +26,7 @@ bool CompressionAlgorithm::Compress(const ByteBuffer& input, ByteBuffer& output,
     return result;
 }
 
-bool CompressionAlgorithm::Decompress(const ByteBuffer& input, ByteBuffer& output, Benchmark& benchmark)
+bool CompressionAlgorithm::Decompress(const ByteBuffer& input, ByteBuffer& output, BenchmarkData& benchmark)
 {
     // init stats
 
