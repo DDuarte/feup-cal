@@ -53,7 +53,7 @@ int main(int argc, char** argv)
         ("key",     "Run Keyword encoding")
         ("huffdyn", "Run dynamic Huffman coding")
         ("huffsta", "Run static Huffman coding")
-        ("all",     "Run all the above");
+        ("all",     "Run all the above, except RLE because it's SLOW.");
 
     po::options_description generatorOptions("Generators");
     generatorOptions.add_options()
