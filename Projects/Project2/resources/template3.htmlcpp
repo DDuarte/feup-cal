@@ -1,0 +1,17 @@
+      function drawChart%i() {
+        var data = google.visualization.arrayToDataTable([
+            %s
+        ]);
+        
+        var options = {
+          title: '%s',
+          hAxis: {title: '%s'},
+          vAxis: {title: '%s'},
+          curveType: 'function',
+          pointSize: 5,
+          %s
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('%s'));
+        chart.draw(data, options);
+      }

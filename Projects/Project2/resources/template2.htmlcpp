@@ -1,0 +1,20 @@
+      function drawChart%i() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+%s
+        data.addRows([
+%s
+        ]);
+
+        // Set chart options
+        var options = {'title':'%s',
+                       'width':800,
+                       'height':600,
+                       'is3D':true,
+                       'vAxis': { title: '%s' },
+                       'hAxis': { title: '%s' }};
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('%s'));
+        chart.draw(data, options);
+      }
