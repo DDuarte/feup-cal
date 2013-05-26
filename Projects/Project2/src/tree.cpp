@@ -181,6 +181,9 @@ Tree Tree::Load( ByteBuffer& input )
     Tree t;
     size_t numberOfNodes = input.ReadUInt64();
 
+    if (numberOfNodes == 0)
+        return Tree();
+
     {
         bool b = input.ReadBit();
         if (b)

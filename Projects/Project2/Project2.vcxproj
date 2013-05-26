@@ -153,7 +153,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>boost;dirent;sparsehash</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <Optimization>Disabled</Optimization>
@@ -165,14 +165,18 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>boost;dirent;sparsehash</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32</PreprocessorDefinitions>
       <Optimization>Full</Optimization>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
