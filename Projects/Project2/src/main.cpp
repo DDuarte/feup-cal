@@ -320,7 +320,7 @@ int main(int argc, char** argv)
             benchmarks_gen.push_back(b);
 
             ByteBuffer out2(in.Size());
-            if (!algorithms[*selectedAlgorithms.begin()]->Decompress(in, out2, b))
+            if (!algorithms[*selectedAlgorithms.begin()]->Decompress(out, out2, b))
             {
                 std::cerr << "Could not decompress data of generator '" << generator << "' with size " << i * sizeInc << "." << std::endl;
                 continue;
