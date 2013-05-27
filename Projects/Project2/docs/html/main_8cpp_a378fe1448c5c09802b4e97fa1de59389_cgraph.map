@@ -1,0 +1,4 @@
+<map id="CompressDecompressGenerator" name="CompressDecompressGenerator">
+<area shape="rect" id="node3" href="$class_data_input.html#aee804e0004cb969080e43919ef3bc35d" title="Returns a ByteBuffer instance with the generated data." alt="" coords="264,5,429,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a77bde3e420e9e361dbf87eaa5841423a" title="Returns the size of the buffer." alt="" coords="289,56,405,83"/>
+</map>

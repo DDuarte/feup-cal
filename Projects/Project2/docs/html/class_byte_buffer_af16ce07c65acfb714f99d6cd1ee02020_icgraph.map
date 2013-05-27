@@ -1,0 +1,4 @@
+<map id="ByteBuffer::GetWritePos" name="ByteBuffer::GetWritePos">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#a2e32e8e04da9a99a92b09054d89c7e44" title="Reads a string until the null terminator is found." alt="" coords="219,5,381,32"/>
+<area shape="rect" id="node5" href="$struct_tree.html#a06e863fb811acfba4230fb57b54da610" title="Saves the structure to the given BybteBuffer." alt="" coords="259,56,341,83"/>
+</map>

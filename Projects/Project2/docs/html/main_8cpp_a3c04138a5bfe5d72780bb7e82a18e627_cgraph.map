@@ -1,0 +1,17 @@
+<map id="main" name="main">
+<area shape="rect" id="node3" href="$namespace_file.html#a17b22680bee0116675aace4608269acb" title="Returns true if file exists." alt="" coords="165,5,253,32"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a62aa2732f4434bcf17a7d34c32c784cc" title="Process compression or decompression of files." alt="" coords="118,107,301,133"/>
+<area shape="rect" id="node17" href="$main_8cpp.html#a378fe1448c5c09802b4e97fa1de59389" title="Process compression or decompression of generators." alt="" coords="104,56,315,83"/>
+<area shape="rect" id="node21" href="$main_8cpp.html#a432663e7880c31f6a6c713e278c40971" title="Output compression/decompression statistics." alt="" coords="167,335,251,361"/>
+<area shape="rect" id="node23" href="$main_8cpp.html#ac520261ed11837609059355a2a5918f2" title="Base function for creating plots (calls CreateColumnPlotFile / CreateLinePlotFile)" alt="" coords="164,284,255,311"/>
+<area shape="rect" id="node7" href="$class_data_input.html#aee804e0004cb969080e43919ef3bc35d" title="Returns a ByteBuffer instance with the generated data." alt="" coords="363,56,528,83"/>
+<area shape="rect" id="node9" href="$class_byte_buffer.html#a77bde3e420e9e361dbf87eaa5841423a" title="Returns the size of the buffer." alt="" coords="387,5,503,32"/>
+<area shape="rect" id="node11" href="$class_byte_buffer.html#a5a8ea7fb01693e24ad11d8d80c77fad1" title="Updates the current read position." alt="" coords="364,107,527,133"/>
+<area shape="rect" id="node13" href="$namespace_file.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="577,259,655,285"/>
+<area shape="rect" id="node15" href="$utils_8cpp.html#a87c50fdd18ebaa86bd40578cacd63d10" title="Returns true if str contains fix." alt="" coords="410,208,481,235"/>
+<area shape="rect" id="node25" href="$utils_8cpp.html#a7bdf4705e9e6cbd988fbad9000b46349" title="Pretty representation of bytes (with suffixes)" alt="" coords="386,259,505,285"/>
+<area shape="rect" id="node27" href="$main_8cpp.html#a08d5526af26b780cae07d715f346f600" title="Build plot with columns (time/rate in function of algorithms, for the same file)" alt="" coords="371,411,519,437"/>
+<area shape="rect" id="node32" href="$main_8cpp.html#ab1f99e558f6bf589bc019f4517409302" title="Convert from algorithm short name to full name." alt="" coords="369,309,522,336"/>
+<area shape="rect" id="node34" href="$main_8cpp.html#a4cc2fa3e5775fc87dd5e908b8b17157e" title="Build plot with lines (time/rate in function of file size, for the same algorithm)" alt="" coords="381,360,509,387"/>
+<area shape="rect" id="node29" href="$namespace_file.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="577,411,655,437"/>
+</map>

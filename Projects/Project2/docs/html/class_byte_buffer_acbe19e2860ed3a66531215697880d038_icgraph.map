@@ -1,0 +1,15 @@
+<map id="ByteBuffer::FlushBits" name="ByteBuffer::FlushBits">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#a135edb66ae42108003329045e4ea5098" title="ByteBuffer::WriteBit" alt="" coords="201,56,338,83"/>
+<area shape="rect" id="node7" href="$struct_tree.html#a06e863fb811acfba4230fb57b54da610" title="Saves the structure to the given BybteBuffer." alt="" coords="428,56,511,83"/>
+<area shape="rect" id="node9" href="$class_byte_buffer.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="202,157,337,184"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#aa1e20fb423b7a5a946f95cb127d2c141" title="ByteBuffer::WriteBits" alt="" coords="397,5,541,32"/>
+<area shape="rect" id="node11" href="$class_byte_buffer.html#a2a08b4b60e1bfd81bb93e1827e0dff4a" title="ByteBuffer::Append" alt="" coords="402,107,537,133"/>
+<area shape="rect" id="node13" href="$class_byte_buffer.html#aca90f09678be4b305a46301312e8489d" title="Writes a variable length size (4 bytes max) then the string." alt="" coords="392,157,547,184"/>
+<area shape="rect" id="node17" href="$class_byte_buffer.html#a72934ccef728e31a6ab6b7cd0120b7d0" title="Writes a null terminated string." alt="" coords="387,208,551,235"/>
+<area shape="rect" id="node22" href="$class_byte_buffer.html#a4260081bd8ab1f518ca638050a6b84fa" title="ByteBuffer::WriteBuffer" alt="" coords="392,288,547,315"/>
+<area shape="rect" id="node15" href="$class_byte_buffer.html#a22bf189b2222af494ba71300c6c2637a" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="606,157,759,184"/>
+<area shape="rect" id="node19" href="$class_byte_buffer.html#aed79afc4fd02087f9cecf0fa0e895c36" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="606,208,759,235"/>
+<area shape="rect" id="node24" href="$class_byte_buffer.html#abccec687d841c5f53c1b5b501987e6f9" title="ByteBuffer::operator\&lt;\&lt;" alt="" coords="606,259,759,285"/>
+<area shape="rect" id="node26" href="$class_generator_file_read.html#af14df9eff59fc71bdee51bd8e9160ade" title="Constructor." alt="" coords="613,310,752,351"/>
+<area shape="rect" id="node28" href="$class_generator_random_words.html#a5bbf60230ca6c976070cd51e6becd238" title="Returns a ByteBuffer instance with random words from the dictionary." alt="" coords="600,375,765,417"/>
+</map>

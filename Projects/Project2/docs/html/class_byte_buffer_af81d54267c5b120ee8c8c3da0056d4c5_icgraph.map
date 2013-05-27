@@ -1,0 +1,4 @@
+<map id="ByteBuffer::ReadBit" name="ByteBuffer::ReadBit">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#aa34d9bd1ceef0c24eb05e4cdfe31f5d9" title="ByteBuffer::ReadBits" alt="" coords="190,5,333,32"/>
+<area shape="rect" id="node5" href="$struct_tree.html#a5b5f61e9ffae2b1ed1ab12d4ae1b1498" title="Returns a Tree loaded from the given ByteBuffer." alt="" coords="220,56,303,83"/>
+</map>

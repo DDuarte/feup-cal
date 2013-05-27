@@ -1,0 +1,8 @@
+<map id="GeneratorFileRead::GeneratorFileRead" name="GeneratorFileRead::GeneratorFileRead">
+<area shape="rect" id="node3" href="$namespace_file.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="234,5,313,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a4260081bd8ab1f518ca638050a6b84fa" title="ByteBuffer::WriteBuffer" alt="" coords="196,56,351,83"/>
+<area shape="rect" id="node12" href="$class_data_input.html#a0112bf099e4410609a5429490c104b2e" title="Indicates if there is a maximum limit to the size of the data." alt="" coords="193,107,354,133"/>
+<area shape="rect" id="node14" href="$class_data_input.html#ae2e3036aaf76a1f0b3a313956e19938c" title="Returns the maximum size of the data." alt="" coords="195,157,352,184"/>
+<area shape="rect" id="node7" href="$class_byte_buffer.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="403,56,538,83"/>
+<area shape="rect" id="node9" href="$class_byte_buffer.html#acbe19e2860ed3a66531215697880d038" title="ByteBuffer::FlushBits" alt="" coords="587,56,733,83"/>
+</map>

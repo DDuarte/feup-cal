@@ -1,0 +1,10 @@
+<map id="data_input.h" name="data_input.h">
+<area shape="rect" id="node3" href="$compress__rle_8cpp.html" title="compress_rle.cpp" alt="" coords="5,80,131,107"/>
+<area shape="rect" id="node5" href="$generator__file__read_8h.html" title="generator_file_read.h" alt="" coords="155,80,297,107"/>
+<area shape="rect" id="node9" href="$main_8cpp.html" title="main.cpp" alt="" coords="299,155,373,181"/>
+<area shape="rect" id="node11" href="$generator__random__chars_8h.html" title="generator_random_chars.h" alt="" coords="373,80,549,107"/>
+<area shape="rect" id="node16" href="$generator__random__words_8h.html" title="generator_random_words.h" alt="" coords="573,80,752,107"/>
+<area shape="rect" id="node7" href="$generator__file__read_8cpp.html" title="generator_file_read.cpp" alt="" coords="118,155,273,181"/>
+<area shape="rect" id="node13" href="$generator__random__chars_8cpp.html" title="generator_random_chars.cpp" alt="" coords="398,155,588,181"/>
+<area shape="rect" id="node18" href="$generator__random__words_8cpp.html" title="generator_random_words.cpp" alt="" coords="613,155,805,181"/>
+</map>

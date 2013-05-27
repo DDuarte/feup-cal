@@ -1,0 +1,4 @@
+<map id="BenchmarkData::SetCompression" name="BenchmarkData::SetCompression">
+<area shape="rect" id="node3" href="$class_compression_algorithm.html#af3da390bd7af0250dccddcc6f3a38bd4" title="Compress Function that calls the CompressImpl method." alt="" coords="273,5,426,46"/>
+<area shape="rect" id="node5" href="$class_compression_algorithm.html#af1aec58a1281db1c7c8caec155e77520" title="Decompress Function that calls the DecompressImpl method." alt="" coords="273,70,426,111"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title="STL class." alt="" coords="5,31,109,57"/>
+<area shape="rect" id="node3" href="$class_byte_buffer_exception.html" title="Exception thrown when something bad happens in the ByteBuffer." alt="" coords="158,5,298,32"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="166,56,290,83"/>
+<area shape="rect" id="node7" href="$class_data_input_exception.html" title="DataInputException." alt="" coords="347,31,482,57"/>
+<area shape="rect" id="node9" href="$class_invalid_value.html" title="Exception thrown when an invalid value is read from the console." alt="" coords="369,81,460,108"/>
+<area shape="rect" id="node11" href="$class_e_o_f_character_value.html" title="Exception thrown when Ctrl+Z (Windows) or Ctrl+D (Linux) is pressed in the console." alt="" coords="531,81,669,108"/>
+</map>

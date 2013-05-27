@@ -1,0 +1,7 @@
+<map id="File::Load" name="File::Load">
+<area shape="rect" id="node3" href="$class_generator_file_read.html#af14df9eff59fc71bdee51bd8e9160ade" title="Constructor." alt="" coords="139,5,277,46"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a08d5526af26b780cae07d715f346f600" title="Build plot with columns (time/rate in function of algorithms, for the same file)" alt="" coords="134,71,282,97"/>
+<area shape="rect" id="node11" href="$main_8cpp.html#ad99b6057922a450724ad84a2b7b66901" title="CreateLinePlotFile" alt="" coords="144,121,272,148"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#ac520261ed11837609059355a2a5918f2" title="Base function for creating plots (calls CreateColumnPlotFile / CreateLinePlotFile)" alt="" coords="331,71,421,97"/>
+<area shape="rect" id="node9" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="469,71,520,97"/>
+</map>

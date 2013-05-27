@@ -1,0 +1,5 @@
+<map id="ByteBuffer::WriteBits" name="ByteBuffer::WriteBits">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#a135edb66ae42108003329045e4ea5098" title="ByteBuffer::WriteBit" alt="" coords="198,5,335,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#acbe19e2860ed3a66531215697880d038" title="ByteBuffer::FlushBits" alt="" coords="385,5,530,32"/>
+<area shape="rect" id="node7" href="$class_byte_buffer.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="579,5,714,32"/>
+</map>

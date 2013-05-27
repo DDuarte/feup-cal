@@ -1,0 +1,5 @@
+<map id="DataInput" name="DataInput">
+<area shape="rect" id="node3" href="$class_generator_file_read.html" title="GeneratorFileRead class." alt="" coords="5,80,136,107"/>
+<area shape="rect" id="node5" href="$class_generator_random_chars.html" title="GeneratorRandomChars." alt="" coords="161,80,321,107"/>
+<area shape="rect" id="node7" href="$class_generator_random_words.html" title="GeneratorRandomWords class." alt="" coords="347,80,512,107"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="ByteBuffer::ReadCString" name="ByteBuffer::ReadCString">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#af16ce07c65acfb714f99d6cd1ee02020" title="Returns the current write position." alt="" coords="216,5,381,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a77bde3e420e9e361dbf87eaa5841423a" title="Returns the size of the buffer." alt="" coords="241,56,357,83"/>
+</map>

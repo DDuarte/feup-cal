@@ -1,0 +1,25 @@
+var annotated =
+[
+    [ "File", "namespace_file.html", null ],
+    [ "BenchmarkData", "class_benchmark_data.html", "class_benchmark_data" ],
+    [ "ByteBuffer", "class_byte_buffer.html", "class_byte_buffer" ],
+    [ "ByteBufferComparator", "class_byte_buffer_comparator.html", null ],
+    [ "ByteBufferException", "class_byte_buffer_exception.html", null ],
+    [ "CompressHuffmanAdaptive", "class_compress_huffman_adaptive.html", null ],
+    [ "CompressHuffmanStatic", "class_compress_huffman_static.html", null ],
+    [ "CompressionAlgorithm", "class_compression_algorithm.html", "class_compression_algorithm" ],
+    [ "CompressKeywordEncoding", "class_compress_keyword_encoding.html", null ],
+    [ "CompressLZW", "class_compress_l_z_w.html", null ],
+    [ "CompressRLE", "class_compress_r_l_e.html", null ],
+    [ "DataInput", "class_data_input.html", "class_data_input" ],
+    [ "DataInputException", "class_data_input_exception.html", "class_data_input_exception" ],
+    [ "dict", "classdict.html", "classdict" ],
+    [ "EOFCharacterValue", "class_e_o_f_character_value.html", "class_e_o_f_character_value" ],
+    [ "GeneratorFileRead", "class_generator_file_read.html", "class_generator_file_read" ],
+    [ "GeneratorRandomChars", "class_generator_random_chars.html", "class_generator_random_chars" ],
+    [ "GeneratorRandomWords", "class_generator_random_words.html", "class_generator_random_words" ],
+    [ "InvalidValue", "class_invalid_value.html", "class_invalid_value" ],
+    [ "Reverser", "struct_reverser.html", "struct_reverser" ],
+    [ "Tree", "struct_tree.html", "struct_tree" ],
+    [ "TreeWeightComparator", "class_tree_weight_comparator.html", "class_tree_weight_comparator" ]
+];

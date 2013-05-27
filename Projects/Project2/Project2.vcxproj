@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dirent\dirent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="sparsehash\google\sparsehash\densehashtable.h" />
     <ClInclude Include="sparsehash\google\sparsehash\hashtable-common.h" />
     <ClInclude Include="sparsehash\google\sparsehash\libc_allocator_with_realloc.h" />
@@ -72,6 +73,12 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tree.cpp" />
     <ClCompile Include="src\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\DX2\Desktop\zip_37047.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BFB0F2CC-FE22-4A1C-9DFA-E87C2FD2A199}</ProjectGuid>
@@ -189,7 +196,7 @@
       <Optimization>Full</Optimization>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>boost;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>boost;D:\boost_1_53_0\foo\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)resources\plot_site\*" "$(TargetDir)" /Y /E /I</Command>

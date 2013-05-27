@@ -1,0 +1,8 @@
+<map id="CreatePlots" name="CreatePlots">
+<area shape="rect" id="node3" href="$utils_8cpp.html#a7bdf4705e9e6cbd988fbad9000b46349" title="Pretty representation of bytes (with suffixes)" alt="" coords="162,5,281,32"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a08d5526af26b780cae07d715f346f600" title="Build plot with columns (time/rate in function of algorithms, for the same file)" alt="" coords="147,56,295,83"/>
+<area shape="rect" id="node11" href="$main_8cpp.html#ab1f99e558f6bf589bc019f4517409302" title="Convert from algorithm short name to full name." alt="" coords="145,107,298,133"/>
+<area shape="rect" id="node13" href="$main_8cpp.html#a4cc2fa3e5775fc87dd5e908b8b17157e" title="Build plot with lines (time/rate in function of file size, for the same algorithm)" alt="" coords="157,157,285,184"/>
+<area shape="rect" id="node7" href="$namespace_file.html#af738946f02723c1a4feca6380c0b7e87" title="Loads a file to a buffer of bytes (char)" alt="" coords="347,31,426,57"/>
+<area shape="rect" id="node9" href="$namespace_file.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="347,81,426,108"/>
+</map>

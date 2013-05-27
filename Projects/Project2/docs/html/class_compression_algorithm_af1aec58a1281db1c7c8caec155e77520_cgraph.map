@@ -1,0 +1,11 @@
+<map id="CompressionAlgorithm::Decompress" name="CompressionAlgorithm::Decompress">
+<area shape="rect" id="node3" href="$class_benchmark_data.html#ab796ab080495ab6d0e3554e6786a0c93" title="BenchmarkData::SetCompression" alt="" coords="208,5,427,32"/>
+<area shape="rect" id="node5" href="$class_benchmark_data.html#a1342cbdd1309b50a19010cfe4960fee4" title="BenchmarkData::SetAlgorithm" alt="" coords="218,56,417,83"/>
+<area shape="rect" id="node7" href="$class_compression_algorithm.html#a9384ff3b93a82d00930d31025199449e" title="Identification of the algorithm (to be overridden by subclasses)" alt="" coords="241,107,394,149"/>
+<area shape="rect" id="node9" href="$class_benchmark_data.html#a56abdd280e7b928150a289864bb6d93b" title="BenchmarkData::SetOriginalSize" alt="" coords="211,173,424,200"/>
+<area shape="rect" id="node11" href="$class_byte_buffer.html#a77bde3e420e9e361dbf87eaa5841423a" title="Returns the size of the buffer." alt="" coords="259,224,375,251"/>
+<area shape="rect" id="node13" href="$class_benchmark_data.html#a2a346eabda63cf6abda79c22ed9fce60" title="BenchmarkData::SetStartTime" alt="" coords="218,275,417,301"/>
+<area shape="rect" id="node15" href="$class_compression_algorithm.html#ac5b69db26abca36737b7206b17b843f0" title="Implementation of the decompress function (to be overridden by subclasses)" alt="" coords="241,326,394,367"/>
+<area shape="rect" id="node17" href="$class_benchmark_data.html#a4393c1fec5341145acdc0af201a69873" title="BenchmarkData::SetEndTime" alt="" coords="220,392,415,419"/>
+<area shape="rect" id="node19" href="$class_benchmark_data.html#a7bfa5b11aad47660c6f9a450cc6d9b42" title="BenchmarkData::SetResultSize" alt="" coords="214,443,421,469"/>
+</map>

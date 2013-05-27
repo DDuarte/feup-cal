@@ -1,0 +1,4 @@
+<map id="ByteBuffer::operator&gt;&gt;" name="ByteBuffer::operator&gt;&gt;">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#a96c4418ef563ca9ef66083203cfcbc83" title="Reads a string prefixed with a variable length size (4 bytes max)" alt="" coords="208,5,363,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a584b9f59dba7ef2d99c8759de4ee1a66" title="ByteBuffer::Read" alt="" coords="411,5,531,32"/>
+</map>

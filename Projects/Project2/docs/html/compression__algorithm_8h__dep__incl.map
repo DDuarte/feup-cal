@@ -1,0 +1,14 @@
+<map id="compression_algorithm.h" name="compression_algorithm.h">
+<area shape="rect" id="node3" href="$compress__huffman__adaptive_8h.html" title="compress_huffman_adaptive.h" alt="" coords="57,80,252,107"/>
+<area shape="rect" id="node7" href="$main_8cpp.html" title="main.cpp" alt="" coords="459,155,533,181"/>
+<area shape="rect" id="node9" href="$compress__huffman__static_8h.html" title="compress_huffman_static.h" alt="" coords="277,80,459,107"/>
+<area shape="rect" id="node14" href="$compress__keyword__encoding_8h.html" title="compress_keyword_encoding.h" alt="" coords="534,80,737,107"/>
+<area shape="rect" id="node19" href="$compress__lzw_8h.html" title="compress_lzw.h" alt="" coords="762,80,877,107"/>
+<area shape="rect" id="node24" href="$compress__rle_8h.html" title="compress_rle.h" alt="" coords="902,80,1012,107"/>
+<area shape="rect" id="node29" href="$compression__algorithm_8cpp.html" title="compression_algorithm.cpp" alt="" coords="1037,80,1219,107"/>
+<area shape="rect" id="node5" href="$compress__huffman__adaptive_8cpp.html" title="compress_huffman_adaptive.cpp" alt="" coords="5,155,216,181"/>
+<area shape="rect" id="node11" href="$compress__huffman__static_8cpp.html" title="compress_huffman_static.cpp" alt="" coords="240,155,435,181"/>
+<area shape="rect" id="node16" href="$compress__keyword__encoding_8cpp.html" title="compress_keyword_encoding.cpp" alt="" coords="557,155,776,181"/>
+<area shape="rect" id="node21" href="$compress__lzw_8cpp.html" title="compress_lzw.cpp" alt="" coords="800,155,931,181"/>
+<area shape="rect" id="node26" href="$compress__rle_8cpp.html" title="compress_rle.cpp" alt="" coords="955,155,1080,181"/>
+</map>

@@ -1,0 +1,18 @@
+<map id="ByteBuffer::Size" name="ByteBuffer::Size">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#ae890f449d7a0fde45a5ad9579d1ca025" title="Advances read position by the given size (in Bytes), ignoring those Bytes." alt="" coords="203,5,349,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a6b3ba59c181fe25f1a0707972a299d7e" title="ByteBuffer::Read" alt="" coords="216,56,336,83"/>
+<area shape="rect" id="node7" href="$class_byte_buffer.html#a65665ce08b095787d9a322c3e2c2f1f3" title="ByteBuffer::Append" alt="" coords="209,107,343,133"/>
+<area shape="rect" id="node9" href="$class_byte_buffer.html#a3fa9f1bc6a168f0d5aefc4b5261693db" title="ByteBuffer::Put" alt="" coords="221,157,331,184"/>
+<area shape="rect" id="node11" href="$class_byte_buffer.html#ad8533cb33dfd2702cbb7e31630c27751" title="Resizes the underlying buffer to a new size (adding (nulls) or removing content)" alt="" coords="211,208,341,235"/>
+<area shape="rect" id="node13" href="$class_byte_buffer.html#a189aea844c121f638046a49b130d2a44" title="Reserves space for the underlying buffer (see std::vector&lt;T&gt;::reserve)" alt="" coords="208,259,344,285"/>
+<area shape="rect" id="node15" href="$class_byte_buffer.html#a9765d6ee20823715a228b8a87e1fc5de" title="Prints the buffer content in an user friendly way (both ascii and hex)" alt="" coords="217,309,335,336"/>
+<area shape="rect" id="node17" href="$class_byte_buffer.html#a2e32e8e04da9a99a92b09054d89c7e44" title="Reads a string until the null terminator is found." alt="" coords="195,360,357,387"/>
+<area shape="rect" id="node19" href="$class_byte_buffer_comparator.html#a76ecc3b1c991679b180680caaa0b8b38" title="Indicates whether or not the given ByteBuffers are equal." alt="" coords="201,411,351,453"/>
+<area shape="rect" id="node21" href="$class_byte_buffer_comparator.html#a5b10c9c2c09c38ebd4466db2a08fa69e" title="Returns the difference between the sizes of the the given ByteBuffers." alt="" coords="201,477,351,518"/>
+<area shape="rect" id="node23" href="$compress__rle_8cpp.html#a0c614326f77ae0afc35c811a64fa0317" title="ValidateInput" alt="" coords="227,543,325,569"/>
+<area shape="rect" id="node25" href="$class_compression_algorithm.html#af3da390bd7af0250dccddcc6f3a38bd4" title="Compress Function that calls the CompressImpl method." alt="" coords="199,594,353,635"/>
+<area shape="rect" id="node27" href="$class_compression_algorithm.html#af1aec58a1281db1c7c8caec155e77520" title="Decompress Function that calls the DecompressImpl method." alt="" coords="199,659,353,701"/>
+<area shape="rect" id="node29" href="$main_8cpp.html#a62aa2732f4434bcf17a7d34c32c784cc" title="Process compression or decompression of files." alt="" coords="185,725,367,752"/>
+<area shape="rect" id="node33" href="$main_8cpp.html#a378fe1448c5c09802b4e97fa1de59389" title="Process compression or decompression of generators." alt="" coords="171,776,381,803"/>
+<area shape="rect" id="node31" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="429,751,480,777"/>
+</map>

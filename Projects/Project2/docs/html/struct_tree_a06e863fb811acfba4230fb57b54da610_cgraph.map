@@ -1,0 +1,9 @@
+<map id="Tree::Save" name="Tree::Save">
+<area shape="rect" id="node3" href="$class_byte_buffer.html#af16ce07c65acfb714f99d6cd1ee02020" title="Returns the current write position." alt="" coords="136,5,301,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#ae5dd5184205e405759a3b0455892c9ee" title="ByteBuffer::WriteUInt64" alt="" coords="139,56,298,83"/>
+<area shape="rect" id="node7" href="$class_byte_buffer.html#a135edb66ae42108003329045e4ea5098" title="ByteBuffer::WriteBit" alt="" coords="150,107,287,133"/>
+<area shape="rect" id="node9" href="$class_byte_buffer.html#acbe19e2860ed3a66531215697880d038" title="ByteBuffer::FlushBits" alt="" coords="350,132,495,159"/>
+<area shape="rect" id="node15" href="$class_byte_buffer.html#a88641bd7086dc33aa30356bc1c0fbc2c" title="Updates the current write position." alt="" coords="137,208,301,235"/>
+<area shape="rect" id="node17" href="$class_byte_buffer.html#a187b227867ce22d5c5fedaa6812da66b" title="ByteBuffer::WriteInt8" alt="" coords="147,259,290,285"/>
+<area shape="rect" id="node11" href="$class_byte_buffer.html#a593e764689968adfb45b289c0f6e5d44" title="ByteBuffer::Append" alt="" coords="545,132,679,159"/>
+</map>

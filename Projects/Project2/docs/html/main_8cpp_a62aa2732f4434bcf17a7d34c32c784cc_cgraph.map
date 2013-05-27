@@ -1,0 +1,7 @@
+<map id="CompressDecompressFiles" name="CompressDecompressFiles">
+<area shape="rect" id="node3" href="$class_data_input.html#aee804e0004cb969080e43919ef3bc35d" title="Returns a ByteBuffer instance with the generated data." alt="" coords="237,5,403,32"/>
+<area shape="rect" id="node5" href="$class_byte_buffer.html#a77bde3e420e9e361dbf87eaa5841423a" title="Returns the size of the buffer." alt="" coords="262,56,378,83"/>
+<area shape="rect" id="node7" href="$class_byte_buffer.html#a5a8ea7fb01693e24ad11d8d80c77fad1" title="Updates the current read position." alt="" coords="239,107,401,133"/>
+<area shape="rect" id="node9" href="$namespace_file.html#a8dd5aea0cd52cbf001e9eaee4858c45a" title="Saves a file from a buffer of bytes (char)" alt="" coords="281,157,359,184"/>
+<area shape="rect" id="node11" href="$utils_8cpp.html#a87c50fdd18ebaa86bd40578cacd63d10" title="Returns true if str contains fix." alt="" coords="285,208,355,235"/>
+</map>

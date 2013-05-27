@@ -1,0 +1,5 @@
+<map id="DataInput::GetMaxSize" name="DataInput::GetMaxSize">
+<area shape="rect" id="node3" href="$class_generator_file_read.html#af14df9eff59fc71bdee51bd8e9160ade" title="Constructor." alt="" coords="224,5,363,46"/>
+<area shape="rect" id="node5" href="$class_generator_random_chars.html#a8db827be4eb05de0212970768f37e423" title="Returns a ByteBuffer instance with random characters." alt="" coords="213,70,374,111"/>
+<area shape="rect" id="node7" href="$class_generator_random_words.html#a5bbf60230ca6c976070cd51e6becd238" title="Returns a ByteBuffer instance with random words from the dictionary." alt="" coords="211,135,376,177"/>
+</map>
