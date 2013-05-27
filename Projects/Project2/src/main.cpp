@@ -590,7 +590,8 @@ int CreatePlots()
                 data2 += '\n';
         }
 
-        std::string info = "<div class=\"alert alert-info\">";
+        std::string info = "<h2><em>Algorithm: </em>" + GetAlgorithmFullName(benchmarks_gen.front().GetAlgorithm()) + "</h2><br>\n";
+        info += "<div class=\"alert alert-info\">";
         info += "  <em>Generator:</em> " + generator + "<br>\n";
         if (generator == "file")
         {
