@@ -26,6 +26,8 @@ struct Tree
 
         bool IsLeaf;
         NodePtr Parent;
+
+        /// Leafs contain characters and their frequency, nodes contain pointers to their sons
         union
         {
             struct

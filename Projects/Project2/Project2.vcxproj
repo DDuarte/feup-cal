@@ -51,8 +51,6 @@
     <ClInclude Include="src\generator_file_read.h" />
     <ClInclude Include="src\generator_random_chars.h" />
     <ClInclude Include="src\generator_random_words.h" />
-    <ClInclude Include="src\loader.h" />
-    <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\tree.h" />
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
@@ -72,7 +70,6 @@
     <ClCompile Include="src\generator_random_chars.cpp" />
     <ClCompile Include="src\generator_random_words.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\tree.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

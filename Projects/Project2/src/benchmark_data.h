@@ -26,7 +26,7 @@ public:
     const std::string& GetAlgorithm() const { return _algorithm; }
 
     double GetExecutedTime() const { return (_endTime - _startTime) * 1000.0; } ///< (De)Compression execution time in milliseconds
-    double GetCompressionRate() const { return (1.0 - ((double) _resultSize / (double) _originalSize)) * 100.0; }
+    double GetCompressionRate() const { return (1.0 - ((double) _resultSize / (double) _originalSize)) * 100.0; } ///< Compression rate (freed space), in %
 
 private:
     std::string _algorithm;

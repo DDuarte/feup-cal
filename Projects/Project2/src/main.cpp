@@ -30,30 +30,33 @@
 
 namespace po = boost::program_options;
 
-std::map<std::string, CompressionAlgorithm*> InitializeAlgorithms();
+std::map<std::string, CompressionAlgorithm*> InitializeAlgorithms(); ///< Initialize map of compression algorithms
 
-void CompressDecompressFiles();
-int CompressDecompressGenerator(const std::string& generator, int min, int max, int count, const std::string& file);
+void CompressDecompressFiles(); ///< Process compression or decompression of files
+int CompressDecompressGenerator(const std::string& generator, int min, int max, int count, const std::string& file); ///< Process compression or decompression of generators
 
+/// Build plot with columns (time/rate in function of algorithms, for the same file)
 void CreateColumnPlotFile(const std::string& columns1, const std::string& data1, const std::string& title1, const std::string& columns2, const std::string& data2, const std::string& title2, const std::string& info);
+
+/// Build plot with lines (time/rate in function of file size, for the same algorithm)
 void CreateLinePlotFile(const std::string& data1, const std::string& title1, const std::string& generator, const std::string& generatorInfo, const std::string& data2, const std::string& title2, const std::string& algorithm);
 
-int CreatePlots();
-void WriteStats();
+int CreatePlots(); ///< Base function for creating plots (calls CreateColumnPlotFile / CreateLinePlotFile)
+void WriteStats(); ///< Output compression/decompression statistics
 
-static std::vector<std::string> selectedAlgorithms;
-static std::vector<std::string> files;
-static std::multimap<std::string, BenchmarkData> benchmarks;
-static std::vector<BenchmarkData> benchmarks_gen;
-static bool compress = false;
-static bool decompress = false;
-static bool plot = false;
-static bool stats = false;
-static std::map<std::string, CompressionAlgorithm*> algorithms = InitializeAlgorithms();
-static po::variables_map vm;
-static int fileSize;
+static std::vector<std::string> selectedAlgorithms; ///< Algorithm names selected by the user (never empty, if none selected, lzw is used)
+static std::vector<std::string> files; ///< File names to be compressed or decompressed
+static std::multimap<std::string, BenchmarkData> benchmarks; ///< Store of benchmarks from compression and/or decompression
+static std::vector<BenchmarkData> benchmarks_gen; ///< Store of benchmarks created by generators
+static bool compress = false; ///< True if forced compression
+static bool decompress = false; ///< True if forced decompression
+static bool plot = false; ///< True if should generate plots
+static bool stats = false; ///< True if should write statistics
+static std::map<std::string, CompressionAlgorithm*> algorithms = InitializeAlgorithms(); ///< Map of available algorithms
+static po::variables_map vm; ///< Command line arguments
+static int fileSize; ///< Last file size (special need)
 
-std::string GetAlgorithmFullName(const std::string& shortName);
+std::string GetAlgorithmFullName(const std::string& shortName); ///< Convert from algorithm short name to full name
 
 int main(int argc, char** argv)
 {

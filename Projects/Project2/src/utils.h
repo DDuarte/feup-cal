@@ -83,12 +83,14 @@ Reverser<Fwd> reverse(const Fwd& fwd) { return Reverser<Fwd>(fwd); }
   };
 #endif
 
+/// Log function in any base
 template <int B, typename T>
 T log(T val)
 {
     return std::log(val) / std::log(B);
 }
 
+/// Pretty representation of bytes (with suffixes)
 std::string BytesPrettyPrint(uint bytes);
 
 #endif // UTILS_H_
