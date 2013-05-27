@@ -54,7 +54,7 @@ static bool plot = false; ///< True if should generate plots
 static bool stats = false; ///< True if should write statistics
 static std::map<std::string, CompressionAlgorithm*> algorithms = InitializeAlgorithms(); ///< Map of available algorithms
 static po::variables_map vm; ///< Command line arguments
-static int fileSize; ///< Last file size (special need)
+static size_t fileSize; ///< Last file size (special need)
 
 std::string GetAlgorithmFullName(const std::string& shortName); ///< Convert from algorithm short name to full name
 
