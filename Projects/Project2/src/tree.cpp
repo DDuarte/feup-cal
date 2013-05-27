@@ -5,7 +5,7 @@
 #include <utility> // std::Pair
 #include <queue>
 
-Tree::Node::Node( char val, uint freq ) : Value(val), Frequency(freq), IsLeaf(true), Parent(nullptr)
+Tree::Node::Node(char val, uint freq) : Value(val), Frequency(freq), IsLeaf(true), Parent(nullptr)
 { }
 
 Tree::Node::Node() : IsLeaf(false), LeftChild(nullptr), RightChild(nullptr), Parent(nullptr)
@@ -14,7 +14,7 @@ Tree::Node::Node() : IsLeaf(false), LeftChild(nullptr), RightChild(nullptr), Par
 Tree::Tree() : Root(nullptr)
 { }
 
-Tree::Tree( Node* n ) : Root(n)
+Tree::Tree(Node* n) : Root(n)
 { }
 
 uint32 Tree::CalcWeight() const
@@ -42,7 +42,7 @@ uint32 Tree::CalcWeight() const
     return result;
 }
 
-std::deque<bool> Tree::Find( char val ) const
+std::deque<bool> Tree::Find(char val) const
 {
     std::stack<NodePtr> np;
 
@@ -125,7 +125,7 @@ void Tree::DeleteAll()
     Root = nullptr;
 }
 
-void Tree::Save( ByteBuffer& output )
+void Tree::Save(ByteBuffer& output)
 {
     std::queue<NodePtr> q;
 
@@ -149,7 +149,6 @@ void Tree::Save( ByteBuffer& output )
             q.push(node->RightChild);
         }
     }
-
 
     output.FlushBits();
 
@@ -176,7 +175,7 @@ void Tree::Save( ByteBuffer& output )
     }
 }
 
-Tree Tree::Load( ByteBuffer& input )
+Tree Tree::Load(ByteBuffer& input)
 {
     Tree t;
     size_t numberOfNodes = input.ReadUInt64();
@@ -239,7 +238,7 @@ Tree Tree::Load( ByteBuffer& input )
     return t;
 }
 
-std::ostream& operator<<( std::ostream& out, const Tree& t )
+std::ostream& operator<<(std::ostream& out, const Tree& t)
 {
     typedef Tree::NodePtr NodePtr;
     typedef std::pair<uint, NodePtr> QElem;

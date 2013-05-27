@@ -28,6 +28,19 @@
 #undef max
 #undef min
 
+namespace po = boost::program_options;
+
+std::map<std::string, CompressionAlgorithm*> InitializeAlgorithms();
+
+void CompressDecompressFiles();
+int CompressDecompressGenerator(const std::string& generator, int min, int max, int count, const std::string& file);
+
+void CreateColumnPlotFile(const std::string& columns1, const std::string& data1, const std::string& title1, const std::string& columns2, const std::string& data2, const std::string& title2, const std::string& info);
+void CreateLinePlotFile(const std::string& data1, const std::string& title1, const std::string& generator, const std::string& generatorInfo, const std::string& data2, const std::string& title2, const std::string& algorithm);
+
+int CreatePlots();
+void WriteStats();
+
 static std::vector<std::string> selectedAlgorithms;
 static std::vector<std::string> files;
 static std::multimap<std::string, BenchmarkData> benchmarks;
@@ -36,11 +49,14 @@ static bool compress = false;
 static bool decompress = false;
 static bool plot = false;
 static bool stats = false;
+static std::map<std::string, CompressionAlgorithm*> algorithms = InitializeAlgorithms();
+static po::variables_map vm;
+static int fileSize;
+
+std::string GetAlgorithmFullName(const std::string& shortName);
 
 int main(int argc, char** argv)
 {
-    namespace po = boost::program_options;
-
     po::options_description genericOptions("Generic options");
     genericOptions.add_options()
         ("version,v", "print version string")
@@ -53,11 +69,11 @@ int main(int argc, char** argv)
         ("key",     "Run Keyword encoding")
         ("huffdyn", "Run dynamic Huffman coding")
         ("huffsta", "Run static Huffman coding")
-        ("all",     "Run all the above, except RLE because it's SLOW.");
+        ("all",     "Run all the above, except Keyword Encoding because it's SLOW.");
 
     po::options_description generatorOptions("Generators");
     generatorOptions.add_options()
-        ("generator", po::value<std::string>(), "Data generator, can be 'words' or 'chars'.")
+        ("generator", po::value<std::string>(), "Data generator, can be 'words', 'chars' or 'file'.")
         ("gen-min", po::value<int>()->default_value(1), "Minimum number of words or chars.")
         ("gen-max", po::value<int>()->default_value(100), "Maximum number of words or chars.")
         ("gen-count", po::value<int>()->default_value(10), "Number of files to create.");
@@ -82,7 +98,6 @@ int main(int argc, char** argv)
     po::options_description visibleOptions;
     visibleOptions.add(genericOptions).add(generatorOptions).add(algorithmOptions).add(configOptions);
 
-    po::variables_map vm;
     try
     {
         po::store(po::command_line_parser(argc, argv).options(options).positional(p).run(), vm);
@@ -149,21 +164,53 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    if (!files.empty() && vm.count("generator"))
+    if (vm.count("generator") && !vm.count("plot"))
     {
-        std::cerr << "Can't process files and generate data at the same time. Sorry." << std::endl;
+        std::cerr << "It's meaningless to use the generators without creating plots. Specify --plot in the arguments." << std::endl;
         return EXIT_FAILURE;
     }
 
-    typedef std::map<std::string, CompressionAlgorithm*> CompressMap;
+    if (!vm.count("generator"))
+        CompressDecompressFiles();
+    else
+    {
+        int min = vm["gen-min"].as<int>();
+        int max = vm["gen-max"].as<int>();
+        int count = vm["gen-count"].as<int>();
+        std::string generator = vm["generator"].as<std::string>();
 
-    CompressMap algorithms;
+        std::string file = files.empty() ? "" : files.front();
+
+        if (CompressDecompressGenerator(vm["generator"].as<std::string>(), vm["gen-min"].as<int>(), vm["gen-max"].as<int>(), vm["gen-count"].as<int>(), file) == EXIT_FAILURE)
+            return EXIT_FAILURE;
+    }
+
+    for (auto c : algorithms)
+        delete c.second;
+
+    if (stats)
+        WriteStats();
+
+    if (plot)
+        if (CreatePlots() == EXIT_FAILURE)
+            return EXIT_FAILURE;
+
+    return EXIT_SUCCESS;
+}
+
+std::map<std::string, CompressionAlgorithm*> InitializeAlgorithms() 
+{
+    std::map<std::string, CompressionAlgorithm*> algorithms;
     algorithms["rle"] = new CompressRLE();
     algorithms["lzw"] = new CompressLZW();
     algorithms["huffdyn"] = new CompressHuffmanAdaptive();
     algorithms["huffsta"] = new CompressHuffmanStatic();
     algorithms["key"] = new CompressKeywordEncoding();
+    return algorithms;
+}
 
+void CompressDecompressFiles() 
+{
     for (auto& f : files)
     {
         DataInput* di = nullptr;
@@ -171,6 +218,7 @@ int main(int argc, char** argv)
         {
             di = new GeneratorFileRead(f);
             ByteBuffer in = di->GenerateData();
+            fileSize = in.Size();
 
             char drive[_MAX_DRIVE];
             char dir[_MAX_DIR];
@@ -266,274 +314,312 @@ int main(int argc, char** argv)
             di = nullptr;
         }
     }
+}
 
-    if (vm.count("generator"))
+
+void CreateColumnPlotFile(const std::string& columns1, const std::string& data1, const std::string& title1, const std::string& columns2, const std::string& data2, const std::string& title2, const std::string& info) 
+{
+    size_t size1;
+    char* buffer1;
+    File::Load("template2.htmlcpp", buffer1, size1);
+    buffer1[size1 - 1] = '\0';
+    char* chart1 = new char[size1 + columns1.size() + data1.size() + title1.size() + 50];
+    sprintf_s(chart1, size1 + columns1.size() + data1.size() + title1.size() + 50, buffer1, 1, columns1.c_str(), data1.c_str(), title1.c_str(), "Time (ms)", "Algorithm", "chart1_div");
+    delete[] buffer1;
+
+    size_t size2;
+    char* buffer2;
+    File::Load("template2.htmlcpp", buffer2, size2);
+    buffer2[size2 - 1] = '\0';
+    char* chart2 = new char[size2 + columns2.size() + data2.size() + title2.size() + 50];
+    sprintf_s(chart2, size2 + columns2.size() + data2.size() + title2.size() + 50, buffer2, 2, columns2.c_str(), data2.c_str(), title2.c_str(), "Rate (%)", "Algorithm", "chart2_div");
+    delete[] buffer2;
+
+    char* charts = new char[strlen(chart1) + strlen(chart2) + 10];
+    sprintf_s(charts, strlen(chart1) + strlen(chart2) + 10, "%s\n\n%s\n", chart1, chart2);
+    delete[] chart1;
+    delete[] chart2;
+
+    size_t sizee;
+    char* buffere;
+    File::Load("template1.htmlcpp", buffere, sizee);
+    buffere[sizee - 1] = '\0';
+    char* full = new char[sizee + strlen(charts) + info.size() + 100];
+    sprintf_s(full, sizee + strlen(charts) + info.size() + 100, buffere, "drawChart1();\ndrawChart2();", charts, info.c_str(), "<div id=\"chart1_div\"></div>\n<div id=\"chart2_div\"></div>");
+    delete[] buffere;
+    delete[] charts;
+
+    std::string filename = "plot_" + benchmarks.begin()->first + ".html";
+    File::Save(filename.c_str(), full, strlen(full));
+    delete[] full;
+}
+
+void CreateLinePlotFile(const std::string& data1, const std::string& title1, const std::string& generator, const std::string& generatorInfo, const std::string& data2, const std::string& title2)
+{
+    size_t size1;
+    char* buffer1;
+    File::Load("template3.htmlcpp", buffer1, size1);
+    buffer1[size1 - 1] = '\0';
+    char* chart1 = new char[size1 + data1.size() + title1.size() + 50];
+    sprintf_s(chart1, size1 + data1.size() + title1.size() + 50, buffer1, 1, data1.c_str(), title1.c_str(), "Size (bytes)", "Time (ms)", "", "chart1_div");
+    delete[] buffer1;
+
+    size_t size2;
+    char* buffer2;
+    File::Load("template3.htmlcpp", buffer2, size2);
+    buffer2[size2 - 1] = '\0';
+    char* chart2 = new char[size2 + data2.size() + title2.size() + 50];
+    sprintf_s(chart2, size2 + data2.size() + title2.size() + 50, buffer2, 2, data2.c_str(), title2.c_str(), "Size (bytes)", "Rate (%)", "legend: 'none'", "chart2_div");
+    delete[] buffer2;
+
+    char* charts = new char[strlen(chart1) + strlen(chart2) + 10];
+    sprintf_s(charts, strlen(chart1) + strlen(chart2) + 10, "%s\n\n%s\n", chart1, chart2);
+    delete[] chart1;
+    delete[] chart2;
+
+    size_t sizee;
+    char* buffere;
+    File::Load("template1.htmlcpp", buffere, sizee);
+    buffere[sizee - 1] = '\0';
+    char* full = new char[sizee + strlen(charts) + generatorInfo.size() + 100];
+    sprintf_s(full, sizee + strlen(charts) + generatorInfo.size() + 100, buffere, "drawChart1();\ndrawChart2();", charts, generatorInfo.c_str(), "<div id=\"chart1_div\"></div>\n<div id=\"chart2_div\"></div>");
+    delete[] buffere;
+    delete[] charts;
+
+    std::string filename = "plot_" + generator + ".html";
+    File::Save(filename.c_str(), full, strlen(full));
+    delete[] full;
+}
+
+void WriteStats() 
+{
+    for (auto& p : benchmarks)
     {
-        int min = vm["gen-min"].as<int>();
-        int max = vm["gen-max"].as<int>();
-        int count = vm["gen-count"].as<int>();
-        std::string generator = vm["generator"].as<std::string>();
+        std::string action = p.second.IsCompression() ? "Compression" : "Decompression";
 
-        if (min < 1 || max < 1 || count < 1)
-        {
-            std::cerr << "Generator's min, max and count need to be higher than 0." << std::endl;
-            return EXIT_FAILURE;
-        }
-
-        if (min > max)
-        {
-            std::cerr << "Generator's min needs to be lower than max." << std::endl;
-            return EXIT_FAILURE;
-        }
-
-        if (selectedAlgorithms.size() > 1)
-        {
-            std::cerr << "Can only generate data for one algorithm (using " << selectedAlgorithms.size() << " atm)." << std::endl;
-            return EXIT_FAILURE;
-        }
-
-        if (generator != "words" && generator != "chars")
-        {
-            std::cerr << "Selected generator (" << generator << ") not recognized." << std::endl;
-            return EXIT_FAILURE;
-        }
-
-        int sizeInc = (max - min) / (count - 1);
-        for (int i = 0; i < count; ++i)
-        {
-            DataInput* di = nullptr;
-            if (generator == "words")
-                di = new GeneratorRandomWords("wordsEn.txt", 1000, std::max(min, i * sizeInc));
-            else if (generator == "chars")
-                di = new GeneratorRandomChars(std::max(min, i * sizeInc));
-
-            ByteBuffer in = di->GenerateData();
-
-            ByteBuffer out(in.Size() / 2);
-            BenchmarkData b;
-            if (!algorithms[*selectedAlgorithms.begin()]->Compress(in, out, b))
-            {
-                std::cerr << "Could not compress data of generator '" << generator << "' with size " << i * sizeInc << "." << std::endl;
-                continue;
-            }
-
-            benchmarks_gen.push_back(b);
-
-            ByteBuffer out2(in.Size());
-            if (!algorithms[*selectedAlgorithms.begin()]->Decompress(out, out2, b))
-            {
-                std::cerr << "Could not decompress data of generator '" << generator << "' with size " << i * sizeInc << "." << std::endl;
-                continue;
-            }
-
-            benchmarks_gen.push_back(b);
-
-            delete di;
-        }
+        std::cout << "File: " << p.first << std::endl;
+        std::cout << "Algorithm: " << p.second.GetAlgorithm() << std::endl;
+        std::cout << "\t" << action << " time: " << p.second.GetExecutedTime() << " ms" << std::endl;
+        std::cout << "\t" << action << " rate: " << p.second.GetCompressionRate() << "%" << std::endl;
+        std::cout << "\tOriginal size: " << p.second.GetOriginalSize() << " bytes" << std::endl;
+        std::cout << "\tResult size: " << p.second.GetResultSize() << " bytes" << std::endl;
     }
 
-    for (CompressMap::value_type c : algorithms)
-        delete c.second;
-
-    if (stats)
+    for (auto& b : benchmarks_gen)
     {
-        for (auto& p : benchmarks)
-        {
-            std::string action = p.second.IsCompression() ? "Compression" : "Decompression";
+        std::string action = b.IsCompression() ? "Compression" : "Decompression";
 
-            std::cout << "File: " << p.first << std::endl;
-            std::cout << "Algorithm: " << p.second.GetAlgorithm() << std::endl;
-            std::cout << "\t" << action << " time: " << p.second.GetExecutedTime() << " ms" << std::endl;
-            std::cout << "\t" << action << " rate: " << p.second.GetCompressionRate() << "%" << std::endl;
-            std::cout << "\tOriginal size: " << p.second.GetOriginalSize() << " bytes" << std::endl;
-            std::cout << "\tResult size: " << p.second.GetResultSize() << " bytes" << std::endl;
-        }
+        std::cout << "Algorithm: " << b.GetAlgorithm() << std::endl;
+        std::cout << "\t" << action << " time: " << b.GetExecutedTime() << " ms" << std::endl;
+        std::cout << "\t" << action << " rate: " << b.GetCompressionRate() << "%" << std::endl;
+        std::cout << "\tOriginal size: " << b.GetOriginalSize() << " bytes" << std::endl;
+        std::cout << "\tResult size: " << b.GetResultSize() << " bytes" << std::endl;
+    }
+}
 
-        for (auto& b : benchmarks_gen)
-        {
-            std::string action = b.IsCompression() ? "Compression" : "Decompression";
-
-            std::cout << "Algorithm: " << b.GetAlgorithm() << std::endl;
-            std::cout << "\t" << action << " time: " << b.GetExecutedTime() << " ms" << std::endl;
-            std::cout << "\t" << action << " rate: " << b.GetCompressionRate() << "%" << std::endl;
-            std::cout << "\tOriginal size: " << b.GetOriginalSize() << " bytes" << std::endl;
-            std::cout << "\tResult size: " << b.GetResultSize() << " bytes" << std::endl;
-        }
+int CompressDecompressGenerator(const std::string& generator, int min, int max, int count, const std::string& file) 
+{
+    if (min < 1 || max < 1 || count < 1)
+    {
+        std::cerr << "Generator's min, max and count need to be higher than 0." << std::endl;
+        return EXIT_FAILURE;
     }
 
-    if (plot)
+    if (min > max)
     {
-        size_t compressionCount = std::count_if(benchmarks.begin(), benchmarks.end(), [](std::multimap<std::string, BenchmarkData>::value_type& p) { return p.second.IsCompression(); });
-        size_t decompressionCount = benchmarks.size() - compressionCount;
+        std::cerr << "Generator's min needs to be lower than max." << std::endl;
+        return EXIT_FAILURE;
+    }
 
-        if (compressionCount == decompressionCount && vm.count("input-file") == 1)
+    if (selectedAlgorithms.size() > 1)
+    {
+        std::cerr << "Can only generate data for one algorithm (using " << selectedAlgorithms.size() << " atm)." << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    if (generator != "words" && generator != "chars" && generator != "file")
+    {
+        std::cerr << "Selected generator (" << generator << ") not recognized." << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    int sizeInc = (max - min) / (count - 1);
+    for (int i = 0; i < count; ++i)
+    {
+        DataInput* di = nullptr;
+        if (generator == "words")
+            di = new GeneratorRandomWords("wordsEn.txt", 1000, std::max(min, i * sizeInc));
+        else if (generator == "chars")
+            di = new GeneratorRandomChars(std::max(min, i * sizeInc));
+        else if (generator == "file")
+            di = new GeneratorFileRead(file, std::max(min, i * sizeInc));
+
+        ByteBuffer in = di->GenerateData();
+        fileSize = in.Size();
+
+        ByteBuffer out(in.Size() / 2);
+        BenchmarkData b;
+        if (!algorithms[*selectedAlgorithms.begin()]->Compress(in, out, b))
         {
-            std::string title1 = "Comparison of Compression and Decompression Times (lower is better)";
-            std::string columns1 = "data.addColumn('string', 'Algorithm');\n"
-                                   "data.addColumn('number', 'Compression');\n"
-                                   "data.addColumn('number', 'Decompression');\n";
-
-            std::string data1;
-
-            int i = 0;
-            for (std::multimap<std::string, BenchmarkData>::iterator itr = benchmarks.begin(); itr != benchmarks.end(); ++itr, ++i)
-            {
-                if (!itr->second.IsCompression())
-                    continue;
-
-                std::string alg = itr->second.GetAlgorithm();
-                std::string compressionTime = std::to_string(itr->second.GetExecutedTime());
-                std::string decompressionTime = std::to_string((++itr)->second.GetExecutedTime());
-                i++;
-
-                data1 += "['" + alg + "', " + compressionTime + ", " + decompressionTime + ']';
-                if (i != benchmarks.size() - 1)
-                    data1 += ",\n";
-                else
-                    data1 += '\n';
-            }
-
-            std::string title2 = "Comparison of Compression Rates (higher is better)";
-            std::string columns2 = "data.addColumn('string', 'Algorithm');\n"
-                                   "data.addColumn('number', 'Rate');\n";
-
-            std::string data2;
-
-            i = 0;
-            for (auto& p : benchmarks)
-            {
-                if (!p.second.IsCompression()) continue;
-                data2 += "['" + p.second.GetAlgorithm() + "', " + std::to_string(p.second.GetCompressionRate()) + ']';
-                if (++i != compressionCount)
-                    data2 += ",\n";
-                else
-                    data2 += '\n';
-            }
-
-            // Warning: bad code hereafter
-
-            size_t size1;
-            char* buffer1;
-            File::Load("template2.htmlcpp", buffer1, size1);
-            buffer1[size1 - 1] = '\0';
-            char* chart1 = new char[size1 + columns1.size() + data1.size() + title1.size() + 50];
-            sprintf_s(chart1, size1 + columns1.size() + data1.size() + title1.size() + 50, buffer1, 1, columns1.c_str(), data1.c_str(), title1.c_str(), "Time (ms)", "Algorithm", "chart1_div");
-            delete[] buffer1;
-
-            size_t size2;
-            char* buffer2;
-            File::Load("template2.htmlcpp", buffer2, size2);
-            buffer2[size2 - 1] = '\0';
-            char* chart2 = new char[size2 + columns2.size() + data2.size() + title2.size() + 50];
-            sprintf_s(chart2, size2 + columns2.size() + data2.size() + title2.size() + 50, buffer2, 2, columns2.c_str(), data2.c_str(), title2.c_str(), "Rate (%)", "Algorithm", "chart2_div");
-            delete[] buffer2;
-
-            char* charts = new char[strlen(chart1) + strlen(chart2) + 10];
-            sprintf_s(charts, strlen(chart1) + strlen(chart2) + 10, "%s\n\n%s\n", chart1, chart2);
-            delete[] chart1;
-            delete[] chart2;
-
-            size_t sizee;
-            char* buffere;
-            File::Load("template1.htmlcpp", buffere, sizee);
-            buffere[sizee - 1] = '\0';
-            char* full = new char[sizee + strlen(charts) + 100];
-            sprintf_s(full, sizee + strlen(charts) + 100, buffere, "drawChart1();\ndrawChart2();", charts, "<div id=\"chart1_div\"></div>\n<div id=\"chart2_div\"></div>");
-            delete[] buffere;
-            delete[] charts;
-
-            std::string filename = "plot_" + benchmarks.begin()->first + ".html";
-            File::Save(filename.c_str(), full, strlen(full));
-            delete[] full;
+            std::cerr << "Could not compress data of generator '" << generator << "' with size " << i * sizeInc << "." << std::endl;
+            continue;
         }
-        else if (selectedAlgorithms.size() == 1 && vm.count("generator"))
+
+        benchmarks_gen.push_back(b);
+
+        ByteBuffer out2(in.Size());
+        if (!algorithms[*selectedAlgorithms.begin()]->Decompress(out, out2, b))
         {
-            std::string generator = vm["generator"].as<std::string>();
-
-            std::string title1 = "Comparison of Compression and Decompression Times (lower is better)";
-
-            std::string data1 = "['Size', 'Compression', 'Decompression'],\n";
-
-            int i = 0;
-            for (std::vector<BenchmarkData>::iterator itr = benchmarks_gen.begin(); itr != benchmarks_gen.end(); ++itr, ++i)
-            {
-                if (!itr->IsCompression())
-                    continue;
-
-                std::string compressionTime = std::to_string(itr->GetExecutedTime());
-                std::string size = std::to_string(itr->GetOriginalSize());
-                std::string decompressionTime = std::to_string((++itr)->GetExecutedTime());
-                ++i;
-
-                data1 += "['" + size + "', " + compressionTime + ", " + decompressionTime + ']';
-
-                if (i != benchmarks_gen.size() - 1)
-                    data1 += ",\n";
-                else
-                    data1 += '\n';
-            }
-
-            std::string title2 = "Comparison of Compression Rates (higher is better)";
-
-            std::string data2 = "['Size', 'Rate'],\n";
-
-            i = 0;
-            for (auto& b : benchmarks_gen)
-            {
-                if (!b.IsCompression()) continue;
-
-                std::string size = std::to_string(b.GetOriginalSize());
-                std::string rate = std::to_string(b.GetCompressionRate());
-
-                data2 += "['" + size + "', " + rate + ']';
-                if (++i != compressionCount)
-                    data2 += ",\n";
-                else
-                    data2 += '\n';
-            }
-
-            // Warning: bad code hereafter
-
-            size_t size1;
-            char* buffer1;
-            File::Load("template3.htmlcpp", buffer1, size1);
-            buffer1[size1 - 1] = '\0';
-            char* chart1 = new char[size1 + data1.size() + title1.size() + 50];
-            sprintf_s(chart1, size1 + data1.size() + title1.size() + 50, buffer1, 1, data1.c_str(), title1.c_str(), generator == "chars" ?  "Size (chars)" : "Size (words)", "Time (ms)", "", "chart1_div");
-            delete[] buffer1;
-
-            size_t size2;
-            char* buffer2;
-            File::Load("template3.htmlcpp", buffer2, size2);
-            buffer2[size2 - 1] = '\0';
-            char* chart2 = new char[size2 + data2.size() + title2.size() + 50];
-            sprintf_s(chart2, size2 + data2.size() + title2.size() + 50, buffer2, 2, data2.c_str(), title2.c_str(), generator == "chars" ?  "Size (chars)" : "Size (words)", "Rate (%)", "legend: 'none'", "chart2_div");
-            delete[] buffer2;
-
-            char* charts = new char[strlen(chart1) + strlen(chart2) + 10];
-            sprintf_s(charts, strlen(chart1) + strlen(chart2) + 10, "%s\n\n%s\n", chart1, chart2);
-            delete[] chart1;
-            delete[] chart2;
-
-            size_t sizee;
-            char* buffere;
-            File::Load("template1.htmlcpp", buffere, sizee);
-            buffere[sizee - 1] = '\0';
-            char* full = new char[sizee + strlen(charts) + 100];
-            sprintf_s(full, sizee + strlen(charts) + 100, buffere, "drawChart1();\ndrawChart2();", charts, "<div id=\"chart1_div\"></div>\n<div id=\"chart2_div\"></div>");
-            delete[] buffere;
-            delete[] charts;
-
-            std::string filename = "plot_" + generator + ".html";
-            File::Save(filename.c_str(), full, strlen(full));
-            delete[] full;
+            std::cerr << "Could not decompress data of generator '" << generator << "' with size " << i * sizeInc << "." << std::endl;
+            continue;
         }
-        else
-        {
-            std::cerr << "Not enough data to generate plots. " << "(c:" << compressionCount << ",d:" << decompressionCount << ",f:" << vm.count("input-file") << ")" << std::endl;
-            return EXIT_FAILURE;
-        }
+
+        benchmarks_gen.push_back(b);
+
+        delete di;
     }
 
     return EXIT_SUCCESS;
+}
+
+int CreatePlots() 
+{
+    size_t compressionCount = std::count_if(benchmarks.begin(), benchmarks.end(), [](std::multimap<std::string, BenchmarkData>::value_type& p) { return p.second.IsCompression(); });
+    size_t decompressionCount = benchmarks.size() - compressionCount;
+
+    if (compressionCount == decompressionCount && !vm.count("generator"))
+    {
+        std::string title1 = "Comparison of Compression and Decompression Times (lower is better)";
+        std::string columns1 = "data.addColumn('string', 'Algorithm');\n"
+            "data.addColumn('number', 'Compression');\n"
+            "data.addColumn('number', 'Decompression');\n";
+
+        std::string data1;
+
+        int i = 0;
+        for (std::multimap<std::string, BenchmarkData>::iterator itr = benchmarks.begin(); itr != benchmarks.end(); ++itr, ++i)
+        {
+            if (!itr->second.IsCompression())
+                continue;
+
+            std::string alg = itr->second.GetAlgorithm();
+            std::string compressionTime = std::to_string(itr->second.GetExecutedTime());
+            std::string decompressionTime = std::to_string((++itr)->second.GetExecutedTime());
+            i++;
+
+            data1 += "['" + alg + "', " + compressionTime + ", " + decompressionTime + ']';
+            if (i != benchmarks.size() - 1)
+                data1 += ",\n";
+            else
+                data1 += '\n';
+        }
+
+        std::string title2 = "Comparison of Compression Rates (higher is better)";
+        std::string columns2 = "data.addColumn('string', 'Algorithm');\n"
+            "data.addColumn('number', 'Rate');\n";
+
+        std::string data2;
+
+        i = 0;
+        for (auto& p : benchmarks)
+        {
+            if (!p.second.IsCompression()) continue;
+            data2 += "['" + p.second.GetAlgorithm() + "', " + std::to_string(p.second.GetCompressionRate()) + ']';
+            if (++i != compressionCount)
+                data2 += ",\n";
+            else
+                data2 += '\n';
+        }
+
+        std::string info = "<div class=\"alert alert-info\">";
+        info += "  <em>File:</em> " + files.front() + "<br>\n";
+        info += "  <em>Size:</em> " + std::to_string(fileSize) + "<br>\n";
+        info += "</div>\n";
+
+        CreateColumnPlotFile(columns1, data1, title1, columns2, data2, title2, info);
+    }
+    else if (vm.count("generator"))
+    {
+        std::string generator = vm["generator"].as<std::string>();
+        int min = vm["gen-min"].as<int>();
+        int max = vm["gen-max"].as<int>();
+        int count = vm["gen-count"].as<int>();
+
+        std::string title1 = "Comparison of Compression and Decompression Times (lower is better)";
+
+        std::string data1 = "['Size', 'Compression', 'Decompression'],\n";
+
+        int i = 0;
+        for (std::vector<BenchmarkData>::iterator itr = benchmarks_gen.begin(); itr != benchmarks_gen.end(); ++itr, ++i)
+        {
+            if (!itr->IsCompression())
+                continue;
+
+            std::string compressionTime = std::to_string(itr->GetExecutedTime());
+            std::string size = std::to_string(itr->GetOriginalSize());
+            std::string decompressionTime = std::to_string((++itr)->GetExecutedTime());
+            ++i;
+
+            data1 += "['" + size + "', " + compressionTime + ", " + decompressionTime + ']';
+
+            if (i != benchmarks_gen.size() - 1)
+                data1 += ",\n";
+            else
+                data1 += '\n';
+        }
+
+        std::string title2 = "Comparison of Compression Rates (higher is better)";
+
+        std::string data2 = "['Size', 'Rate'],\n";
+
+        i = 0;
+        for (auto& b : benchmarks_gen)
+        {
+            if (!b.IsCompression()) continue;
+
+            std::string size = std::to_string(b.GetOriginalSize());
+            std::string rate = std::to_string(b.GetCompressionRate());
+
+            data2 += "['" + size + "', " + rate + ']';
+            if (++i != compressionCount)
+                data2 += ",\n";
+            else
+                data2 += '\n';
+        }
+
+        std::string info = "<div class=\"alert alert-info\">";
+        info += "  <em>Generator:</em> " + generator + "<br>\n";
+        if (generator == "file")
+        {
+            info += "  <em>File:</em> " + files.front() + "<br>\n";
+            info += "  <em>Size:</em> " + std::to_string(fileSize) + "<br>\n";
+        }
+        info += "  <em>Min:</em> " + std::to_string(min) + " - <em>Max:</em> " + std::to_string(max) + " - <em>Count:</em> " + std::to_string(count) + "\n";
+        info += "</div>\n";
+
+        CreateLinePlotFile(data1, title1, generator, info, data2, title2);
+    }
+    else
+    {
+        std::cerr << "Not enough data to generate plots. " << "(c:" << compressionCount << ",d:" << decompressionCount << ",f:" << vm.count("input-file") << ")" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+std::string GetAlgorithmFullName(const std::string& shortName)
+{
+    if (shortName == "rle")
+        return "Run-Length Encoding (RLE)";
+    else if (shortName == "lzw")
+        return "Lempel-Ziv-Welch (LZW)";
+    else if (shortName == "key")
+        return "Keyword Encoding";
+    else if (shortName == "huffdyn")
+        return "Huffman Adaptive";
+    else if (shortName == "huffsta")
+        return "Huffman Static";
+    else
+        return "Unknown (" + shortName + ")";
 }
