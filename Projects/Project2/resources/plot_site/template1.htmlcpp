@@ -1,0 +1,67 @@
+﻿<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CALZIP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      google.setOnLoadCallback(drawCharts);
+
+      function drawCharts() {
+%s
+      }
+
+%s
+    </script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">CALZIP</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>Data Compression Analysis</h1>
+      %s
+      %s
+
+      <br><br>
+      <address class="text-right">
+        <strong>CAL - Concepção e Análise de Algoritmos</strong><br>
+        FEUP - Faculdade de Engenheria da Universidade do Porto<br>
+        <strong>Duarte Duarte</strong> - <a href="mailto:#">ei11101@fe.up.pt</a><br>
+        <strong>Miguel Marques</strong> - <a href="mailto:#">ei11099@fe.up.pt</a><br>
+        <strong>Ruben Cordeiro</strong> - <a href="mailto:#">ei11097@fe.up.pt</a><br>
+        <em>2012/2013</em>
+      </address>
+
+    </div> <!-- /container -->
+  </body>
+</html>
