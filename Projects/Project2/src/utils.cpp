@@ -5,6 +5,8 @@
 #include <string>
 #include <limits>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 
 // uint64 GetCurrentTime()
 // {
@@ -57,4 +59,22 @@ std::string to_lower(std::string str)
 {
     std::transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
+}
+
+std::string BytesPrettyPrint(uint bytes)
+{
+    const char* suffixes[7] = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+    uint s = 0; // which suffix to use
+    double count = bytes;
+    while (count >= 1024 && s++ < 7)
+    {
+        count /= 1024;
+    }
+
+    std::ostringstream ss;
+    if (count - floor(count) == 0.0)
+        ss << (int)count << ' ' << suffixes[s];
+    else
+        ss << std::setprecision(2) << count << ' ' << suffixes[s];
+    return ss.str();
 }

@@ -89,4 +89,6 @@ T log(T val)
     return std::log(val) / std::log(B);
 }
 
+std::string BytesPrettyPrint(uint bytes);
+
 #endif // UTILS_H_

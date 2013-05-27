@@ -533,7 +533,7 @@ int CreatePlots()
 
         std::string info = "<div class=\"alert alert-info\">";
         info += "  <em>File:</em> " + files.front() + "<br>\n";
-        info += "  <em>Size:</em> " + std::to_string(fileSize) + "<br>\n";
+        info += "  <em>Size:</em> " + BytesPrettyPrint(fileSize) + "<br>\n";
         info += "</div>\n";
 
         CreateColumnPlotFile(columns1, data1, title1, columns2, data2, title2, info);
@@ -592,7 +592,7 @@ int CreatePlots()
         if (generator == "file")
         {
             info += "  <em>File:</em> " + files.front() + "<br>\n";
-            info += "  <em>Size:</em> " + std::to_string(fileSize) + "<br>\n";
+            info += "  <em>Size:</em> " + BytesPrettyPrint(fileSize) + "<br>\n";
         }
         info += "  <em>Min:</em> " + std::to_string(min) + " - <em>Max:</em> " + std::to_string(max) + " - <em>Count:</em> " + std::to_string(count) + "\n";
         info += "</div>\n";
