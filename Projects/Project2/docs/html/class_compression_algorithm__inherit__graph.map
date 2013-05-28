@@ -1,7 +1,7 @@
 <map id="CompressionAlgorithm" name="CompressionAlgorithm">
-<area shape="rect" id="node3" href="$class_compress_huffman_adaptive.html" title="! CompressHuffmanAdaptive class" alt="" coords="213,5,390,32"/>
-<area shape="rect" id="node5" href="$class_compress_huffman_static.html" title="! CompressHuffmanStatic class" alt="" coords="220,56,383,83"/>
-<area shape="rect" id="node7" href="$class_compress_keyword_encoding.html" title="! CompressKeywordEncoding class" alt="" coords="209,107,394,133"/>
-<area shape="rect" id="node9" href="$class_compress_l_z_w.html" title="! CompressLZW class" alt="" coords="247,157,355,184"/>
-<area shape="rect" id="node11" href="$class_compress_r_l_e.html" title="! CompressRLE class" alt="" coords="248,208,355,235"/>
+<area shape="rect" id="node3" href="$class_compress_huffman_adaptive.html" title="! CompressHuffmanAdaptive class" alt="" coords="5,189,181,267"/>
+<area shape="rect" id="node5" href="$class_compress_huffman_static.html" title="! CompressHuffmanStatic class" alt="" coords="207,189,369,267"/>
+<area shape="rect" id="node7" href="$class_compress_keyword_encoding.html" title="! CompressKeywordEncoding class" alt="" coords="394,189,579,267"/>
+<area shape="rect" id="node9" href="$class_compress_l_z_w.html" title="! CompressLZW class" alt="" coords="603,189,711,267"/>
+<area shape="rect" id="node11" href="$class_compress_r_l_e.html" title="! CompressRLE class" alt="" coords="736,189,843,267"/>
 </map>
