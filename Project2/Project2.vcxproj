@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dirent\dirent.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\densehashtable.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\hashtable-common.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\libc_allocator_with_realloc.h" />
+    <ClInclude Include="sparsehash\google\sparsehash\sparsehashtable.h" />
+    <ClInclude Include="sparsehash\google\template_util.h" />
+    <ClInclude Include="sparsehash\google\type_traits.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\densehashtable.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\hashtable-common.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\libc_allocator_with_realloc.h" />
+    <ClInclude Include="sparsehash\sparsehash\internal\sparsehashtable.h" />
+    <ClInclude Include="sparsehash\sparsehash\template_util.h" />
+    <ClInclude Include="sparsehash\sparsehash\type_traits.h" />
+    <ClInclude Include="sparsehash\windows\config.h" />
+    <ClInclude Include="sparsehash\windows\google\sparsehash\sparseconfig.h" />
+    <ClInclude Include="sparsehash\windows\port.h" />
+    <ClInclude Include="sparsehash\windows\sparsehash\internal\sparseconfig.h" />
+    <ClInclude Include="src\benchmark_data.h" />
+    <ClInclude Include="src\bytebuffer.h" />
+    <ClInclude Include="src\bytebuffer_comparator.h" />
+    <ClInclude Include="src\compression_algorithm.h" />
+    <ClInclude Include="src\compress_huffman_adaptive.h" />
+    <ClInclude Include="src\compress_keyword_encoding.h" />
+    <ClInclude Include="src\compress_lzw.h" />
+    <ClInclude Include="src\compress_rle.h" />
+    <ClInclude Include="src\compress_huffman_static.h" />
+    <ClInclude Include="src\consolereader.h" />
+    <ClInclude Include="src\data_input.h" />
+    <ClInclude Include="src\file.h" />
+    <ClInclude Include="src\generator_file_read.h" />
+    <ClInclude Include="src\generator_random_chars.h" />
+    <ClInclude Include="src\generator_random_words.h" />
+    <ClInclude Include="src\tree.h" />
+    <ClInclude Include="src\utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sparsehash\time_hash_map.cc" />
+    <ClCompile Include="sparsehash\windows\port.cc" />
+    <ClCompile Include="src\bytebuffer.cpp" />
+    <ClCompile Include="src\bytebuffer_comparator.cpp" />
+    <ClCompile Include="src\compression_algorithm.cpp" />
+    <ClCompile Include="src\compress_huffman_adaptive.cpp" />
+    <ClCompile Include="src\compress_keyword_encoding.cpp" />
+    <ClCompile Include="src\compress_lzw.cpp" />
+    <ClCompile Include="src\compress_rle.cpp" />
+    <ClCompile Include="src\compress_huffman_static.cpp" />
+    <ClCompile Include="src\file.cpp" />
+    <ClCompile Include="src\generator_file_read.cpp" />
+    <ClCompile Include="src\generator_random_chars.cpp" />
+    <ClCompile Include="src\generator_random_words.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\tree.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project2.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\DX2\Desktop\zip_37047.ico" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BFB0F2CC-FE22-4A1C-9DFA-E87C2FD2A199}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Project2</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>calzip</TargetName>
+    <LibraryPath>D:\boost_1_54_0\stage\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>calzip</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>calzip</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>calzip</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>dirent;sparsehash;D:\boost_1_54_0</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)resources\plot_site\*" "$(TargetDir)" /Y /E /I</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>dirent;sparsehash</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)resources\plot_site\*" "$(TargetDir)" /Y /E /I</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>boost;dirent;sparsehash</AdditionalIncludeDirectories>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>boost;D:\boost_1_53_0\foo\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)resources\plot_site\*" "$(TargetDir)" /Y /E /I</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>boost;dirent;sparsehash</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32</PreprocessorDefinitions>
+      <Optimization>Full</Optimization>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>boost;D:\boost_1_53_0\foo\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)resources\plot_site\*" "$(TargetDir)" /Y /E /I</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
